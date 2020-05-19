@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>webpack常用扩展 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="webpack[toc] 在 webpack.config.js 文件的 plugins 中导入 123456789const cleanWebpackPlugin &#x3D; require(&quot;clean-webpack-plugin&quot;);module.exports &#x3D; &amp;#123;    mode: &quot;...&quot;,    ...,    &#x2F;&#x2F; 例如    plugins: &amp;#123;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpack常用扩展">
+<meta property="og:url" content="http://yoursite.com/2020/05/19/webpack%E5%B8%B8%E7%94%A8%E6%89%A9%E5%B1%95/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="webpack[toc] 在 webpack.config.js 文件的 plugins 中导入 123456789const cleanWebpackPlugin &#x3D; require(&quot;clean-webpack-plugin&quot;);module.exports &#x3D; &amp;#123;    mode: &quot;...&quot;,    ...,    &#x2F;&#x2F; 例如    plugins: &amp;#123;">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-05-19T07:26:26.707Z">
+<meta property="article:modified_time" content="2020-03-21T05:57:02.366Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-webpack常用扩展" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/05/19/webpack%E5%B8%B8%E7%94%A8%E6%89%A9%E5%B1%95/" class="article-date">
+  <time datetime="2020-05-19T07:26:26.707Z" itemprop="datePublished">2020-05-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      webpack常用扩展
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><p>[toc]</p>
+<p>在 webpack.config.js 文件的 plugins 中导入</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> cleanWebpackPlugin = <span class="built_in">require</span>(<span class="string">"clean-webpack-plugin"</span>);</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    mode: <span class="string">"..."</span>,</span><br><span class="line">    ...,</span><br><span class="line">    <span class="comment">// 例如</span></span><br><span class="line">    plugins: &#123;</span><br><span class="line">        <span class="keyword">new</span> cleanWebpackPlugin()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="clean-webpack-plugin"><a href="#clean-webpack-plugin" class="headerlink" title="clean-webpack-plugin"></a>clean-webpack-plugin</h2><p>清除打包后的目录(之前打包后的代码) dist目录</p>
+<h2 id="html-webpack-plugin"><a href="#html-webpack-plugin" class="headerlink" title="html-webpack-plugin"></a>html-webpack-plugin</h2><p>根据打包后的目录 <strong><em>生成一个 html 页面文件</em></strong> ，添加 script 元素，src 引入打包后的js文件</p>
+<p>new htmlWebpackPlugin() 参数配置对象:</p>
+<p><a href="https://github.com/jantimon/html-webpack-plugin" target="_blank" rel="noopener">html-webpack-plugin</a></p>
+<h2 id="copy-webpack-plugin"><a href="#copy-webpack-plugin" class="headerlink" title="copy-webpack-plugin"></a>copy-webpack-plugin</h2><p>原封不动的把文件目录 copy 到打包后的 dist 目录下</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> copyPlugin([</span><br><span class="line">    <span class="comment">// 当前目录下的public目录内的内容，复制到dist目录下</span></span><br><span class="line">    <span class="comment">// 已存在的文件不会复制，如: index.html（html-webpack-plugin生成的html文件不会被覆盖）</span></span><br><span class="line">    &#123;<span class="attr">from</span>: <span class="string">"./public"</span>, <span class="attr">to</span>: <span class="string">"./"</span>&#125;</span><br><span class="line">])</span><br></pre></td></tr></table></figure>
+
+<h2 id="开发服务器-dev-server"><a href="#开发服务器-dev-server" class="headerlink" title="开发服务器(dev-server)"></a>开发服务器(dev-server)</h2><p>在<strong>开发阶段</strong>，在打包、运行、调试会花费大量时间。</p>
+<p>官方单独的的库: webpack-dev-server （既不是plugin，也不是loader）</p>
+<h2 id="普通文件处理"><a href="#普通文件处理" class="headerlink" title="普通文件处理"></a>普通文件处理</h2><ol>
+<li><p>file-loader: 生成依赖的文件到输出目录，然后将模块文件设置为：导出一个路径</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//file-loader</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">loader</span>(<span class="params">source</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// source：文件内容（图片内容 buffer）</span></span><br><span class="line">    <span class="comment">// 1. 生成一个具有相同文件内容的文件到输出目录</span></span><br><span class="line">    <span class="comment">// 2. 返回一段代码   export default "文件名"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>url-loader：将依赖的文件转换为：导出一个base64格式的字符串</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//file-loader</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">loader</span>(<span class="params">source</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// source：文件内容（图片内容 buffer）</span></span><br><span class="line">    <span class="comment">// 1. 根据buffer生成一个base64编码</span></span><br><span class="line">    <span class="comment">// 2. 返回一段代码   export default "base64编码"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="解决路径问题"><a href="#解决路径问题" class="headerlink" title="解决路径问题"></a>解决路径问题</h2><p>publicPath</p>
+<h2 id="webpack内置插件"><a href="#webpack内置插件" class="headerlink" title="webpack内置插件"></a>webpack内置插件</h2><p>所有的webpack内置插件都作为webpack的静态属性存在的</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">"webpack"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// webpack.config.js 里 -&gt;</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    ...,</span><br><span class="line">    plugins: &#123;</span><br><span class="line">        <span class="keyword">new</span> webpack.插件名(&#123;</span><br><span class="line">            配置options对象</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="DefinePlugin"><a href="#DefinePlugin" class="headerlink" title="DefinePlugin"></a>DefinePlugin</h3><p>全局常量定义插件，使用该插件通常定义一些常量值，例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> webpack.DefinePlugin(&#123;</span><br><span class="line">    PI: <span class="string">`Math.PI`</span>, <span class="comment">// PI = Math.PI</span></span><br><span class="line">    VERSION: <span class="string">`"1.0.0"`</span>, <span class="comment">// VERSION = "1.0.0"</span></span><br><span class="line">    DOMAIN: <span class="built_in">JSON</span>.stringify(<span class="string">"duyi.com"</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>在源码中，我们可以直接使用插件中提供的常量(PI / VERSION / DOMAIN等)，当webpack编译完成后，会自动替换为常量的值</p>
+<h3 id="BannerPlugin"><a href="#BannerPlugin" class="headerlink" title="BannerPlugin"></a>BannerPlugin</h3><p>它可以为每个chunk生成的文件头部添加一行注释，一般用于添加作者、公司、版权等信息。例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> webpack.BannerPlugin(&#123;</span><br><span class="line">    banner: <span class="string">`</span></span><br><span class="line"><span class="string">        hash:[hash]</span></span><br><span class="line"><span class="string">        chunkhash:[chunkhash]</span></span><br><span class="line"><span class="string">        name:[name]</span></span><br><span class="line"><span class="string">        author: SSK</span></span><br><span class="line"><span class="string">        `</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="ProvidePlugin"><a href="#ProvidePlugin" class="headerlink" title="ProvidePlugin"></a>ProvidePlugin</h3><p>自动加载模块，而不必到处 import 或 require。例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> webpack.ProvidePlugin(&#123;</span><br><span class="line">    $: <span class="string">'jquery'</span>,</span><br><span class="line">    _: <span class="string">'lodash'</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>我们在源码中可直接使用 $ / _  :</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> app = $(<span class="string">"#app"</span>);</span><br><span class="line"><span class="keyword">const</span> arr = _.drop([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], <span class="number">2</span>); <span class="comment">// drop方法把数组中从左开始抛去第二个参数位的值，返回新数组  -&gt;  即 arr = [3];</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/05/19/webpack%E5%B8%B8%E7%94%A8%E6%89%A9%E5%B1%95/" data-id="ckadlgkw20000z4n54acdff3w" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/05/19/Promise/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Promise</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/05/19/webpack%E5%B8%B8%E7%94%A8%E6%89%A9%E5%B1%95/">webpack常用扩展</a>
+          </li>
+        
+          <li>
+            <a href="/2020/05/19/Promise/">Promise</a>
+          </li>
+        
+          <li>
+            <a href="/2020/05/19/hello-world/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
