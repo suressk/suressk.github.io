@@ -1,0 +1,482 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="Suressk.com">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://yoursite.com">
+    <!--SEO-->
+
+<meta name="keywords" content="" />
+
+
+<meta name="description" content="NodeJS[toc]
+NodeJS 核心
+概述：Node.js 是一个基于 Chrome v8 引擎的 js 运行环境。
+
+Node API
+Node 全局对象(global)提供类似部分 w..." />
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+<title>
+    
+    NodeJs初识 之一 |
+    
+    Suressk.com
+</title>
+
+<link rel="alternate" href="/atom.xml" title="Suressk.com" type="application/atom+xml">
+
+
+<link rel="icon" href="/favicon.ico">
+
+    
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7.css">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0.css">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash.css">
+
+    
+<div class="hide">
+    <script type="text/javascript">
+    var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+</div>
+
+
+
+
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    http://snippet.shenliyang.com/img/banner.jpg)"
+         >
+            <div class="main-header-box">
+                <a class="header-avatar" href="/" title='GravAvatar'>
+                    <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+                </a>
+                <div class="branding">
+                    <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+                    
+                            <img src="/img/branding.png" alt="Snippet 博客主题" class="img-responsive center-block">
+                                
+                </div>
+            </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://yoursite.com">
+                        Suressk.com</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                Home</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/前端/"><i class="fa "></i>
+                                前端</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/后端/"><i class="fa "></i>
+                                后端</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/工具/"><i class="fa "></i>
+                                工具</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                时间轴</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="NodeJs初识 之一">
+            
+            NodeJs初识 之一
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2020/05/22</span>
+    </span>
+    
+    
+</div>
+        
+        
+    </div>
+    
+    <div class="post-body post-content">
+        <h1 id="NodeJS"><a href="#NodeJS" class="headerlink" title="NodeJS"></a>NodeJS</h1><p>[toc]</p>
+<h2 id="NodeJS-核心"><a href="#NodeJS-核心" class="headerlink" title="NodeJS 核心"></a>NodeJS 核心</h2><blockquote>
+<p>概述：Node.js 是一个基于 Chrome v8 引擎的 js 运行环境。</p>
+</blockquote>
+<p><a href="https://nodejs.org/dist/latest-v14.x/docs/api/" target="_blank" rel="noopener">Node API</a></p>
+<h3 id="Node-全局对象-global"><a href="#Node-全局对象-global" class="headerlink" title="Node 全局对象(global)"></a>Node 全局对象(global)</h3><p>提供类似部分 webApi 的方法和其他属性：</p>
+<ol>
+<li><p>setTimeout</p>
+</li>
+<li><p>setInterval</p>
+</li>
+<li><p>setImmediate</p>
+</li>
+<li><p>console</p>
+</li>
+<li><p>__dirname    当前模块的目录名(看似是全局变量，实质是模块变量(module))</p>
+</li>
+<li><p>__filename   当前模块文件名(同上)  ————  当前的模块文件的绝对路径</p>
+</li>
+<li><p>Buffer       处理二进制数据的 <code>类</code></p>
+<p> Buffer 类是 JavaScript 语言内置的 <code>Uint8Array</code> 类的子类 → <a href="http://nodejs.cn/api/buffer.html" target="_blank" rel="noopener">中文文档</a></p>
+</li>
+<li><p>process      进程</p>
+<ul>
+<li><p>process.arch    操作系统的 CPU 架构 (一般我们使用的电脑是 x32 / x64)</p>
+</li>
+<li><p>process.argv      获取命令中的所有参数</p>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 如仅在 index.js 输出下面的属性</span></span><br><span class="line"><span class="built_in">console</span>.log(process.argv);</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">[</span></span><br><span class="line"><span class="comment">    'D:\\软件\\Node.js_setup\\node.exe',</span></span><br><span class="line"><span class="comment">    'e:\\FontEnd_File\\JavaScript\\NodeJS\\pro_demo\\index.js'</span></span><br><span class="line"><span class="comment">]</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>process.env       返回环境变量对象</p>
+</li>
+<li><p>process.cwd()     返回 Node.js 进程的当前工作目录（绝对路径）</p>
+</li>
+<li><p>process.exit([code])    退出状态 code 指示 Node.js 同步地终止进程(code 默认值为 0)</p>
+</li>
+<li><p>process.kill(pid[, signal])   根据 pid 杀死进程 (pid 为进程 ID；signal 将发送的信号，默认值：’SIGTERM’)</p>
+</li>
+<li><p>process.platform  获取当前的操作系统</p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="Node模块化细节"><a href="#Node模块化细节" class="headerlink" title="Node模块化细节"></a>Node模块化细节</h3><h4 id="模块的查找"><a href="#模块的查找" class="headerlink" title="模块的查找"></a>模块的查找</h4><ul>
+<li>根据绝对路径直接加载模块</li>
+<li>根据相对路径(相对于当前模块)加载模块(以 <code>./</code> 或 <code>../</code> 开头)，内部也会转换为绝对路径来加载模块</li>
+<li>相对路径(没以 ./ 或 ../ 开头的模块)查找加载规则:<br>  ① 检查是否是内置模块，如 <code>fs</code> / <code>path</code> 等<br>  ② 检查当前目录中的 node_modules 目录下有没有<br>  ③ 检查上级目录中的 node_modules 目录<br>  ④ 找到则转换为绝对路径(否则报错，找不到这个模块)<br>  ⑤ 加载模块</li>
+<li>若不写后缀名，node 会自动补全(补全顺序为: <code>js → json → node → mjs</code>)</li>
+<li>若只提供目录而没有提供文件名，则自动在该目录下寻找 <code>index.js</code> (默认)；若修改过 package.json 中的 main 字段，则根据此字段指定的文件加载</li>
+</ul>
+<h4 id="require函数"><a href="#require函数" class="headerlink" title="require函数"></a>require函数</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 某模块 (a.js) 内代码为：</span></span><br><span class="line">exports.c = <span class="number">3</span>;</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    a: <span class="number">1</span>,</span><br><span class="line">    b: <span class="number">2</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">this</span>.m = <span class="number">4</span>;</span><br><span class="line"></span><br><span class="line">    ↓</span><br><span class="line"></span><br><span class="line"><span class="comment">// 由另一模块 (b.js) 导入结果是什么？</span></span><br><span class="line"><span class="keyword">const</span> result = <span class="built_in">require</span>(<span class="string">'./a.js'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(result); <span class="comment">// ???</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 结果：</span></span><br><span class="line">result = &#123;</span><br><span class="line">    a: <span class="number">1</span>,</span><br><span class="line">    b: <span class="number">2</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上题结果来源需理解导入函数 <code>require</code> 内部实现, 如下所示：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// require函数大致处理流程(非其内部真正代码)</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">require</span>(<span class="params">modulePath</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// 1. 将modulePath转换为绝对路径    './src' -&gt; 'D:\code_file\NodeJS\Node_Modules\index.js'</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2. 判断该模块是否已有缓存(生成的绝对路径会作为缓存对象内部的键，值为模块代码)</span></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    if(require.cache['D:\\code_file\\NodeJS\\Node_Modules\\index.js'])&#123;</span></span><br><span class="line"><span class="comment">        return require.cache['D:\\code_file\\NodeJS\\Node_Modules\\index.js'].result;</span></span><br><span class="line"><span class="comment">    &#125;</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3. 读取文件内容(没有缓存执行此步，否则直接拿缓存结果)</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 4. 将读取的文件内容包裹到一个函数中</span></span><br><span class="line">    <span class="comment">/** 大致效果(伪代码)</span></span><br><span class="line"><span class="comment">    function __temp(module, exprots, require, __dirname, __filename)&#123;</span></span><br><span class="line"><span class="comment">        // 读取的文件内容(即拿到的代码)</span></span><br><span class="line"><span class="comment">    &#125;</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">// 5. 创建module对象</span></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    module.exports = &#123;&#125;;</span></span><br><span class="line"><span class="comment">    const exports = module.exports;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    __temp.call(module.exports, module, exports, require, module.path, module.filename);</span></span><br><span class="line"><span class="comment">    // 这里绑定了 this === module.exports</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="keyword">return</span> <span class="built_in">module</span>.exports;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>因而上题的理解过程为:</strong></p>
+<blockquote>
+<ol>
+<li>内部导出的 module.exports === exports;</li>
+<li>新增 c 属性为 3， 即 module.exports = exports = this = { c: 3 };</li>
+<li>对 module.exports 重新赋值为一个新对象 { a: 1, b: 2 }</li>
+<li>this 与 exports 均指向原来的对象</li>
+<li>require 函数返回的对象是： module.exports 即新对象</li>
+<li>所以，b.js 导入 a.js 打印的结果就是 <code>{ a: 1, b: 2 }</code></li>
+</ol>
+</blockquote>
+<h3 id="Node中的ES模块化"><a href="#Node中的ES模块化" class="headerlink" title="Node中的ES模块化"></a>Node中的ES模块化</h3><p>目前，Node中的 ES 模块化仍然处于实践阶段</p>
+<p>模块要么是 CommonJS，要么是 ES（一个文件中不能混用）：</p>
+<ol>
+<li>默认情况下，均是 <code>CommonJS</code>;</li>
+<li>ES 模块处理办法：<ul>
+<li>单个文件使用 ES module，更改其文件名后缀为 <code>.mjs</code></li>
+<li>全部使用 ES 模块化，在 <code>package.json</code> 文件中加入 <code>&quot;type&quot;: &quot;module&quot;</code></li>
+</ul>
+</li>
+</ol>
+<p>当使用 ES 模块化运行时，命令行必须加上 <code>--experimental-modules</code> 语句，如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node --experimental-modules index.mjs</span><br></pre></td></tr></table></figure>
+
+<h3 id="基本内置模块"><a href="#基本内置模块" class="headerlink" title="基本内置模块"></a>基本内置模块</h3><h4 id="OS"><a href="#OS" class="headerlink" title="OS"></a><a href="http://nodejs.cn/api/os.html" target="_blank" rel="noopener">OS</a></h4><p>const os = require(‘os’);</p>
+<ol>
+<li>os.EOL   一行结束的分隔(换行)符(不同的操作系统，换行符不同，所以可以使用此常量)</li>
+<li>os.arch()    获取 cpu 的架构名(主要是 x64 / x32)</li>
+<li>os.cpus()    获取 cpu 核的信息(几核芯片)</li>
+<li>os.freemem() 获取当前空闲内存量(单位是字节)</li>
+<li>os.homedir() 获取当前用户的主目录的字符串路径</li>
+<li>os.hostname()    获取当前操作系统主机名</li>
+<li>os.tmpdir()  获取操作系统的默认临时文件目录</li>
+</ol>
+<h4 id="path"><a href="#path" class="headerlink" title="path"></a><a href="http://nodejs.cn/api/path.html" target="_blank" rel="noopener">path</a></h4><p>const path = require(‘path’);</p>
+<ol>
+<li><p>path.basename(path[, ext])   法返回 path 的最后一部分，参数 path 中之前的路径内容将会被忽略<br> <code>path &lt;string&gt;</code> 文件路径<br> <code>ext</code>   可选文件扩展名<br> 如果 path 不是字符串、或给定了 ext 但不是字符串，则抛出 TypeError</p>
+</li>
+<li><p>path.delimiter   提供平台特定的路径定界符</p>
+</li>
+<li><p>path.dirname     返回 path 的目录名</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(path.dirname(<span class="string">'asdas/sfdasf/fasf/a.js'</span>));</span><br><span class="line"><span class="comment">// 返回 "asdas/sfdasf/fasf"</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>path.extname()   返回文件名后缀名</p>
+</li>
+<li><p>path.join(fullpath)  拼接多个字符串为一个路径</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"><span class="keyword">const</span> fullpath = path.join(<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'../'</span>, <span class="string">'c.js'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(fullpath);</span><br><span class="line"><span class="comment">// 输出：   a\c.js      (windows系统下)</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>path.normalize()     规范化给定的 path，解析 ‘..’ 和 ‘.’ 片段</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">path.normalize(<span class="string">'C:\\temp\\\\foo\\bar\\..\\'</span>);</span><br><span class="line"><span class="comment">// 返回: 'C:\\temp\\foo\\'</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>path.relative(from, to)  根据当前工作目录返回 from 到 to 的相对路径</p>
+</li>
+<li><p>path.resolve([…paths]) 将路径或路径片段的序列解析为绝对路径<br> 给定的路径序列从右到左进行处理，每个后续的 path 前置，直到构造出一个绝对路径</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 当前工作目录是：E:\FontEnd_File\JavaScript\NodeJS\pro_demo</span></span><br><span class="line"><span class="built_in">console</span>.log(path.resolve(<span class="string">'wwwjooo'</span>, <span class="string">'dashia/mnjj'</span>, <span class="string">'./index'</span>));</span><br><span class="line"><span class="comment">// 返回： E:\FontEnd_File\JavaScript\NodeJS\pro_demo\wwwjooo\dashia\mnjj\index</span></span><br><span class="line"><span class="built_in">console</span>.log(path.resolve(<span class="string">'/foo/bar'</span>, <span class="string">'./bax'</span>));</span><br><span class="line"><span class="comment">// 返回： e:\foo\bar\bax</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>path.sep     提供平台特定的路径片段分隔符 (windows 系统返回  <code>\</code>)</p>
+</li>
+</ol>
+<h4 id="url"><a href="#url" class="headerlink" title="url"></a><a href="http://nodejs.cn/api/url.html" target="_blank" rel="noopener">url</a></h4><p><img src="./assets/url.png" alt="URL对象"></p>
+<ol>
+<li><p>由 url 生成对象</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> URL = <span class="built_in">require</span>(<span class="string">'url'</span>);</span><br><span class="line"><span class="keyword">const</span> url = <span class="keyword">new</span> URL.URL(<span class="string">'http://user:pass@sub.example.com:8080/p/a/t/h?query=string#hash'</span>);</span><br><span class="line"><span class="comment">// 或者调用 URL.parse() 方法</span></span><br><span class="line"><span class="comment">// const url = URL。parse('http://user:pass@sub.example.com:8080/p/a/t/h?query=string#hash');</span></span><br><span class="line"><span class="built_in">console</span>.log(url);</span><br><span class="line"><span class="comment">// 输出为一个对象</span></span><br><span class="line">URL &#123;</span><br><span class="line">    href: <span class="string">'http://user:pass@sub.example.com:8080/p/a/t/h?query=name#hash'</span>,</span><br><span class="line">    origin: <span class="string">'http://sub.example.com:8080'</span>,</span><br><span class="line">    protocol: <span class="string">'http:'</span>,</span><br><span class="line">    username: <span class="string">'user'</span>,</span><br><span class="line">    password: <span class="string">'pass'</span>,</span><br><span class="line">    host: <span class="string">'sub.example.com:8080'</span>,</span><br><span class="line">    hostname: <span class="string">'sub.example.com'</span>,</span><br><span class="line">    port: <span class="string">'8080'</span>,</span><br><span class="line">    pathname: <span class="string">'/p/a/t/h'</span>,</span><br><span class="line">    search: <span class="string">'?query=name'</span>,</span><br><span class="line">    searchParams: URLSearchParams &#123; <span class="string">'query'</span> =&gt; <span class="string">'name'</span> &#125;,</span><br><span class="line">    hash: <span class="string">'#hash'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 判断查询值是否有某一属性:</span></span><br><span class="line">url.searchParams.has(<span class="string">'name'</span>);   --&gt;  返回 <span class="literal">false</span></span><br><span class="line">url.searchParams.has(<span class="string">'query'</span>);  --&gt;  返回 <span class="literal">true</span></span><br><span class="line"><span class="comment">// 拿到 query 的值</span></span><br><span class="line">url.searchParams.get(<span class="string">'query'</span>);  --&gt;  返回 name</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>由对象生成url字符串  <code>URL.format()</code></p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 如上例生成的 URL 对象</span></span><br><span class="line"><span class="keyword">const</span> urlObj = &#123;</span><br><span class="line">    href: <span class="string">'http://user:pass@sub.example.com:8080/p/a/t/h?query=name#hash'</span>,</span><br><span class="line">    origin: <span class="string">'http://sub.example.com:8080'</span>,</span><br><span class="line">    protocol: <span class="string">'http:'</span>,</span><br><span class="line">    username: <span class="string">'user'</span>,</span><br><span class="line">    password: <span class="string">'pass'</span>,</span><br><span class="line">    host: <span class="string">'sub.example.com:8080'</span>,</span><br><span class="line">    hostname: <span class="string">'sub.example.com'</span>,</span><br><span class="line">    port: <span class="string">'8080'</span>,</span><br><span class="line">    pathname: <span class="string">'/p/a/t/h'</span>,</span><br><span class="line">    search: <span class="string">'?query=name'</span>,</span><br><span class="line">    hash: <span class="string">'#hash'</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> url = URL.format(urlObj);</span><br><span class="line"><span class="built_in">console</span>.log(url);   <span class="comment">// http://sub.example.com:8080/p/a/t/h?query=name#hash</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="util"><a href="#util" class="headerlink" title="util"></a><a href="http://nodejs.cn/api/util.html" target="_blank" rel="noopener">util</a></h4><ol>
+<li><p>util.callbackify(original)   original -&gt; async 异步函数</p>
+<p> 将 <code>async</code> 异步函数转换为回调函数</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> util = <span class="built_in">require</span>(<span class="string">'util'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">delay</span>(<span class="params">duration = <span class="number">1000</span></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">        setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">            resolve(duration);</span><br><span class="line">        &#125;, duration)</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 常规调用</span></span><br><span class="line">delay(<span class="number">500</span>).then( <span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(res);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 转换式</span></span><br><span class="line"><span class="keyword">const</span> delayCallback = util.callbackify(delay);</span><br><span class="line"><span class="comment">// 调用</span></span><br><span class="line">delayCallback(<span class="number">500</span>, (err, res) =&gt; &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(res);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 转换后的函数，传值参数从第一位开始，最后一位即为回调函数位</span></span><br><span class="line"><span class="comment"> * 回调函数的第一个参数为异步函数出现错误时的传值 -&gt; reject 推向 rejected 状态传递过来的值</span></span><br><span class="line"><span class="comment"> * 第二个参数即为 resolve 推向 resolved 状态的传值</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>util.promisify(original)</p>
+<p> 与上个方法相反，将回调模式函数转换为异步模式函数</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">delayCallback</span>(<span class="params">duration, callback</span>)</span>&#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        callback(<span class="literal">null</span>, duration);</span><br><span class="line">    &#125;, duration);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> delay = util.promisify(delayCallback);</span><br><span class="line">delay(<span class="number">500</span>).then(<span class="function"><span class="params">res</span> =&gt;</span> <span class="built_in">console</span>.log(res));</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="文件-I-O-input-output"><a href="#文件-I-O-input-output" class="headerlink" title="文件 I / O (input / output)"></a>文件 I / O (input / output)</h3><h4 id="外部设备的输入输出"><a href="#外部设备的输入输出" class="headerlink" title="外部设备的输入输出"></a>外部设备的输入输出</h4><p>如磁盘、网卡、显卡、打印机等<br>I/O 速度往往低于内存和CPU的交互速度</p>
+<h4 id="fs-模块"><a href="#fs-模块" class="headerlink" title="fs 模块"></a>fs 模块</h4><p>常用api：</p>
+<ol>
+<li><p><code>fs.readFile</code>    读取一个文件</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 文件路径</span></span><br><span class="line"><span class="comment">// 相对路径是相对于命令提示符的相对路径</span></span><br><span class="line"><span class="comment">// 因而，用绝对路径确保万无一失</span></span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> filename = path.resolve(__dirname, <span class="string">'./files/1.txt'</span>);</span><br><span class="line"><span class="comment">// 异步读取</span></span><br><span class="line">fs.readFile(filename, (err, content) =&gt; &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(content);   <span class="comment">// 得到 buffer 格式的内容</span></span><br><span class="line">    <span class="comment">// console.log(content.toString('utf-8'));  转换成 utf-8 格式文本信息</span></span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 或者下面这种方式(第二个参数设置 utf-8 编码格式，也可以配置成对象&#123;encoding: 'utf-8'&#125;)</span></span><br><span class="line">fs.readFile(filename, <span class="string">"utf-8"</span>, (err, content) =&gt; &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(content);   <span class="comment">// 得到字符串格式的内容</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 同步读取</span></span><br><span class="line"><span class="keyword">const</span> content = fs.readFileSync(filename, <span class="string">"utf-8"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Sync 函数是同步的，会导致 JS 运行阻塞</span></span><br><span class="line"><span class="comment">// 一般，在程序启动的时候运行有限的次数即可</span></span><br></pre></td></tr></table></figure>
+
+<p> <strong>fs.promises</strong></p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// node 12 版本之后添加新api (`fs.promises`) =&gt; promise 实现</span></span><br><span class="line"><span class="comment">// 如上例:</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">readFile</span>(<span class="params">filename</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">const</span> content = <span class="keyword">await</span> fs.promises.readFile(filename, <span class="string">"utf-8"</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(content);</span><br><span class="line">&#125;</span><br><span class="line">readFile(filename); <span class="comment">// 与上面得到的结果相同</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>fs.writeFile</code> / <code>fs.promises.writeFile</code>   写文件</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> filename = path.resolve(__dirname, <span class="string">'./files/1.txt'</span>);</span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">writeFile</span>(<span class="params">filename</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// 第二个参数是要写入的内容</span></span><br><span class="line">    <span class="comment">// 第三个参数是编码格式( 默认 utf-8 ) -&gt; 字符串或对象配置 encoding: 'utf-8'</span></span><br><span class="line">    <span class="keyword">await</span> fs.promises.writeFile(filename, <span class="string">"Test Prograph"</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"写入成功！"</span>);</span><br><span class="line">&#125;</span><br><span class="line">readFile(filename); <span class="comment">// 写入成功(但是属于覆盖原文件的内容)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 覆盖原内容写入</span></span><br><span class="line"><span class="comment">// 若没有匹配到目标文件，会新建文件并写入</span></span><br><span class="line"><span class="comment">// 若目录(文件夹)不存在，则报错</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 若要追加内容，而不是覆盖</span></span><br><span class="line"><span class="comment">// 若要换行输入，使用 os.EOL 常量。用于匹配不同系统</span></span><br><span class="line"><span class="keyword">await</span> fs.promises.writeFile(filename, <span class="string">"Test Prograph"</span>, &#123;</span><br><span class="line">    <span class="comment">// encoding: 'utf-8', 这是默认值，可不配置</span></span><br><span class="line">    flag: <span class="string">'a'</span>   <span class="comment">// 追加内容</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 或者使用 buffer 格式</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> buffer = Buffer.from(<span class="string">'Test content'</span>, <span class="string">'utf-8'</span>);</span><br><span class="line"><span class="keyword">await</span> fs.promises.writeFile(filename, buffer, &#123;</span><br><span class="line">    flag: <span class="string">'a'</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>fs.promises.copyFile(src, dest[, mode])</code>  复制文件</p>
+<ul>
+<li><p>src       要拷贝的源文件名(string/buffer/url)</p>
+</li>
+<li><p>dest      拷贝操作的目标文件名</p>
+</li>
+<li><p>mode      用于拷贝操作的修饰符(默认值: 0)</p>
+<p>mode 是一个可选的整数，指定拷贝操作的行为。 可以创建由两个或更多个值按位或组成的掩码（比如 fs.constants.COPYFILE_EXCL | fs.constants.COPYFILE_FICLONE）。</p>
+</li>
+<li><p><code>fs.constants.COPYFILE_EXCL</code> - 如果 dest 已存在，则拷贝操作将失败。</p>
+</li>
+<li><p><code>fs.constants.COPYFILE_FICLONE</code> - 拷贝操作将尝试创建写时拷贝（copy-on-write）链接。如果平台不支持写时拷贝，则使用后备的拷贝机制。</p>
+</li>
+<li><p><code>fs.constants.COPYFILE_FICLONE_FORCE</code> - 拷贝操作将尝试创建写时拷贝链接。如果平台不支持写时拷贝，则拷贝操作将失败。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 复制文件</span></span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">copy</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> fromFilename = path.resolve(__dirname, <span class="string">'./src/url.png'</span>);</span><br><span class="line">    <span class="keyword">const</span> buffer = <span class="keyword">await</span> fs.promises.readFile(fromFilename);  <span class="comment">// 读文件 -&gt; buffer 格式</span></span><br><span class="line">    <span class="keyword">const</span> toFilename = path.resolve(__dirname, <span class="string">'./src/1.png'</span>);</span><br><span class="line">    <span class="keyword">await</span> fs.promises.writeFile(toFilename, buffer);  <span class="comment">// 将读到的 buffer 格式文件写入；即可完成文件复制</span></span><br><span class="line">&#125;</span><br><span class="line">copy();</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p><code>fs.promises.stat()</code>     文件状态</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> filename = path.resolve(__dirname, <span class="string">'./src/url.png'</span>);</span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">demo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> stat = <span class="keyword">await</span> fs.promises.stat(filename);</span><br><span class="line">    <span class="built_in">console</span>.log(stat);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"是否是目录:"</span>, stat.isDirectory()); <span class="comment">// 是否是目录: false</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"是否是文件:"</span>, stat.isFile());  <span class="comment">// 是否是文件: true</span></span><br><span class="line">&#125;</span><br><span class="line">demo();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 结果:</span></span><br><span class="line">Stats &#123;</span><br><span class="line">    dev: <span class="number">170777962</span>,</span><br><span class="line">    mode: <span class="number">33206</span>,</span><br><span class="line">    nlink: <span class="number">1</span>,</span><br><span class="line">    uid: <span class="number">0</span>,</span><br><span class="line">    gid: <span class="number">0</span>,</span><br><span class="line">    rdev: <span class="number">0</span>,</span><br><span class="line">    blksize: <span class="number">4096</span>,</span><br><span class="line">    ino: <span class="number">8162774324768403</span>,</span><br><span class="line">    size: <span class="number">23667</span>,        <span class="comment">// 大小(字节)</span></span><br><span class="line">    blocks: <span class="number">48</span>,</span><br><span class="line">    atimeMs: <span class="number">1589633926043.3086</span>,</span><br><span class="line">    mtimeMs: <span class="number">1589614160734.891</span>,</span><br><span class="line">    ctimeMs: <span class="number">1589633931956.2944</span>,</span><br><span class="line">    birthtimeMs: <span class="number">1589633926042.3042</span>,</span><br><span class="line">    atime: <span class="number">2020</span><span class="number">-05</span><span class="number">-16</span>T12:<span class="number">58</span>:<span class="number">46.043</span>Z,    <span class="comment">// 上次访问时间</span></span><br><span class="line">    mtime: <span class="number">2020</span><span class="number">-05</span><span class="number">-16</span>T07:<span class="number">29</span>:<span class="number">20.735</span>Z,    <span class="comment">// 上次修改时间</span></span><br><span class="line">    ctime: <span class="number">2020</span><span class="number">-05</span><span class="number">-16</span>T12:<span class="number">58</span>:<span class="number">51.956</span>Z,    <span class="comment">// 上次文件状态被修改时间</span></span><br><span class="line">    birthtime: <span class="number">2020</span><span class="number">-05</span><span class="number">-16</span>T12:<span class="number">58</span>:<span class="number">46.042</span>Z <span class="comment">// 文件创建时间</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 也可查看目录状态:</span></span><br><span class="line"><span class="comment">// 目录的 size 值为 0 ; 因为目录就存一个指针，指向其内部存的文件(或文件夹位置)</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>fs.promises.readdir</code>    获取目录下的直接子文件和直接子目录(返回一个数组)</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> filename = path.resolve(__dirname, <span class="string">'./src/'</span>); <span class="comment">// 只能是目录，若是文件，则会报错</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">demo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> paths = <span class="keyword">await</span> fs.promises.readdir(filename);</span><br><span class="line">    <span class="built_in">console</span>.log(paths); <span class="comment">// [ '1.png', 'url.png' ]</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">Array</span>.isArray(paths));  <span class="comment">// true</span></span><br><span class="line">&#125;</span><br><span class="line">demo();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>fs.promises.mkdir()</code>    创建目录</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> dirname = path.resolve(__dirname, <span class="string">'./src/test'</span>);</span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">demo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> paths = <span class="keyword">await</span> fs.promises.mkdir(dirname);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"创建目录成功"</span>);</span><br><span class="line">&#125;</span><br><span class="line">demo();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>fs.exists()</code>    已 <strong>弃用</strong>  (且没有 <code>fs.promises.exists()</code> 方法)</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"><span class="keyword">const</span> dirname = path.resolve(__dirname, <span class="string">'./src/test'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 手写 exists() 方法</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">exists</span>(<span class="params">filename</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">await</span> fs.promises.stat(filename);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">        <span class="keyword">if</span>(err.code === <span class="string">'ENOENT'</span>)&#123;</span><br><span class="line">            <span class="comment">// 文件不存在</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">throw</span> err;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">const</span> result = <span class="keyword">await</span> exist(dirname);</span><br><span class="line">    <span class="keyword">if</span>(result)&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"目录已存在，无需操作"</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> paths = <span class="keyword">await</span> fs.promises.mkdir(dirname);</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"目录创建成功"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">test();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>fs.unlink</code> / <code>fs.promises.unlink</code>      删除文件</p>
+</li>
+<li><p><code>fs.rmdir</code> / <code>fs.promises.rmdir</code>     删除目录</p>
+</li>
+</ol>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">Snippet</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/2020/05/22/NodeJs%E5%88%9D%E8%AF%86%E4%B9%8B%E4%BA%8C/" class="pre-post btn btn-default" title='NodeJs初识之二'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            NodeJs初识之二</span>
+    </a>
+    
+    
+    <a href="/2020/05/19/webpack%E5%B8%B8%E7%94%A8%E6%89%A9%E5%B1%95/" class="next-post btn btn-default" title='webpack常用扩展'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            webpack常用扩展</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<div id="comments">
+    
+
+<div id="vcomments" class="valine"></div>
+
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
+
+<script>
+new Valine({
+    av: AV,
+    el: '#vcomments',
+    appId: 'xOKV9J4UeQAtVkvnJC7Kq2Jn-gzGzoHsz',
+    appKey: 'erIpQac4azoCmgfBB7Dl9maa',
+    placeholder: '说点什么吧',
+    notify: false,
+    verify: true,
+    avatar: 'mm',
+    meta: 'nick,mail'.split(','),
+    pageSize: '10',
+    path: window.location.pathname,
+    lang: 'en'.toLowerCase()
+})
+</script>
+
+
+</div>
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            Table of Contents
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#NodeJS"><span class="toc-text">NodeJS</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#NodeJS-核心"><span class="toc-text">NodeJS 核心</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Node-全局对象-global"><span class="toc-text">Node 全局对象(global)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Node模块化细节"><span class="toc-text">Node模块化细节</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#模块的查找"><span class="toc-text">模块的查找</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#require函数"><span class="toc-text">require函数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Node中的ES模块化"><span class="toc-text">Node中的ES模块化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#基本内置模块"><span class="toc-text">基本内置模块</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#OS"><span class="toc-text">OS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#path"><span class="toc-text">path</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#url"><span class="toc-text">url</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#util"><span class="toc-text">util</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件-I-O-input-output"><span class="toc-text">文件 I &#x2F; O (input &#x2F; output)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#外部设备的输入输出"><span class="toc-text">外部设备的输入输出</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#fs-模块"><span class="toc-text">fs 模块</span></a></li></ol></li></ol></li></ol></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2017
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="/js/app.js?rev=@@hash.js"></script>
+
+</body>
+</html>
