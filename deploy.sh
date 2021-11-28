@@ -10,14 +10,17 @@ npm run docs:build
 cd docs/.vitepress/dist
 
 # 发布到自定义域名
-echo 'www.suressk.com/note' > CNAME
+# echo 'www.suressk.com/note' > CNAME
 
 git init
 git add -A
 git commit -m 'deploy'
 
+# my github
+githubUrl=git@github.com:suressk/suressk.github.io
+
 # 部署到 https://suressk.github.io
-git push -f git@github.com:suressk/suressk.github.io.git master
+git push -f $githubUrl master:gh-pages
 
 # 部署到 https://suressk.github.io/note
 # git push -f git@github.com:suressk/note.git master:gh-pages
