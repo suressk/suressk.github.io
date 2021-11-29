@@ -17,10 +17,10 @@ git add -A
 git commit -m 'deploy'
 
 # my github
-githubUrl=git@github.com:suressk/suressk.github.io
+# githubUrl=git@github.com:suressk/suressk.github.io
 
 # 部署到 https://suressk.github.io
-git push -f $githubUrl master:gh-pages
+git push -f git@github.com:suressk/suressk.github.io.git master
 
 # 部署到 https://suressk.github.io/note
 # git push -f git@github.com:suressk/note.git master:gh-pages
