@@ -1,14 +1,18 @@
 {
   "name": "vitepress-island",
   "version": "1.0.0",
-  "description": "K.islang static site",
+  "description": "K.'s static site",
   "main": "index.js",
   "repository": "https://github.com/suressk/suressk.github.io",
+  "bugs": {
+    "url": "https://github.com/suressk/vitepress-island/issues"
+  },
   "author": "suressk",
   "scripts": {
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:serve": "vitepress serve docs"
+    "docs:serve": "vitepress serve docs",
+    "publish": "deploy.sh"
   },
   "devDependencies": {
     "vitepress": "^0.20.1"
