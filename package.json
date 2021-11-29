@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "K.'s static site",
   "main": "index.js",
-  "repository": "https://github.com/suressk/suressk.github.io",
+  "repository": "https://github.com/suressk/vitepress-island",
   "bugs": {
     "url": "https://github.com/suressk/vitepress-island/issues"
   },
