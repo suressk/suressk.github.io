@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "K.'s static site",
   "main": "index.js",
-  "repository": "https://github.com/suressk/vitepress-island",
+  "repository": "https://github.com/suressk/suressk.github.io",
   "bugs": {
-    "url": "https://github.com/suressk/vitepress-island/issues"
+    "url": "https://github.com/suressk/suressk.github.io/issues"
   },
   "author": "suressk",
   "scripts": {
