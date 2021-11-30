@@ -1,1 +1,0 @@
-import{d as s,o as t,c as n,g as a,N as e}from"./vendor.85ba868e.js";const i=s({name:"Setting"}),o={class:"setting"},r=a("h3",{class:"primary-title mb-1"},[a("i",{class:"iconfont icon-flashing"}),e(" Settings ")],-1);i.render=function(s,a,e,i,c,l){return t(),n("section",o,[r])};export default i;
