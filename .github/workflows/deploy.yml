@@ -39,7 +39,7 @@ jobs:
 
       # 生成静态文件
       - name: Build
-        run: npm install && npm run docs:build
+        run: npm install && npm run build
 
       # 部署到 GitHub Pages
       - name: Deploy
@@ -47,13 +47,10 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }} # 生成的 secret
-          # deploy_key: ${{ secrets.ACCESS_TOKEN }} # 生成的 secret
-          # external_repository: git@github.com:suressk/suressk.github.io.git
-          # BRANCH: gh-pages # 部署到 gh-pages 分支，因为 master 分支存放的一般是源码，而 gh-pages 分支则用来存放生成的静态文件
           BRANCH: master # 部署到 master 分支
           FOLDER: docs/.vitepress/dist # vitepress 生成的静态文件存放的地方
           # publish_branch: master
-          # publish_dir: docs/.vuepress/dist
+          # publish_dir: docs/.vitepress/dist
 
       # - name: Publish
       #   run: npm publish
