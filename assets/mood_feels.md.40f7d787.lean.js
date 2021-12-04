@@ -1,0 +1,1 @@
+import{_ as t,c as e,o,e as p}from"./app.410289b8.js";const h='{"title":"\u611F \u4E0E \u53F9","description":"","frontmatter":{},"relativePath":"mood/feels.md","lastUpdated":1638528142745}',a={},r=p('',16),_=[r];function c(s,n,l,u,d,i){return o(),e("div",null,_)}var f=t(a,[["render",c]]);export{h as __pageData,f as default};
