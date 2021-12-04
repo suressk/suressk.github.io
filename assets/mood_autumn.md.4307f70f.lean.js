@@ -1,1 +1,0 @@
-import{_ as e,c as t,o as a,e as p}from"./app.410289b8.js";const b='{"title":"\u5165\u79CB","description":"","frontmatter":{},"relativePath":"mood/autumn.md","lastUpdated":1638528128576}',o={},r=p('',22),n=[r];function s(c,i,_,d,h,l){return a(),t("div",null,n)}var m=e(o,[["render",s]]);export{b as __pageData,m as default};
