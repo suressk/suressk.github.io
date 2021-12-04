@@ -1,1 +1,0 @@
-import{_ as a,c as e,o as t,e as o}from"./app.410289b8.js";const l='{"title":"\u5178\u7C4D\u91CC\u7684\u4E2D\u56FD","description":"","frontmatter":{},"relativePath":"mood/chinaInTheClassics.md","lastUpdated":1638528132608}',r={},p=o('',17),c=[p];function d(n,s,h,i,_,u){return t(),e("div",null,c)}var b=a(r,[["render",d]]);export{l as __pageData,b as default};
