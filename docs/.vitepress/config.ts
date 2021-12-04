@@ -1,7 +1,28 @@
 module.exports = {
   lang: "en-US",
   title: "K.island ✨",
+  icon: "./favicon.ico",
   description: "K.'s island",
+
+  head: [
+    ["link", { rel: "icon", href: "./favicon.ico", sizes: "64x64" }],
+    [
+      "link",
+      {
+        rel: "apple-touch-icon-precomposed",
+        href: "./favicon.ico",
+        sizes: "64x64",
+      },
+    ],
+    [
+      "link",
+      {
+        rel: "msapplication-square64x64logo",
+        href: "./favicon.ico",
+        sizes: "64x64",
+      },
+    ],
+  ],
 
   themeConfig: {
     repo: "suressk",
@@ -12,7 +33,7 @@ module.exports = {
     lastUpdated: "Last Updated",
 
     nav: [
-      { text: "Home", link: "/", activeMatch: "^/$|^/main/" },
+      { text: "Home", link: "/", activeMatch: "^/$|^/home/" },
       {
         text: "Mood",
         link: "/mood/index",
@@ -29,31 +50,14 @@ module.exports = {
       // "/main/": getMainSidebar(),
       "/mood/": getMoodSidebar(),
       "/knowledge/": getKnowledgeSidebar(),
-      "/": getMainSidebar(),
+      "/": [],
     },
   },
 };
 
-function getMainSidebar() {
-  return [
-    {
-      text: "Introduction",
-      children: [{ text: "Front End", link: "/" }],
-    },
-    {
-      text: "Advanced",
-      children: [
-        { text: "Frontmatter", link: "/guide/frontmatter" },
-        { text: "Theming", link: "/guide/theming" },
-        { text: "API Reference", link: "/guide/api" },
-        {
-          text: "Differences from Vuepress",
-          link: "/guide/differences-from-vuepress",
-        },
-      ],
-    },
-  ];
-}
+// function getMainSidebar() {
+//   return [];
+// }
 
 /**
  * 心情文章列表
