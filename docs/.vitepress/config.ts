@@ -106,5 +106,12 @@ function getKnowledgeSidebar() {
         { text: "Algorithm", link: "/knowledge/study/algorithm" },
       ],
     },
+    {
+      text: "Vite",
+      children: [
+        { text: "Vite 原理简介", link: "/knowledge/vite/index" },
+        { text: "vite 命令", link: "/knowledge/vite/vite.js" },
+      ],
+    },
   ];
 }
