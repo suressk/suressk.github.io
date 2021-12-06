@@ -6,8 +6,8 @@
 
 > `vite`<br>
 > | + `bin`<br>
-> | — | — openChrome.applescript // apple 家的脚本<br>
-> | — | — vite.js // vite 命令执行入口<br>
+> | — | — openChrome.applescript<br>
+> | — | — vite.js<br>
 > | + `scripts`<br>
 > | — | - patchTypes.cjs<br>
 > | + `src`<br>
