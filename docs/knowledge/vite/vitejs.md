@@ -272,7 +272,8 @@ vite 的配置如下：
      const httpServer = middlewareMode
        ? null
        : await resolveHttpServer(serverConfig, middlewares, httpsOptions);
-     // resolveHttpServer 方法用来区分使用 http / https / http2 来创建 server 并返回赋值给 httpServer
+     // resolveHttpServer 方法用来区分使用 http / https / http2 (npm package)来
+     // 创建 server 并返回赋值给 httpServer
 
      // 3. 创建 webSocket 实例
      const ws = createWebSocketServer(httpServer, config, httpsOptions);
