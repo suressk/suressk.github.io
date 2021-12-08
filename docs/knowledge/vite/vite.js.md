@@ -45,7 +45,8 @@ vite 的配置如下：
      if (!value || value.startsWith("-")) {
        value = "vite:*";
      } else {
-       // support debugging multiple flags with comma-separated list
+       // support debugging multiple flags
+       // with comma-separated list
        value = value
          .split(",")
          .map((v) => `vite:${v}`)
@@ -79,7 +80,7 @@ vite 的配置如下：
      if (next && !next.startsWith("-")) {
        process.argv.splice(profileIndex, 1);
      }
-     // 创建会话连接
+     // 创建会话连接（webkit inspector）
      const inspector = require("inspector");
      const session = (global.__vite_profile_session = new inspector.Session());
      session.connect();
@@ -128,7 +129,9 @@ vite 的配置如下：
      mode?: string;
    }
    /**
-    * removing global flags before passing as command specific sub-configs
+    * removing global flags before passing
+    * as command specific sub-configs
+    * 删除全局 cli 配置
     */
    function cleanOptions<Options extends GlobalCLIOptions>(
      options: Options
@@ -151,7 +154,7 @@ vite 的配置如下：
    }
    ```
 
-6. cli 参数定义，这里我们就只研究一下开发环境下的功能实现，后续生产环境/预览环境再考虑要不要加上吧
+6. cli 参数定义，这里我们就只研究一下开发环境下的功能实现，生产环境/预览环境后续再考虑吧～
 
    ```ts
    // 下面是一些核心参数，如 -c 指定配置文件等
@@ -185,7 +188,13 @@ vite 的配置如下：
        "--force",
        `[boolean] force the optimizer to ignore the cache and re-bundle`
      )
-     .action(devAction); // 这里将 action 函数抽出来单独写，免得篇幅过长
+     .action(devAction);
+   /* 这里将 action 函数抽出来单独看，免得篇幅过长，拎不清注意点 */
+
+   cli.help(); // 命令行使用 -h / --help 参数，输出帮助信息
+   cli.version(require("../../package.json").version); // vite 版本号
+
+   cli.parse(); // 解析命令行参数
    ```
 
    `devAction 函数`：
@@ -208,14 +217,12 @@ vite 的配置如下：
          clearScreen: options.clearScreen,
          server: cleanOptions(options),
        });
-
+       // native Node http server instance or null
        if (!server.httpServer) {
          throw new Error("HTTP server not available");
        }
-
-       await server.listen();
-
-       const info = server.config.logger.info;
+       await server.listen(); // 启动 dev-server
+       const info = server.config.logger.info; // info 日志
 
        info(
          chalk.cyan(`\n  vite v${require("vite/package.json").version}`) +
@@ -224,7 +231,7 @@ vite 的配置如下：
            clear: !server.config.logger.hasWarned,
          }
        );
-
+       // 调用 logger.ts 的 printCommonServerUrls 方法打印 dev-server 运行的 url
        server.printUrls();
 
        // __vite_start_time 在执行 vite 命令时
@@ -246,4 +253,56 @@ vite 的配置如下：
        process.exit(1);
      }
    };
+   ```
+
+7. 接下来，我们进入 server 模块，查看 `createServer`：
+
+   ```ts
+   export async function createServer(
+     inlineConfig: InlineConfig = {}
+   ): Promise<ViteDevServer> {
+     // 这个方法里，大概做了下面这些事：
+     // 1. 处理服务的启动配置
+     const config = await resolveConfig(inlineConfig, "serve", "development");
+     const httpsOptions = await resolveHttpsConfig(config.server.https);
+
+     // 2. 检查 config.server.middlewareMode 是否 === true，若是将其置为 'ssr'
+     // connect 包创建连接（方便使用中间件来扩展的 node http server 框架）
+     const middlewares = connect() as Connect.Server;
+     const httpServer = middlewareMode
+       ? null
+       : await resolveHttpServer(serverConfig, middlewares, httpsOptions);
+     // resolveHttpServer 方法用来区分使用 http / https / http2 来创建 server 并返回赋值给 httpServer
+
+     // 3. 创建 webSocket 实例
+     const ws = createWebSocketServer(httpServer, config, httpsOptions);
+
+     // 4. 使用 chokidar 监听 文件 修改
+     const { ignored = [], ...watchOptions } = serverConfig.watch || {};
+     const watcher = chokidar.watch(path.resolve(root), {
+       ignored: [
+         "**/node_modules/**",
+         "**/.git/**",
+         ...(Array.isArray(ignored) ? ignored : [ignored]),
+       ],
+       ignoreInitial: true,
+       ignorePermissionErrors: true,
+       disableGlobbing: true,
+       ...watchOptions,
+     }) as FSWatcher;
+
+     // 5. 创建模块映射图
+     const moduleGraph: ModuleGraph = new ModuleGraph((url) =>
+       container.resolveId(url)
+     );
+
+     // ...... 待续
+
+     const container = await createPluginContainer(
+       config,
+       moduleGraph,
+       watcher
+     );
+     const closeHttpServer = createServerCloseFn(httpServer);
+   }
    ```

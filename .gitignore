@@ -6,3 +6,8 @@ node_modules
 # package-lock.json
 
 *.log
+
+dist
+/docs/.vitepress/dist/*
+
+.vscode

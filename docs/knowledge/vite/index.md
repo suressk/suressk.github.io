@@ -38,6 +38,10 @@
 > | + `types`<br>
 > | + ... // other files<br>
 
+<!-- [vite-dev Map XMind](profiles/vite-dev.xmind) -->
+
+<!-- <a :href="$withBase('/profiles/vite-dev.xmind')" target="_blank">vite-dev Map XMind</a> -->
+
 #### 原理梗概
 
 它做的事情大概就是：
