@@ -1,4 +1,4 @@
-import{_ as n,c as s,o as a,b as t}from"./app.7d15eb2b.js";const m='{"title":"\u6267\u884C vite \u547D\u4EE4\u505A\u4E86\u4EC0\u4E48\u4E8B","description":"","frontmatter":{"title":"\u6267\u884C vite \u547D\u4EE4\u505A\u4E86\u4EC0\u4E48\u4E8B"},"relativePath":"knowledge/vite/vite.js.md","lastUpdated":1638951437638}',p={},o=t(`__VP_STATIC_START__<p>\u6211\u4EEC\u77E5\u9053\uFF0C<code>package.json</code> \u6587\u4EF6\u7684 <code>bin</code> \u5B57\u6BB5\u662F\u7528\u6765\u6307\u5B9A\u547D\u4EE4\u53CA\u547D\u4EE4\u6267\u884C\u7684\u6587\u4EF6</p><p>vite \u7684\u914D\u7F6E\u5982\u4E0B\uFF1A</p><div class="language-json"><pre><code><span class="token punctuation">{</span>
+import{_ as n,c as s,o as a,b as t}from"./app.2533d377.js";const m='{"title":"\u6267\u884C vite \u547D\u4EE4\u505A\u4E86\u4EC0\u4E48\u4E8B","description":"","frontmatter":{"title":"\u6267\u884C vite \u547D\u4EE4\u505A\u4E86\u4EC0\u4E48\u4E8B"},"relativePath":"knowledge/vite/vitejs.md","lastUpdated":1638953063287}',p={},o=t(`<p>\u6211\u4EEC\u77E5\u9053\uFF0C<code>package.json</code> \u6587\u4EF6\u7684 <code>bin</code> \u5B57\u6BB5\u662F\u7528\u6765\u6307\u5B9A\u547D\u4EE4\u53CA\u547D\u4EE4\u6267\u884C\u7684\u6587\u4EF6</p><p>vite \u7684\u914D\u7F6E\u5982\u4E0B\uFF1A</p><div class="language-json"><pre><code><span class="token punctuation">{</span>
   <span class="token property">&quot;bin&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
     <span class="token property">&quot;vite&quot;</span><span class="token operator">:</span> <span class="token string">&quot;bin/vite.js&quot;</span>
   <span class="token punctuation">}</span>
@@ -221,7 +221,8 @@ cli<span class="token punctuation">.</span><span class="token function">parse</s
   <span class="token keyword">const</span> httpServer <span class="token operator">=</span> middlewareMode
     <span class="token operator">?</span> <span class="token keyword">null</span>
     <span class="token operator">:</span> <span class="token keyword">await</span> <span class="token function">resolveHttpServer</span><span class="token punctuation">(</span>serverConfig<span class="token punctuation">,</span> middlewares<span class="token punctuation">,</span> httpsOptions<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token comment">// resolveHttpServer \u65B9\u6CD5\u7528\u6765\u533A\u5206\u4F7F\u7528 http / https / http2 \u6765\u521B\u5EFA server \u5E76\u8FD4\u56DE\u8D4B\u503C\u7ED9 httpServer</span>
+  <span class="token comment">// resolveHttpServer \u65B9\u6CD5\u7528\u6765\u533A\u5206\u4F7F\u7528 http / https / http2 (npm package)\u6765</span>
+  <span class="token comment">// \u521B\u5EFA server \u5E76\u8FD4\u56DE\u8D4B\u503C\u7ED9 httpServer</span>
 
   <span class="token comment">// 3. \u521B\u5EFA webSocket \u5B9E\u4F8B</span>
   <span class="token keyword">const</span> ws <span class="token operator">=</span> <span class="token function">createWebSocketServer</span><span class="token punctuation">(</span>httpServer<span class="token punctuation">,</span> config<span class="token punctuation">,</span> httpsOptions<span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -254,4 +255,4 @@ cli<span class="token punctuation">.</span><span class="token function">parse</s
   <span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token keyword">const</span> closeHttpServer <span class="token operator">=</span> <span class="token function">createServerCloseFn</span><span class="token punctuation">(</span>httpServer<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
-</code></pre></div></li></ol>__VP_STATIC_END__`,5),e=[o];function c(u,l,i,k,r,g){return a(),s("div",null,e)}var f=n(p,[["render",c]]);export{m as __pageData,f as default};
+</code></pre></div></li></ol>`,5),e=[o];function c(u,l,i,k,r,g){return a(),s("div",null,e)}var f=n(p,[["render",c]]);export{m as __pageData,f as default};
