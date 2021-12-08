@@ -7,7 +7,7 @@ node_modules
 
 *.log
 
-dist
-/docs/.vitepress/dist/*
+# dist
+# /docs/.vitepress/dist/*
 
 .vscode
