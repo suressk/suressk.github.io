@@ -293,16 +293,14 @@ vite 的配置如下：
      }) as FSWatcher;
 
      // 5. 创建模块映射图
-     const moduleGraph: ModuleGraph = new ModuleGraph((url) =>
-       container.resolveId(url)
-     );
-
-     // ...... 待续
-
      const container = await createPluginContainer(
        config,
        moduleGraph,
        watcher
+     );
+
+     const moduleGraph: ModuleGraph = new ModuleGraph((url) =>
+       container.resolveId(url)
      );
      const closeHttpServer = createServerCloseFn(httpServer);
    }
