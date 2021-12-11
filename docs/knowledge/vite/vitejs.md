@@ -1,8 +1,8 @@
 ---
-title: 执行 vite 命令做了什么事
+title: vite 命令到 createServer
 ---
 
-我们知道，`package.json` 文件的 `bin` 字段是用来指定命令及命令执行的文件
+我们知道， `package.json` 文件的 `bin` 字段是用来指定命令及命令执行的文件
 
 vite 的配置如下：
 
@@ -18,84 +18,84 @@ vite 的配置如下：
 
 1. 判断当前目录是否包含 `node_modules` 目录，若不包含，则需要 `source-map` 支持
 
-   ```js
+```js
    #!/usr/bin/env node // 固定格式，用来指定命令运行的环境（node）
 
    if (!__dirname.includes("node_modules")) {
-     try {
-       // only available as dev dependency
-       require("source-map-support").install();
-     } catch (e) {}
+       try {
+           // only available as dev dependency
+           require("source-map-support").install();
+       } catch (e) {}
    }
-   ```
+```
 
-2. 检查 `process.argv` 是否是 `debug` 模式
+2. 检查 `process.argv` 是否是 `debug` 模式   
 
-   ```js
+```js
    // check debug mode first before requiring the CLI.
    const debugIndex = process.argv.findIndex((arg) =>
-     /^(?:-d|--debug)$/.test(arg)
+       /^(?:-d|--debug)$/.test(arg)
    );
    const filterIndex = process.argv.findIndex((arg) =>
-     /^(?:-f|--filter)$/.test(arg)
+       /^(?:-f|--filter)$/.test(arg)
    );
 
    if (debugIndex > 0) {
-     let value = process.argv[debugIndex + 1];
-     if (!value || value.startsWith("-")) {
-       value = "vite:*";
-     } else {
-       // support debugging multiple flags
-       // with comma-separated list
-       value = value
-         .split(",")
-         .map((v) => `vite:${v}`)
-         .join(",");
-     }
-     process.env.DEBUG = value;
-
-     if (filterIndex > 0) {
-       const filter = process.argv[filterIndex + 1];
-       if (filter && !filter.startsWith("-")) {
-         process.env.VITE_DEBUG_FILTER = filter;
+       let value = process.argv[debugIndex + 1];
+       if (!value || value.startsWith("-")) {
+           value = "vite:*";
+       } else {
+           // support debugging multiple flags
+           // with comma-separated list
+           value = value
+               .split(",")
+               .map((v) => `vite:${v}`)
+               .join(",");
        }
-     }
+       process.env.DEBUG = value;
+
+       if (filterIndex > 0) {
+           const filter = process.argv[filterIndex + 1];
+           if (filter && !filter.startsWith("-")) {
+               process.env.VITE_DEBUG_FILTER = filter;
+           }
+       }
    }
-   ```
+```
 
 3. 导入编译后的 `cli` 脚本
 
-   ```js
+```js
    const profileIndex = process.argv.indexOf("--profile");
 
    function start() {
-     require("../dist/node/cli");
+       require("../dist/node/cli");
    }
 
    // 如果配置了 profile 参数
    if (profileIndex > 0) {
-     // 截掉 '--profile'
-     process.argv.splice(profileIndex, 1);
-     const next = process.argv[profileIndex];
-     if (next && !next.startsWith("-")) {
+       // 截掉 '--profile'
        process.argv.splice(profileIndex, 1);
-     }
-     // 创建会话连接（webkit inspector）
-     const inspector = require("inspector");
-     const session = (global.__vite_profile_session = new inspector.Session());
-     session.connect();
-     session.post("Profiler.enable", () => {
-       session.post("Profiler.start", start);
-     });
+       const next = process.argv[profileIndex];
+       if (next && !next.startsWith("-")) {
+           process.argv.splice(profileIndex, 1);
+       }
+       // 创建会话连接（webkit inspector）
+       const inspector = require("inspector");
+       const session = (global.__vite_profile_session = new inspector.Session());
+       session.connect();
+       session.post("Profiler.enable", () => {
+           session.post("Profiler.start", start);
+       });
    } else {
-     // 正常启动
-     start();
+       // 正常启动
+       start();
    }
-   ```
+```
 
 4. 进入编译后的 `dist/node/cli.js`，即 `src/node/cli.ts`
 
-   ```ts
+```ts
    import { cac } from "cac"; /* 一个简单且强大的命令行库，比 commander 更轻量 */
    import chalk from "chalk"; /* 美化控制台日志记录 */
    import { performance } from "perf_hooks"; /* node.js 收集性能指标的对象 */
@@ -111,7 +111,7 @@ vite 的配置如下：
 
 5. 全局 cli 选项及清理选项
 
-   ```ts
+```ts
    // global options
    interface GlobalCLIOptions {
      "--"?: string[];
@@ -156,7 +156,7 @@ vite 的配置如下：
 
 6. cli 参数定义，这里我们就只研究一下开发环境下的功能实现，生产环境/预览环境后续再考虑吧～
 
-   ```ts
+```ts
    // 下面是一些核心参数，如 -c 指定配置文件等
    cli
      .option("-c, --config <file>", `[string] use specified config file`)
@@ -197,16 +197,16 @@ vite 的配置如下：
    cli.parse(); // 解析命令行参数
    ```
 
-   `devAction 函数`：
+`devAction 函数` ：
 
-   ```ts
+```ts
    const devAction = async (
      root: string,
      options: ServerOptions & GlobalCLIOptions
    ) => {
      // output structure is preserved even after bundling so require()
      // is ok here
-     const { createServer } = await import("./server"); // 动态导入创建 dev-server
+     const { createServer } = await import("./server"); // 导入创建 dev-server
      try {
        const server = await createServer({
          root,
@@ -257,7 +257,7 @@ vite 的配置如下：
 
 7. 接下来，我们进入 server 模块，查看 `createServer`：
 
-   ```ts
+```ts
    export async function createServer(
      inlineConfig: InlineConfig = {}
    ): Promise<ViteDevServer> {
@@ -292,7 +292,7 @@ vite 的配置如下：
        ...watchOptions,
      }) as FSWatcher;
 
-     // 5. 创建模块映射图
+     // 5. 创建 pluginContainer，创建模块映射表
      const container = await createPluginContainer(
        config,
        moduleGraph,
@@ -303,5 +303,77 @@ vite 的配置如下：
        container.resolveId(url)
      );
      const closeHttpServer = createServerCloseFn(httpServer);
+
+     // 6. 创建 server 对象
+     const server: ViteServer = {
+       config,
+       middlewares,
+       get app() {
+         // 过期的 api
+         return middlewares
+       },
+       httpServer,
+       watcher,
+       pluginContainer: container,
+       ws,
+       moduleGraph,
+       transformWithEsbuild,
+       transformRequest(url, options) {
+         return transformRequest(url, server, options)
+       },
+       transformIndexHtml: null!, // to be immediately set
+       ssrLoadModule(url) {
+         // ... 服务端渲染加载 module
+       },
+       listen(port?: number, isRestart?: boolean) {
+         // 启动 dev-server 方法
+         return startServer(server, port, isRestart)
+       },
+       async close() {
+         // 退出 dev-server
+         // watcher，ws，container，httpServer
+       },
+       printUrls() {
+         // 打印日志
+       },
+       async restart(forceOptimize: boolean) {
+         // 调用 restartServer 方法，重启 dev-server
+       },
+       // _xxxx  一些私有属性
+     }
+
+     // 立即创建转换 html 的方法
+     server.transformIndexHtml = createDevHtmlTransformFn(server);
+
+     // 7. package 缓存
+     const { packageCache } = config
+     const setPackageData = packageCache.set.bind(packageCache)
+       packageCache.set = (id, pkg) => {
+         if (id.endsWith('.json')) {
+           watcher.add(id)
+         }
+         return setPackageData(id, pkg)
+     }
+
+     // 8. watcher 监听文件变化：change, add, unlink
+     watcher.on('change', async (file) => {
+       // 格式化文件路径
+       file = normalizePath(file)
+       // 若是 package.json 文件变化，校验依赖是否变更
+       // 内部应当会判定是否需要重新使用 esbuild 打包第三方依赖
+       // 判断是否开启 hmr（默认开启）
+       // handleHMRUpdate(file, server) 触发热更新
+     })
+
+     watcher.on('add', (file) => {
+       handleFileAddUnlink(normalizePath(file), server)
+     })
+
+     watcher.on('unlink', (file) => {
+       handleFileAddUnlink(normalizePath(file), server, true)
+     })
+
+     // 9. 一堆中间件的应用
+     // /node/server/middlewares/*.ts
    }
    ```
