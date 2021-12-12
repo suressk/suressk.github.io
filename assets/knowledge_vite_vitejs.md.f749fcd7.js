@@ -1,4 +1,4 @@
-import{_ as n,c as s,o as a,b as t}from"./app.2533d377.js";const m='{"title":"vite \u547D\u4EE4\u5230 createServer","description":"","frontmatter":{"title":"vite \u547D\u4EE4\u5230 createServer"},"relativePath":"knowledge/vite/vitejs.md","lastUpdated":1639191337473}',p={},o=t(`__VP_STATIC_START__<p>\u6211\u4EEC\u77E5\u9053\uFF0C <code>package.json</code> \u6587\u4EF6\u7684 <code>bin</code> \u5B57\u6BB5\u662F\u7528\u6765\u6307\u5B9A\u547D\u4EE4\u53CA\u547D\u4EE4\u6267\u884C\u7684\u6587\u4EF6</p><p>vite \u7684\u914D\u7F6E\u5982\u4E0B\uFF1A</p><div class="language-json"><pre><code><span class="token punctuation">{</span>
+import{_ as n,c as s,o as a,b as t}from"./app.d3ef2085.js";const m='{"title":"vite \u547D\u4EE4\u5230 createServer","description":"","frontmatter":{"title":"vite \u547D\u4EE4\u5230 createServer"},"relativePath":"knowledge/vite/vitejs.md","lastUpdated":1639329517846}',p={},o=t(`<p>\u6211\u4EEC\u77E5\u9053\uFF0C <code>package.json</code> \u6587\u4EF6\u7684 <code>bin</code> \u5B57\u6BB5\u662F\u7528\u6765\u6307\u5B9A\u547D\u4EE4\u53CA\u547D\u4EE4\u6267\u884C\u7684\u6587\u4EF6</p><p>vite \u7684\u914D\u7F6E\u5982\u4E0B\uFF1A</p><div class="language-json"><pre><code><span class="token punctuation">{</span>
   <span class="token property">&quot;bin&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
     <span class="token property">&quot;vite&quot;</span><span class="token operator">:</span> <span class="token string">&quot;bin/vite.js&quot;</span>
   <span class="token punctuation">}</span>
@@ -325,4 +325,4 @@ import{_ as n,c as s,o as a,b as t}from"./app.2533d377.js";const m='{"title":"vi
      <span class="token comment">// 9. \u4E00\u5806\u4E2D\u95F4\u4EF6\u7684\u5E94\u7528</span>
      <span class="token comment">// /node/server/middlewares/*.ts</span>
    <span class="token punctuation">}</span>
-</code></pre></div>__VP_STATIC_END__`,20),e=[o];function c(u,l,i,k,r,d){return a(),s("div",null,e)}var f=n(p,[["render",c]]);export{m as __pageData,f as default};
+</code></pre></div>`,20),e=[o];function c(u,l,i,k,r,d){return a(),s("div",null,e)}var f=n(p,[["render",c]]);export{m as __pageData,f as default};

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>resolveConfig 参数解析 | K.island ✨</title>
+    <meta name="description" content="K.'s island">
+    <link rel="stylesheet" href="/assets/style.019f39fc.css">
+    <link rel="modulepreload" href="/assets/Home.8881e721.js">
+    <link rel="modulepreload" href="/assets/app.d3ef2085.js">
+    <link rel="modulepreload" href="/assets/knowledge_vite_resolveConfig.md.e51f2c2e.lean.js">
+    <link rel="modulepreload" href="/assets/app.d3ef2085.js">
+    <link rel="icon" href="/favicon.ico" sizes="64x64">
+    <link rel="apple-touch-icon-precomposed" href="/favicon.ico" sizes="64x64">
+    <link rel="msapplication-square64x64logo" href="/favicon.ico" sizes="64x64">
+    <meta name="twitter:title" content="resolveConfig 参数解析 | K.island ✨">
+    <meta property="og:title" content="resolveConfig 参数解析 | K.island ✨">
+  </head>
+  <body>
+    <div id="app"><!--[--><div class="theme"><header class="nav-bar" data-v-675d8756><div class="sidebar-button" data-v-675d8756><svg class="icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z" class></path></svg></div><a class="nav-bar-title" href="/" aria-label="K.island ✨, back to home" data-v-675d8756 data-v-4a583abe><!----> K.island ✨</a><div class="flex-grow" data-v-675d8756></div><div class="nav" data-v-675d8756><nav class="nav-links" data-v-675d8756 data-v-eab3edfe><!--[--><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item" href="/" data-v-b8818f8c>Home <!----></a></div></div><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item" href="/mood/index" data-v-b8818f8c>Mood <!----></a></div></div><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item active" href="/knowledge/index" data-v-b8818f8c>Knowledge <!----></a></div></div><!--]--><!----><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item isExternal" href="https://github.com/suressk" target="_blank" rel="noopener noreferrer" data-v-b8818f8c>GitHub <svg class="icon outbound" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15" data-v-b8818f8c><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div></div></nav></div><!--[--><!--]--></header><aside class="sidebar" data-v-83e92a68><nav class="nav-links nav" data-v-83e92a68 data-v-eab3edfe><!--[--><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item" href="/" data-v-b8818f8c>Home <!----></a></div></div><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item" href="/mood/index" data-v-b8818f8c>Mood <!----></a></div></div><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item active" href="/knowledge/index" data-v-b8818f8c>Knowledge <!----></a></div></div><!--]--><!----><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item isExternal" href="https://github.com/suressk" target="_blank" rel="noopener noreferrer" data-v-b8818f8c>GitHub <svg class="icon outbound" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15" data-v-b8818f8c><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div></div></nav><!--[--><!--]--><ul class="sidebar-links" data-v-83e92a68><!--[--><li class="sidebar-link"><p class="sidebar-link-item">Introduction</p><!----></li><li class="sidebar-link"><p class="sidebar-link-item">Study Note</p><ul class="sidebar-links"><li class="sidebar-link"><a class="sidebar-link-item" href="/knowledge/study/jsEventLoop">JS EventLoop</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/knowledge/study/promise">Promise</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/knowledge/study/vueNextTick">Vue NextTick</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/knowledge/study/algorithm">Algorithm</a><!----></li></ul></li><li class="sidebar-link"><p class="sidebar-link-item">Vite</p><ul class="sidebar-links"><li class="sidebar-link"><a class="sidebar-link-item" href="/knowledge/vite/index">Vite 原理简介</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/knowledge/vite/vitejs">从 vite 到 createServer</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item active" href="/knowledge/vite/resolveConfig">resolveConfig</a><!----></li></ul></li><!--]--></ul><!--[--><!--]--></aside><!-- TODO: make this button accessible --><div class="sidebar-mask"></div><main class="page" data-v-7eddb2c4><div class="container" data-v-7eddb2c4><!--[--><!--]--><div style="position:relative;" class="content" data-v-7eddb2c4><div><p>本文旨在分析 vite 源码中解析 config 参数的函数 <code>resolveConfig</code></p><h4 id="config-来源" tabindex="-1">config 来源 <a class="header-anchor" href="#config-来源" aria-hidden="true">#</a></h4><ol><li><p>inlineConfig：来自命令行或配置的 <code>npm scripts</code></p></li><li><p>vite.config.ts/vite.config.js：用户配置的文件</p></li><li><p>Plugin.config：插件的 config 方法返回的配置项</p></li></ol><h4 id="涉及功能" tabindex="-1">涉及功能 <a class="header-anchor" href="#涉及功能" aria-hidden="true">#</a></h4><ol><li><p>设置 <code>--configFile false</code> 参数来禁用配置文件</p></li><li><p>按需加载插件</p></li><li><p>插件强制顺序</p></li><li><p>加载 <code>.env</code> 文件</p></li><li><p><code>plugin.config</code> 钩子函数</p></li><li><p><code>plugin.configResolved</code> 钩子函数</p></li></ol><h4 id="流程" tabindex="-1">流程 <a class="header-anchor" href="#流程" aria-hidden="true">#</a></h4><ol><li>入口：</li></ol><div class="language-ts"><pre><code><span class="token comment">// /src/node/config.ts</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> resolveConfig<span class="token punctuation">,</span> InlineConfig<span class="token punctuation">,</span> ResolvedConfig <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&#39;../config&#39;</span>
+
+<span class="token keyword">const</span> config <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">resolveConfig</span><span class="token punctuation">(</span>inlineConfig<span class="token punctuation">,</span> <span class="token string">&#39;serve&#39;</span><span class="token punctuation">,</span> <span class="token string">&#39;development&#39;</span><span class="token punctuation">)</span>
+</code></pre></div><ol start="2"><li>参数：</li></ol><div class="language-ts"><pre><code><span class="token keyword">function</span> <span class="token function">resolveConfig</span><span class="token punctuation">(</span>
+  inlineConfig<span class="token operator">:</span> InlineConfig<span class="token punctuation">,</span>
+  command<span class="token operator">:</span> <span class="token string">&#39;build&#39;</span> <span class="token operator">|</span> <span class="token string">&#39;serve&#39;</span><span class="token punctuation">,</span>
+  defaultMode <span class="token operator">=</span> <span class="token string">&#39;development&#39;</span>
+<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">Promise</span><span class="token operator">&lt;</span>ResolvedConfig<span class="token operator">&gt;</span>
+</code></pre></div><ol start="3"><li>设置 <code>config</code>，<code>mode</code>，<code>configFileDependencies</code></li></ol><div class="language-ts"><pre><code><span class="token keyword">let</span> config <span class="token operator">=</span> inlineConfig <span class="token comment">// 存储配置</span>
+<span class="token keyword">let</span> configFileDependencies<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token comment">// 存储配置依赖</span>
+<span class="token keyword">let</span> mode <span class="token operator">=</span> inlineConfig<span class="token punctuation">.</span>mode <span class="token operator">||</span> defaultMode <span class="token comment">// 设置 mode</span>
+
+<span class="token keyword">if</span> <span class="token punctuation">(</span>mode <span class="token operator">===</span> <span class="token string">&#39;production&#39;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">NODE_ENV</span> <span class="token operator">=</span> <span class="token string">&#39;production&#39;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">const</span> configEnv <span class="token operator">=</span> <span class="token punctuation">{</span>
+  mode<span class="token punctuation">,</span>
+  command
+<span class="token punctuation">}</span>
+</code></pre></div><ol start="4"><li>加载配置文件，重置配置 <code>mode</code>，同时知道可以使用 <strong><code>--configFile false</code></strong> 来禁用配置文件</li></ol><div class="language-ts"><pre><code><span class="token keyword">let</span> <span class="token punctuation">{</span> configFile <span class="token punctuation">}</span> <span class="token operator">=</span> config
+<span class="token keyword">if</span> <span class="token punctuation">(</span>configFile <span class="token operator">!==</span> <span class="token boolean">false</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> loadResult <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">loadConfigFromFile</span><span class="token punctuation">(</span>
+    configEnv<span class="token punctuation">,</span>
+    configFile<span class="token punctuation">,</span>
+    config<span class="token punctuation">.</span>root<span class="token punctuation">,</span>
+    config<span class="token punctuation">.</span>logLevel
+  <span class="token punctuation">)</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>loadResult<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    config <span class="token operator">=</span> <span class="token function">mergeConfig</span><span class="token punctuation">(</span>loadResult<span class="token punctuation">.</span>config<span class="token punctuation">,</span> config<span class="token punctuation">)</span>
+    configFile <span class="token operator">=</span> loadResult<span class="token punctuation">.</span>path
+    configFileDependencies <span class="token operator">=</span> loadResult<span class="token punctuation">.</span>dependencies
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+mode <span class="token operator">=</span> inlineConfig<span class="token punctuation">.</span>mode <span class="token operator">||</span> config<span class="token punctuation">.</span>mode <span class="token operator">||</span> mode
+configEnv<span class="token punctuation">.</span>mode <span class="token operator">=</span> mode
+</code></pre></div><p><code>loadConfigFromFile</code> 就是根据项目目录，获取相关的配置文件，当使用配置文件类型是 ts 且使用 ES Module 时，会被 esbuild 转义读取，然后删除转义后的文件</p><div class="language-ts"><pre><code><span class="token keyword">function</span> <span class="token function">loadConfigFromFile</span><span class="token punctuation">(</span>
+  configEnv<span class="token operator">:</span> ConfigEnv<span class="token punctuation">,</span>
+  configFile<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+  configRoot<span class="token operator">:</span> <span class="token builtin">string</span> <span class="token operator">=</span> process<span class="token punctuation">.</span><span class="token function">cwd</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  logLevel<span class="token operator">?</span><span class="token operator">:</span> LogLevel
+<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">Promise</span><span class="token operator">&lt;</span><span class="token punctuation">{</span>
+  path<span class="token operator">:</span> <span class="token builtin">string</span>
+  config<span class="token operator">:</span> UserConfig
+  dependencies<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span> <span class="token operator">|</span> <span class="token keyword">null</span><span class="token operator">&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> resolvedPath<span class="token operator">:</span> <span class="token builtin">string</span> <span class="token operator">|</span> <span class="token keyword">undefined</span> <span class="token comment">// 路径</span>
+  <span class="token keyword">let</span> isTS <span class="token operator">=</span> <span class="token boolean">false</span> <span class="token comment">// 是否是 ts</span>
+  <span class="token keyword">let</span> isESM <span class="token operator">=</span> <span class="token boolean">false</span> <span class="token comment">// 是否是 ES Module</span>
+  <span class="token keyword">let</span> dependencies<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token comment">// 依赖</span>
+
+  <span class="token comment">// 检查 package.json 并检测类型，将 isESM 置为 true</span>
+  <span class="token keyword">try</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> pkg <span class="token operator">=</span> <span class="token function">lookupFile</span><span class="token punctuation">(</span>configRoot<span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token string">&#39;package.json&#39;</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>pkg <span class="token operator">&amp;&amp;</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>pkg<span class="token punctuation">)</span><span class="token punctuation">.</span>type <span class="token operator">===</span> <span class="token string">&#39;module&#39;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      isESM <span class="token operator">=</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+  <span class="token comment">// 判定是否有 configFile 参数</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>configFile<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    resolvedPath <span class="token operator">=</span> path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>configFile<span class="token punctuation">)</span>
+    isTS <span class="token operator">=</span> configFile<span class="token punctuation">.</span><span class="token function">endsWith</span><span class="token punctuation">(</span><span class="token string">&#39;.ts&#39;</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>configFile<span class="token punctuation">.</span><span class="token function">endsWith</span><span class="token punctuation">(</span><span class="token string">&#39;.mjs&#39;</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      isESM <span class="token operator">=</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 依次检测 configRoot 路径下是否有以下配置文件（fs.existsSync）：</span>
+    <span class="token comment">// vite.config.js</span>
+    <span class="token comment">// vite.config.mjs（存在则取其配置，并将 isESM = true）</span>
+    <span class="token comment">// vite.config.ts（存在则取其配置，并将 isESM = true）</span>
+    <span class="token comment">// 按上面检测顺序优先级，取配置文件路径存储到 resolvedPath</span>
+    resolvedPath <span class="token operator">=</span> path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>configRoot<span class="token punctuation">,</span> <span class="token string">&#39;vite.config.[xx]&#39;</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment">// 若均为取到配置文件的路径</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>resolvePath<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">debug</span><span class="token punctuation">(</span><span class="token string">&#39;no config file found.&#39;</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token keyword">null</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">let</span> userConfig<span class="token operator">:</span> UserConfigExport <span class="token operator">|</span> <span class="token keyword">undefined</span>
+
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>isESM <span class="token operator">&amp;&amp;</span> isTS<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> fileUrl <span class="token operator">=</span> <span class="token keyword">require</span><span class="token punctuation">(</span><span class="token string">&#39;url&#39;</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">pathToFileURL</span><span class="token punctuation">(</span>resolvedPath<span class="token punctuation">)</span>
+    <span class="token comment">// esbuild 打包</span>
+    <span class="token keyword">const</span> bundled <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">bundleConfigFile</span><span class="token punctuation">(</span>resolvedPath<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span>
+    dependencies <span class="token operator">=</span> bundled<span class="token punctuation">.</span>dependencies
+
+    fs<span class="token punctuation">.</span><span class="token function">writeFileSync</span><span class="token punctuation">(</span>resolvedPath <span class="token operator">+</span> <span class="token string">&#39;.js&#39;</span><span class="token punctuation">,</span> bundled<span class="token punctuation">.</span>code<span class="token punctuation">)</span> <span class="token comment">// 暂存读取的配置</span>
+    userConfig <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">await</span> <span class="token function">dynamicImport</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>fileUrl<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">.js?t=</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>Date<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span>default
+    fs<span class="token punctuation">.</span><span class="token function">unlinkSync</span><span class="token punctuation">(</span>resolvedPath <span class="token operator">+</span> <span class="token string">&#39;.js&#39;</span><span class="token punctuation">)</span> <span class="token comment">// 删除临时文件</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><ol start="5"><li>解析应用插件，<a href="https://cn.vitejs.dev/guide/using-plugins.html#conditional-application" target="_blank" rel="noopener noreferrer">按需加载 plugin.apply 属性</a>，<a href="https://cn.vitejs.dev/guide/using-plugins.html#enforcing-plugin-ordering" target="_blank" rel="noopener noreferrer">强制插件排序 plugin.enforce 属性</a>，<a href="https://cn.vitejs.dev/guide/api-plugin.html#config" target="_blank" rel="noopener noreferrer">执行 plugin.config 钩子函数</a>，添加用户配置</li></ol><div class="language-ts"><pre><code><span class="token comment">// resolve plugins</span>
+<span class="token comment">// 扁平数组，筛选应用在当前 command 下的插件</span>
+<span class="token keyword">const</span> rawUserPlugins <span class="token operator">=</span> <span class="token punctuation">(</span>config<span class="token punctuation">.</span>plugins <span class="token operator">||</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">flat</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>p<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token boolean">false</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>p<span class="token punctuation">.</span>apply<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token boolean">true</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> p<span class="token punctuation">.</span>apply <span class="token operator">===</span> <span class="token string">&#39;function&#39;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token function">p</span><span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token operator">...</span>config<span class="token punctuation">,</span> mode <span class="token punctuation">}</span><span class="token punctuation">,</span> configEnv<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> p<span class="token punctuation">.</span>apply <span class="token operator">===</span> command
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token keyword">as</span> Plugin<span class="token punctuation">[</span><span class="token punctuation">]</span>
+<span class="token comment">// sortUserPlugins 方法根据插件的 enforce 参数进行排序：</span>
+<span class="token comment">// pre： Vite 核心插件之【前】调用</span>
+<span class="token comment">// 默认： Vite 核心插件之【后】调用</span>
+<span class="token comment">// post： Vite 核心插件之【后】调用</span>
+<span class="token keyword">const</span> <span class="token punctuation">[</span>prePlugins<span class="token punctuation">,</span> normalPlugins<span class="token punctuation">,</span> postPlugins<span class="token punctuation">]</span> <span class="token operator">=</span>
+  <span class="token function">sortUserPlugins</span><span class="token punctuation">(</span>rawUserPlugins<span class="token punctuation">)</span>
+<span class="token comment">// 执行 plugin.config 钩子函数，再次配置</span>
+<span class="token keyword">const</span> userPlugins <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span>prePlugins<span class="token punctuation">,</span> <span class="token operator">...</span>normalPlugins<span class="token punctuation">,</span> <span class="token operator">...</span>postPlugins<span class="token punctuation">]</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> p <span class="token keyword">of</span> userPlugins<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>p<span class="token punctuation">.</span>config<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span> p<span class="token punctuation">.</span><span class="token function">config</span><span class="token punctuation">(</span>config<span class="token punctuation">,</span> configEnv<span class="token punctuation">)</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>res<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      config <span class="token operator">=</span> <span class="token function">mergeConfig</span><span class="token punctuation">(</span>config<span class="token punctuation">,</span> res<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><ol start="6"><li>解析 <code>resolve</code> 参数：<code>alias</code>、<code>dedupe</code>。这两个参数可以用于 resolve 同级，此处解析 <code>/^[\/]?@vite\/env/</code> 和 <code>/^[\/]?@vite\/client/</code>，是为了解析 hmr 的客户端文件路径</li></ol><div class="language-ts"><pre><code><span class="token keyword">const</span> clientAlias <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span> find<span class="token operator">:</span> <span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">^[\/]?@vite\/env</span><span class="token regex-delimiter">/</span></span><span class="token punctuation">,</span> <span class="token function-variable function">replacement</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token constant">ENV_ENTRY</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> find<span class="token operator">:</span> <span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">^[\/]?@vite\/client</span><span class="token regex-delimiter">/</span></span><span class="token punctuation">,</span> <span class="token function-variable function">replacement</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token constant">CLIENT_ENTRY</span> <span class="token punctuation">}</span>
+<span class="token punctuation">]</span>
+<span class="token keyword">const</span> resolvedAlias <span class="token operator">=</span> <span class="token function">mergeAlias</span><span class="token punctuation">(</span>
+  clientAlias<span class="token punctuation">,</span>
+  config<span class="token punctuation">.</span>resolve<span class="token operator">?.</span>alias <span class="token operator">||</span> config<span class="token punctuation">.</span>alias <span class="token operator">||</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+<span class="token punctuation">)</span>
+<span class="token keyword">const</span> resolveOptions<span class="token operator">:</span> ResolvedConfig<span class="token punctuation">[</span><span class="token string">&#39;resolve&#39;</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+  dedupe<span class="token operator">:</span> config<span class="token punctuation">.</span>dedupe<span class="token punctuation">,</span>
+  <span class="token operator">...</span>config<span class="token punctuation">.</span>resolve<span class="token punctuation">,</span>
+  alias<span class="token operator">:</span> resolvedAlias
+<span class="token punctuation">}</span>
+</code></pre></div><ol start="7"><li>加载 <a href="https://cn.vitejs.dev/guide/env-and-mode.html#env-files" target="_blank" rel="noopener noreferrer">.env 文件</a> 配置用户环境变量，官网 <a href="https://cn.vitejs.dev/guide/env-and-mode.html#modes" target="_blank" rel="noopener noreferrer">区分 pro/dev 环境和模式</a> 也有体现。至此，用户有三次改变 pro/dev 的环境和模式：1. 命令行指定；2. 配置文件；3. <code>.env</code> 文件。而且，这里有通过 <code>--envFile false</code> 禁用加载 <code>.env</code> 文件，但可见上一篇 <code>cli 并未配置这个 option</code></li></ol><div class="language-ts"><pre><code><span class="token keyword">const</span> resolvedRoot <span class="token operator">=</span> <span class="token function">normalizePath</span><span class="token punctuation">(</span>
+  config<span class="token punctuation">.</span>root <span class="token operator">?</span> path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>config<span class="token punctuation">.</span>root<span class="token punctuation">)</span> <span class="token operator">:</span> process<span class="token punctuation">.</span><span class="token function">cwd</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span>
+
+<span class="token keyword">const</span> envDir <span class="token operator">=</span> config<span class="token punctuation">.</span>envDir
+  <span class="token operator">?</span> <span class="token function">normalizePath</span><span class="token punctuation">(</span>path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>resolvedRoot<span class="token punctuation">,</span> config<span class="token punctuation">.</span>envDir<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token operator">:</span> resolvedRoot
+
+<span class="token keyword">const</span> userEnv <span class="token operator">=</span>
+  inlineConfig<span class="token punctuation">.</span>envFile <span class="token operator">!==</span> <span class="token boolean">false</span> <span class="token operator">&amp;&amp;</span>
+  <span class="token function">loadEnv</span><span class="token punctuation">(</span>mode<span class="token punctuation">,</span> envDir<span class="token punctuation">,</span> <span class="token function">resolveEnvPrefix</span><span class="token punctuation">(</span>config<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token keyword">const</span> isProduction <span class="token operator">=</span> <span class="token punctuation">(</span>process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">VITE_USER_NODE_ENV</span> <span class="token operator">||</span> mode<span class="token punctuation">)</span> <span class="token operator">===</span> <span class="token string">&#39;production&#39;</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>isProduction<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// in case default mode was not production and is overwritten</span>
+  process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">NODE_ENV</span> <span class="token operator">=</span> <span class="token string">&#39;production&#39;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p><code>loadEnv</code> 方法就是根据 mode 使用 <code>dotenv</code> (npm pkg) 加载环境下的 .env 文件，并 <a href="https://cn.vitejs.dev/guide/env-and-mode.html#env-files" target="_blank" rel="noopener noreferrer">判断 &#39;VITE__&#39; 前缀</a>，同时根据 <a href="https://cn.vitejs.dev/guide/env-and-mode.html#modes" target="_blank" rel="noopener noreferrer">用户配置的 NODE_ENV</a> 配置 <code>VITE_USER_NODE_ENV</code> 变量</p><div class="language-ts"><pre><code><span class="token keyword">function</span> <span class="token function">loadEnv</span><span class="token punctuation">(</span>
+  mode<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+  envDir<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+  prefixes<span class="token operator">:</span> <span class="token builtin">string</span> <span class="token operator">|</span> <span class="token builtin">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">&#39;VITE_&#39;</span>
+<span class="token punctuation">)</span><span class="token operator">:</span> Record<span class="token operator">&lt;</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token builtin">string</span><span class="token operator">&gt;</span> <span class="token punctuation">{</span>
+  prefixes <span class="token operator">=</span> <span class="token function">arraify</span><span class="token punctuation">(</span>prefixes<span class="token punctuation">)</span> <span class="token comment">// string =&gt; string[]</span>
+  <span class="token keyword">const</span> env<span class="token operator">:</span> Record<span class="token operator">&lt;</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token builtin">string</span><span class="token operator">&gt;</span> <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+  <span class="token keyword">const</span> envFiles <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">.env.</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>mode<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">.local</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span>
+    <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">.env.</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>mode<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span>
+    <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">.env.local</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span>
+    <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">.env</span><span class="token template-punctuation string">`</span></span>
+  <span class="token punctuation">]</span>
+
+  <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> key <span class="token keyword">in</span> process<span class="token punctuation">.</span>env<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>
+      prefixes<span class="token punctuation">.</span><span class="token function">some</span><span class="token punctuation">(</span><span class="token punctuation">(</span>prefix<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> key<span class="token punctuation">.</span><span class="token function">startsWith</span><span class="token punctuation">(</span>prefix<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span>
+      env<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">===</span> <span class="token keyword">undefined</span>
+    <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      env<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> process<span class="token punctuation">.</span>env<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token keyword">as</span> <span class="token builtin">string</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> file <span class="token keyword">of</span> envFiles<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> path <span class="token operator">=</span> <span class="token function">lookupFile</span><span class="token punctuation">(</span>envDir<span class="token punctuation">,</span> <span class="token punctuation">[</span>file<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>path<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> parsed <span class="token operator">=</span> dotenv<span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>fs<span class="token punctuation">.</span><span class="token function">readFileSync</span><span class="token punctuation">(</span>path<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+        debug<span class="token operator">:</span> <span class="token operator">!</span><span class="token operator">!</span>process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">DEBUG</span> <span class="token operator">||</span> <span class="token keyword">undefined</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+      <span class="token comment">// let environment variables use each other</span>
+      <span class="token function">dotenvExpand</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        parsed<span class="token punctuation">,</span>
+        <span class="token comment">// prevent process.<wbr>env mutation</span>
+        ignoreProcessEnv<span class="token operator">:</span> <span class="token boolean">true</span>
+      <span class="token punctuation">}</span> <span class="token keyword">as</span> <span class="token builtin">any</span><span class="token punctuation">)</span>
+
+      <span class="token comment">// only keys that start with prefix are exposed to client</span>
+      <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token punctuation">[</span>key<span class="token punctuation">,</span> value<span class="token punctuation">]</span> <span class="token keyword">of</span> Object<span class="token punctuation">.</span><span class="token function">entries</span><span class="token punctuation">(</span>parsed<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>
+          prefixes<span class="token punctuation">.</span><span class="token function">some</span><span class="token punctuation">(</span><span class="token punctuation">(</span>prefix<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> key<span class="token punctuation">.</span><span class="token function">startsWith</span><span class="token punctuation">(</span>prefix<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span>
+          env<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">===</span> <span class="token keyword">undefined</span>
+        <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          env<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> value
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>key <span class="token operator">===</span> <span class="token string">&#39;NODE_ENV&#39;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token comment">// NODE_ENV override in .env file</span>
+          process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">VITE_USER_NODE_ENV</span> <span class="token operator">=</span> value
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> env
+<span class="token punctuation">}</span>
+</code></pre></div><ol start="8"><li>解析 <a href="https://cn.vitejs.dev/config/#base" target="_blank" rel="noopener noreferrer">BASE_URL</a>，<a href="https://cn.vitejs.dev/config/#build-options" target="_blank" rel="noopener noreferrer">buildOptions</a>，<a href="https://cn.vitejs.dev/config/#cachedir" target="_blank" rel="noopener noreferrer">cacheDir</a>，<a href="https://cn.vitejs.dev/config/#assetsinclude" target="_blank" rel="noopener noreferrer">assetsFilter</a>，<a href="https://cn.vitejs.dev/config/#publicdir" target="_blank" rel="noopener noreferrer">publicDir</a></li></ol><div class="language-ts"><pre><code><span class="token keyword">const</span> <span class="token constant">BASE_URL</span> <span class="token operator">=</span> <span class="token function">resolveBaseUrl</span><span class="token punctuation">(</span>config<span class="token punctuation">.</span>base<span class="token punctuation">,</span> command <span class="token operator">===</span> <span class="token string">&#39;build&#39;</span><span class="token punctuation">,</span> logger<span class="token punctuation">)</span>
+<span class="token keyword">const</span> resolvedBuildOptions <span class="token operator">=</span> <span class="token function">resolveBuildOptions</span><span class="token punctuation">(</span>resolvedRoot<span class="token punctuation">,</span> config<span class="token punctuation">.</span>build<span class="token punctuation">)</span>
+<span class="token comment">// resolve cache directory</span>
+<span class="token keyword">const</span> pkgPath <span class="token operator">=</span> <span class="token function">lookupFile</span><span class="token punctuation">(</span>
+  resolvedRoot<span class="token punctuation">,</span>
+  <span class="token punctuation">[</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">package.json</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token boolean">true</span> <span class="token comment">/* pathOnly */</span>
+<span class="token punctuation">)</span>
+<span class="token keyword">const</span> cacheDir <span class="token operator">=</span> config<span class="token punctuation">.</span>cacheDir
+  <span class="token operator">?</span> path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>resolvedRoot<span class="token punctuation">,</span> config<span class="token punctuation">.</span>cacheDir<span class="token punctuation">)</span>
+  <span class="token operator">:</span> pkgPath <span class="token operator">&amp;&amp;</span> path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>path<span class="token punctuation">.</span><span class="token function">dirname</span><span class="token punctuation">(</span>pkgPath<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">node_modules/.vite</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span>
+
+<span class="token keyword">const</span> assetsFilter <span class="token operator">=</span> config<span class="token punctuation">.</span>assetsInclude
+  <span class="token operator">?</span> <span class="token function">createFilter</span><span class="token punctuation">(</span>config<span class="token punctuation">.</span>assetsInclude<span class="token punctuation">)</span>
+  <span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token boolean">false</span>
+
+<span class="token keyword">const</span> <span class="token punctuation">{</span> publicDir <span class="token punctuation">}</span> <span class="token operator">=</span> config
+<span class="token keyword">const</span> resolvedPublicDir <span class="token operator">=</span>
+  publicDir <span class="token operator">!==</span> <span class="token boolean">false</span> <span class="token operator">&amp;&amp;</span> publicDir <span class="token operator">!==</span> <span class="token string">&#39;&#39;</span>
+    <span class="token operator">?</span> path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>
+        resolvedRoot<span class="token punctuation">,</span>
+        <span class="token keyword">typeof</span> publicDir <span class="token operator">===</span> <span class="token string">&#39;string&#39;</span> <span class="token operator">?</span> publicDir <span class="token operator">:</span> <span class="token string">&#39;public&#39;</span>
+      <span class="token punctuation">)</span>
+    <span class="token operator">:</span> <span class="token string">&#39;&#39;</span>
+</code></pre></div><ol start="9"><li>添加内置插件，如 css 解析，ts 解析等，并对所有插件 <a href="https://cn.vitejs.dev/guide/api-plugin.html#handlehotupdate" target="_blank" rel="noopener noreferrer">排序</a></li></ol><div class="language-ts"><pre><code><span class="token punctuation">(</span>resolved<span class="token punctuation">.</span>plugins <span class="token keyword">as</span> Plugin<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">resolvePlugins</span><span class="token punctuation">(</span>
+  resolved<span class="token punctuation">,</span>
+  prePlugins<span class="token punctuation">,</span>
+  normalPlugins<span class="token punctuation">,</span>
+  postPlugins
+<span class="token punctuation">)</span>
+<span class="token comment">// call configResolved hooks</span>
+<span class="token keyword">await</span> <span class="token builtin">Promise</span><span class="token punctuation">.</span><span class="token function">all</span><span class="token punctuation">(</span>userPlugins<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> p<span class="token punctuation">.</span>configResolved<span class="token operator">?.</span><span class="token punctuation">(</span>resolved<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">resolvePlugins</span><span class="token punctuation">(</span>
+  config<span class="token operator">:</span> ResolvedConfig<span class="token punctuation">,</span>
+  prePlugins<span class="token operator">:</span> Plugin<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  normalPlugins<span class="token operator">:</span> Plugin<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  postPlugins<span class="token operator">:</span> Plugin<span class="token punctuation">[</span><span class="token punctuation">]</span>
+<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">Promise</span><span class="token operator">&lt;</span>Plugin<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> isBuild <span class="token operator">=</span> config<span class="token punctuation">.</span>command <span class="token operator">===</span> <span class="token string">&#39;build&#39;</span>
+
+  <span class="token keyword">const</span> buildPlugins <span class="token operator">=</span> isBuild
+    <span class="token operator">?</span> <span class="token punctuation">(</span><span class="token keyword">await</span> <span class="token keyword">import</span><span class="token punctuation">(</span><span class="token string">&#39;../build&#39;</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">resolveBuildPlugins</span><span class="token punctuation">(</span>config<span class="token punctuation">)</span>
+    <span class="token operator">:</span> <span class="token punctuation">{</span> pre<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> post<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">}</span>
+
+  <span class="token keyword">return</span> <span class="token punctuation">[</span>
+    isBuild <span class="token operator">?</span> <span class="token keyword">null</span> <span class="token operator">:</span> <span class="token function">preAliasPlugin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token function">aliasPlugin</span><span class="token punctuation">(</span><span class="token punctuation">{</span> entries<span class="token operator">:</span> config<span class="token punctuation">.</span>resolve<span class="token punctuation">.</span>alias <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token operator">...</span>prePlugins<span class="token punctuation">,</span>
+    config<span class="token punctuation">.</span>build<span class="token punctuation">.</span>polyfillModulePreload
+      <span class="token operator">?</span> <span class="token function">modulePreloadPolyfillPlugin</span><span class="token punctuation">(</span>config<span class="token punctuation">)</span>
+      <span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+    <span class="token function">resolvePlugin</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      <span class="token operator">...</span>config<span class="token punctuation">.</span>resolve<span class="token punctuation">,</span>
+      root<span class="token operator">:</span> config<span class="token punctuation">.</span>root<span class="token punctuation">,</span>
+      isProduction<span class="token operator">:</span> config<span class="token punctuation">.</span>isProduction<span class="token punctuation">,</span>
+      isBuild<span class="token punctuation">,</span>
+      packageCache<span class="token operator">:</span> config<span class="token punctuation">.</span>packageCache<span class="token punctuation">,</span>
+      ssrConfig<span class="token operator">:</span> config<span class="token punctuation">.</span>ssr<span class="token punctuation">,</span>
+      asSrc<span class="token operator">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    config<span class="token punctuation">.</span>build<span class="token punctuation">.</span>ssr <span class="token operator">?</span> <span class="token function">ssrRequireHookPlugin</span><span class="token punctuation">(</span>config<span class="token punctuation">)</span> <span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+    <span class="token function">htmlInlineScriptProxyPlugin</span><span class="token punctuation">(</span>config<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token function">cssPlugin</span><span class="token punctuation">(</span>config<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    config<span class="token punctuation">.</span>esbuild <span class="token operator">!==</span> <span class="token boolean">false</span> <span class="token operator">?</span> <span class="token function">esbuildPlugin</span><span class="token punctuation">(</span>config<span class="token punctuation">.</span>esbuild<span class="token punctuation">)</span> <span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+    <span class="token function">jsonPlugin</span><span class="token punctuation">(</span>
+      <span class="token punctuation">{</span>
+        namedExports<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+        <span class="token operator">...</span>config<span class="token punctuation">.</span>json
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      isBuild
+    <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token function">wasmPlugin</span><span class="token punctuation">(</span>config<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token function">webWorkerPlugin</span><span class="token punctuation">(</span>config<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token function">assetPlugin</span><span class="token punctuation">(</span>config<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token operator">...</span>normalPlugins<span class="token punctuation">,</span>
+    <span class="token function">definePlugin</span><span class="token punctuation">(</span>config<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token function">cssPostPlugin</span><span class="token punctuation">(</span>config<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token operator">...</span>buildPlugins<span class="token punctuation">.</span>pre<span class="token punctuation">,</span>
+    <span class="token operator">...</span>postPlugins<span class="token punctuation">,</span>
+    <span class="token operator">...</span>buildPlugins<span class="token punctuation">.</span>post<span class="token punctuation">,</span>
+    <span class="token comment">// internal server-only plugins are always applied after everything else</span>
+    <span class="token operator">...</span><span class="token punctuation">(</span>isBuild
+      <span class="token operator">?</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+      <span class="token operator">:</span> <span class="token punctuation">[</span><span class="token function">clientInjectionsPlugin</span><span class="token punctuation">(</span>config<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">importAnalysisPlugin</span><span class="token punctuation">(</span>config<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+  <span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>Boolean<span class="token punctuation">)</span> <span class="token keyword">as</span> Plugin<span class="token punctuation">[</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre></div><ol start="10"><li>createResolver，创建一个内部使用的插件解析器，执行所有的插件</li></ol><div class="language-ts"><pre><code><span class="token comment">// create an internal resolver to be used in special scenarios, e.g.</span>
+<span class="token comment">// optimizer &amp; handling css @imports</span>
+<span class="token keyword">const</span> createResolver<span class="token operator">:</span> ResolvedConfig<span class="token punctuation">[</span><span class="token string">&#39;createResolver&#39;</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span>options<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> aliasContainer<span class="token operator">:</span> PluginContainer <span class="token operator">|</span> <span class="token keyword">undefined</span>
+  <span class="token keyword">let</span> resolverContainer<span class="token operator">:</span> PluginContainer <span class="token operator">|</span> <span class="token keyword">undefined</span>
+  <span class="token keyword">return</span> <span class="token keyword">async</span> <span class="token punctuation">(</span>id<span class="token punctuation">,</span> importer<span class="token punctuation">,</span> aliasOnly<span class="token punctuation">,</span> ssr<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> container<span class="token operator">:</span> PluginContainer
+    <span class="token comment">// 创建 container</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token keyword">await</span> container<span class="token punctuation">.</span><span class="token function">resolveId</span><span class="token punctuation">(</span>id<span class="token punctuation">,</span> importer<span class="token punctuation">,</span> <span class="token punctuation">{</span> ssr <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">?.</span>id
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><ol start="11"><li>执行钩子函数 <a href="https://cn.vitejs.dev/guide/api-plugin.html#configresolved" target="_blank" rel="noopener noreferrer">plugin.configResolved</a></li></ol><div class="language-ts"><pre><code><span class="token keyword">await</span> <span class="token builtin">Promise</span><span class="token punctuation">.</span><span class="token function">all</span><span class="token punctuation">(</span>userPlugins<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> p<span class="token punctuation">.</span>configResolved<span class="token operator">?.</span><span class="token punctuation">(</span>resolved<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre></div><ol start="12"><li>汇总 <code>resolved</code>，这里有 <a href="https://cn.vitejs.dev/guide/env-and-mode.html#env-variables" target="_blank" rel="noopener noreferrer">用户env中额外的数据</a></li></ol><div class="language-ts"><pre><code><span class="token keyword">const</span> resolved<span class="token operator">:</span> ResolvedConfig <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token operator">...</span>config<span class="token punctuation">,</span>
+  configFile<span class="token operator">:</span> configFile <span class="token operator">?</span> <span class="token function">normalizePath</span><span class="token punctuation">(</span>configFile<span class="token punctuation">)</span> <span class="token operator">:</span> <span class="token keyword">undefined</span><span class="token punctuation">,</span>
+  configFileDependencies<span class="token punctuation">,</span>
+  inlineConfig<span class="token punctuation">,</span>
+  root<span class="token operator">:</span> resolvedRoot<span class="token punctuation">,</span>
+  base<span class="token operator">:</span> <span class="token constant">BASE_URL</span><span class="token punctuation">,</span>
+  resolve<span class="token operator">:</span> resolveOptions<span class="token punctuation">,</span>
+  publicDir<span class="token operator">:</span> resolvedPublicDir<span class="token punctuation">,</span>
+  cacheDir<span class="token punctuation">,</span>
+  command<span class="token punctuation">,</span>
+  mode<span class="token punctuation">,</span>
+  isProduction<span class="token punctuation">,</span>
+  plugins<span class="token operator">:</span> userPlugins<span class="token punctuation">,</span>
+  server<span class="token punctuation">,</span>
+  build<span class="token operator">:</span> resolvedBuildOptions<span class="token punctuation">,</span>
+  preview<span class="token operator">:</span> <span class="token function">resolvePreviewOptions</span><span class="token punctuation">(</span>config<span class="token punctuation">.</span>preview<span class="token punctuation">,</span> server<span class="token punctuation">)</span><span class="token punctuation">,</span>
+  env<span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token operator">...</span>userEnv<span class="token punctuation">,</span>
+    <span class="token constant">BASE_URL</span><span class="token punctuation">,</span>
+    <span class="token constant">MODE</span><span class="token operator">:</span> mode<span class="token punctuation">,</span>
+    <span class="token constant">DEV</span><span class="token operator">:</span> <span class="token operator">!</span>isProduction<span class="token punctuation">,</span>
+    <span class="token constant">PROD</span><span class="token operator">:</span> isProduction
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token function">assetsInclude</span><span class="token punctuation">(</span>file<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token constant">DEFAULT_ASSETS_RE</span><span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span>file<span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token function">assetsFilter</span><span class="token punctuation">(</span>file<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  logger<span class="token punctuation">,</span>
+  packageCache<span class="token operator">:</span> <span class="token keyword">new</span> <span class="token class-name">Map</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  createResolver<span class="token punctuation">,</span>
+  optimizeDeps<span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token operator">...</span>config<span class="token punctuation">.</span>optimizeDeps<span class="token punctuation">,</span>
+    esbuildOptions<span class="token operator">:</span> <span class="token punctuation">{</span>
+      keepNames<span class="token operator">:</span> config<span class="token punctuation">.</span>optimizeDeps<span class="token operator">?.</span>keepNames<span class="token punctuation">,</span>
+      preserveSymlinks<span class="token operator">:</span> config<span class="token punctuation">.</span>resolve<span class="token operator">?.</span>preserveSymlinks<span class="token punctuation">,</span>
+      <span class="token operator">...</span>config<span class="token punctuation">.</span>optimizeDeps<span class="token operator">?.</span>esbuildOptions
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div></div></div><footer class="page-footer" data-v-7eddb2c4 data-v-fb8d84c6><div class="edit" data-v-fb8d84c6><div class="edit-link" data-v-fb8d84c6 data-v-1ed99556><a class="link" href="https://github.com/suressk/edit/deploy/docs/knowledge/vite/resolveConfig.md" target="_blank" rel="noopener noreferrer" data-v-1ed99556>Edit this page on GitHub <svg class="icon outbound icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15" data-v-1ed99556><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div></div><div class="updated" data-v-fb8d84c6><p class="last-updated" data-v-fb8d84c6 data-v-5797b537><span class="prefix" data-v-5797b537>Last Updated:</span><span class="datetime" data-v-5797b537></span></p></div></footer><div class="next-and-prev-link" data-v-7eddb2c4 data-v-38ede35f><div class="container" data-v-38ede35f><div class="prev" data-v-38ede35f><a class="link" href="/knowledge/vite/vitejs" data-v-38ede35f><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" class="icon icon-prev" data-v-38ede35f><path d="M19,11H7.4l5.3-5.3c0.4-0.4,0.4-1,0-1.4s-1-0.4-1.4,0l-7,7c-0.1,0.1-0.2,0.2-0.2,0.3c-0.1,0.2-0.1,0.5,0,0.8c0.1,0.1,0.1,0.2,0.2,0.3l7,7c0.2,0.2,0.5,0.3,0.7,0.3s0.5-0.1,0.7-0.3c0.4-0.4,0.4-1,0-1.4L7.4,13H19c0.6,0,1-0.4,1-1S19.6,11,19,11z"></path></svg><span class="text" data-v-38ede35f>从 vite 到 createServer</span></a></div><div class="next" data-v-38ede35f><!----></div></div></div><!--[--><!--]--></div></main></div><!----><!--]--></div>
+    <script>__VP_HASH_MAP__ = JSON.parse("{\"index.md\":\"1e952e8b\",\"knowledge_index.md\":\"a5b952e6\",\"knowledge_study_algorithm.md\":\"c2d1ce21\",\"knowledge_study_jseventloop.md\":\"bea6c7ec\",\"knowledge_study_promise.md\":\"9ab23052\",\"knowledge_study_vuenexttick.md\":\"7a8ea2d4\",\"knowledge_vite_index.md\":\"cff7a58b\",\"knowledge_vite_resolveconfig.md\":\"e51f2c2e\",\"knowledge_vite_vitejs.md\":\"f749fcd7\",\"mood_autumn.md\":\"02184d3e\",\"mood_chinaintheclassics.md\":\"68958194\",\"mood_dragonboatfestival.md\":\"c990e19b\",\"mood_feels.md\":\"455f73ed\",\"mood_index.md\":\"5df67441\",\"mood_loneliness.md\":\"63f6db39\"}")</script>
+    <script type="module" async src="/assets/app.d3ef2085.js"></script>
+    
+  </body>
+</html>
