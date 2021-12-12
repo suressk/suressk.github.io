@@ -110,7 +110,8 @@ function getKnowledgeSidebar() {
       text: "Vite",
       children: [
         { text: "Vite 原理简介", link: "/knowledge/vite/index" },
-        { text: "vite 命令", link: "/knowledge/vite/vitejs" },
+        { text: "从 vite 到 createServer", link: "/knowledge/vite/vitejs" },
+        { text: "resolveConfig", link: "/knowledge/vite/resolveConfig" },
       ],
     },
   ];
