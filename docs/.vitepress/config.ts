@@ -1,16 +1,15 @@
 module.exports = {
   lang: "en-US",
   title: "K.island ✨",
-  icon: "./favicon.ico",
   description: "K.'s island",
 
   head: [
-    ["link", { rel: "icon", href: "./favicon.ico", sizes: "64x64" }],
+    ["link", { rel: "icon", href: "/favicon.ico", sizes: "64x64" }],
     [
       "link",
       {
         rel: "apple-touch-icon-precomposed",
-        href: "./favicon.ico",
+        href: "/favicon.ico",
         sizes: "64x64",
       },
     ],
@@ -18,7 +17,7 @@ module.exports = {
       "link",
       {
         rel: "msapplication-square64x64logo",
-        href: "./favicon.ico",
+        href: "/favicon.ico",
         sizes: "64x64",
       },
     ],
@@ -70,6 +69,10 @@ function getMoodSidebar() {
       link: "/mood/loneliness",
     },
     {
+      text: "感与叹",
+      link: "/mood/feels",
+    },
+    {
       text: "入秋",
       link: "/mood/autumn",
     },
@@ -80,10 +83,6 @@ function getMoodSidebar() {
     {
       text: "端午",
       link: "/mood/dragonBoatFestival",
-    },
-    {
-      text: "感与叹",
-      link: "/mood/feels",
     },
   ];
 }
