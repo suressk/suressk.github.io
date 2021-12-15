@@ -111,6 +111,7 @@ function getKnowledgeSidebar() {
         { text: "Vite 原理简介", link: "/knowledge/vite/index" },
         { text: "从 vite 到 createServer", link: "/knowledge/vite/vitejs" },
         { text: "resolveConfig", link: "/knowledge/vite/resolveConfig" },
+        { text: "依赖预构建", link: "/knowledge/vite/esbuild" },
       ],
     },
   ];
