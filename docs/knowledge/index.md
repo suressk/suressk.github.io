@@ -2,8 +2,8 @@
 title: Knowledge
 ---
 
-:::tip Wonderful
-:tada: 来，先看个 “球”
+:::tip 要给生活比个耶
+ ✌️
 :::
 
-<img src="/images/ball.gif">
+<img src="/images/kaway.gif" height="300">
