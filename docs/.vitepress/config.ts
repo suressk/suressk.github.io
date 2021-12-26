@@ -84,6 +84,14 @@ function getMoodSidebar() {
       text: "端午",
       link: "/mood/dragonBoatFestival",
     },
+    {
+      text: "Christmas",
+      link: "/mood/christmas",
+    },
+    {
+      text: "Year-End",
+      link: "/mood/yearEnd",
+    },
   ];
 }
 
