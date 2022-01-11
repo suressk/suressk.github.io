@@ -2,7 +2,6 @@ module.exports = {
   lang: "en-US",
   title: "K.island ✨",
   description: "K.'s island",
-
   head: [
     ["link", { rel: "icon", href: "/favicon.ico", sizes: "64x64" }],
     [
@@ -46,17 +45,12 @@ module.exports = {
     ],
 
     sidebar: {
-      // "/main/": getMainSidebar(),
       "/mood/": getMoodSidebar(),
       "/knowledge/": getKnowledgeSidebar(),
       "/": [],
     },
   },
 };
-
-// function getMainSidebar() {
-//   return [];
-// }
 
 /**
  * 心情文章列表
@@ -92,6 +86,10 @@ function getMoodSidebar() {
       text: "Year-End",
       link: "/mood/yearEnd",
     },
+    {
+      text: "风过无痕",
+      link: "/mood/wind",
+    },
   ];
 }
 
@@ -120,6 +118,12 @@ function getKnowledgeSidebar() {
         { text: "从 vite 到 createServer", link: "/knowledge/vite/vitejs" },
         { text: "resolveConfig", link: "/knowledge/vite/resolveConfig" },
         { text: "依赖预构建", link: "/knowledge/vite/esbuild" },
+      ],
+    },
+    {
+      text: "React",
+      children: [
+        { text: "React 笔记文章 - 掘金", link: "/knowledge/react/index" },
       ],
     },
   ];
