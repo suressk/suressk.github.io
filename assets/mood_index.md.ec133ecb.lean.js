@@ -1,1 +1,0 @@
-import{_ as t,c as o,o as s,d as c}from"./app.dad1d293.js";const v='{"title":"Mood","description":"","frontmatter":{"title":"Mood"},"relativePath":"mood/index.md","lastUpdated":1641349596625}',e={},p=c('',3),a=[p];function d(_,i,l,n,r,m){return s(),o("div",null,a)}var k=t(e,[["render",d]]);export{v as __pageData,k as default};
