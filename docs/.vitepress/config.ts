@@ -90,6 +90,10 @@ function getMoodSidebar() {
       text: "风过无痕",
       link: "/mood/wind",
     },
+    {
+      text: "Spring Festival",
+      link: "/mood/spring",
+    },
   ];
 }
 
