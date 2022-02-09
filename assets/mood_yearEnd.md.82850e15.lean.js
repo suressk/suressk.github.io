@@ -1,1 +1,0 @@
-import{_ as e,c as a,o as t,d as r}from"./app.d292e89f.js";const f='{"title":"Year-End Summary","description":"","frontmatter":{"title":"Year-End Summary"},"relativePath":"mood/yearEnd.md","lastUpdated":1644408779673}',d={},o=r('',18),n=[o];function p(_,h,s,i,c,u){return t(),a("div",null,n)}var m=e(d,[["render",p]]);export{f as __pageData,m as default};
