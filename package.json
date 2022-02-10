@@ -9,7 +9,7 @@
   },
   "author": "suressk",
   "scripts": {
-    "dev": "vitepress dev docs",
+    "dev": "vitepress dev docs --port=10814",
     "build": "vitepress build docs",
     "serve": "vitepress serve docs",
     "publish": "deploy.sh"
