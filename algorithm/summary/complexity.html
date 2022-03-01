@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>认识复杂度与简单排序 | K.island ✨</title>
+    <meta name="description" content="K.'s island">
+    <link rel="stylesheet" href="/assets/style.019f39fc.css">
+    <link rel="modulepreload" href="/assets/Home.d125e9ac.js">
+    <link rel="modulepreload" href="/assets/app.48225e0a.js">
+    <link rel="modulepreload" href="/assets/algorithm_summary_complexity.md.04932454.lean.js">
+    <link rel="modulepreload" href="/assets/app.48225e0a.js">
+    <link rel="icon" href="/favicon.ico" sizes="64x64">
+    <link rel="apple-touch-icon-precomposed" href="/favicon.ico" sizes="64x64">
+    <link rel="msapplication-square64x64logo" href="/favicon.ico" sizes="64x64">
+    <meta name="twitter:title" content="认识复杂度与简单排序 | K.island ✨">
+    <meta property="og:title" content="认识复杂度与简单排序 | K.island ✨">
+  </head>
+  <body>
+    <div id="app"><!--[--><div class="theme"><header class="nav-bar" data-v-675d8756><div class="sidebar-button" data-v-675d8756><svg class="icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z" class></path></svg></div><a class="nav-bar-title" href="/" aria-label="K.island ✨, back to home" data-v-675d8756 data-v-4a583abe><!----> K.island ✨</a><div class="flex-grow" data-v-675d8756></div><div class="nav" data-v-675d8756><nav class="nav-links" data-v-675d8756 data-v-eab3edfe><!--[--><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item" href="/" data-v-b8818f8c>Home <!----></a></div></div><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item" href="/mood/index" data-v-b8818f8c>Mood <!----></a></div></div><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item" href="/knowledge/index" data-v-b8818f8c>Knowledge <!----></a></div></div><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item" href="/interview/index" data-v-b8818f8c>Interview <!----></a></div></div><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item active" href="/algorithm/index" data-v-b8818f8c>Algorithm <!----></a></div></div><!--]--><!----><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item isExternal" href="https://github.com/suressk" target="_blank" rel="noopener noreferrer" data-v-b8818f8c>GitHub <svg class="icon outbound" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15" data-v-b8818f8c><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div></div></nav></div><!--[--><!--]--></header><aside class="sidebar" data-v-83e92a68><nav class="nav-links nav" data-v-83e92a68 data-v-eab3edfe><!--[--><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item" href="/" data-v-b8818f8c>Home <!----></a></div></div><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item" href="/mood/index" data-v-b8818f8c>Mood <!----></a></div></div><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item" href="/knowledge/index" data-v-b8818f8c>Knowledge <!----></a></div></div><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item" href="/interview/index" data-v-b8818f8c>Interview <!----></a></div></div><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item active" href="/algorithm/index" data-v-b8818f8c>Algorithm <!----></a></div></div><!--]--><!----><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item isExternal" href="https://github.com/suressk" target="_blank" rel="noopener noreferrer" data-v-b8818f8c>GitHub <svg class="icon outbound" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15" data-v-b8818f8c><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div></div></nav><!--[--><!--]--><ul class="sidebar-links" data-v-83e92a68><!--[--><li class="sidebar-link"><p class="sidebar-link-item">Introduction</p><!----></li><li class="sidebar-link"><p class="sidebar-link-item">Knowledge Summary</p><ul class="sidebar-links"><li class="sidebar-link"><a class="sidebar-link-item active" href="/algorithm/summary/complexity">复杂度与简单排序</a><!----></li></ul></li><!--]--></ul><!--[--><!--]--></aside><!-- TODO: make this button accessible --><div class="sidebar-mask"></div><main class="page" data-v-7eddb2c4><div class="container" data-v-7eddb2c4><!--[--><!--]--><div style="position:relative;" class="content" data-v-7eddb2c4><div><h3 id="认识时间复杂度" tabindex="-1">认识时间复杂度 <a class="header-anchor" href="#认识时间复杂度" aria-hidden="true">#</a></h3><p>常数时间操作</p><p>常数操作：一个操作如果和样本的数据量没有关系，每次都是固定时间内完成的操作</p><p>常数时间 O(1) 代表这个操作和数据量没关系，是一个固定时间的操作，比如说四则运算（<code>+</code>、<code>-</code>、<code>*</code>、<code>/</code>）或位运算（<code>&amp;</code>、<code>|</code>、<code>~</code>、<code>^</code>、<code>&lt;&lt;</code>、<code>&gt;&gt;</code>）等</p><p><strong><code>在描述时间复杂度的表达式中，只要最高阶项，不要低阶项及高阶项的系数，即为该算法的时间复杂度</code></strong></p><p>形如我们初中接触过的一元二次方程的表达式：</p><div class="language-ts"><pre><code><span class="token comment">// 最终化简结果为</span>
+aN<span class="token operator">^</span><span class="token number">2</span> <span class="token operator">+</span> bN <span class="token operator">+</span> c
+
+<span class="token comment">// a, b, c 都是常数</span>
+</code></pre></div><p>这个栗子，我们使用 <code>O(N^2)</code> 来表示此算法的时间复杂度（读作：<code>Big O N 的平方</code>）</p><p>评价一个算法流程的好坏，先看时间复杂度的指标（<code>O(N^2)</code> 与 <code>O(N)</code> 比较），然后再分析不同数据样本下的实际运行时间（如均为 <code>O(N)</code> 时，就需要实际运行结果来区分了）</p><h3 id="空间复杂度" tabindex="-1">空间复杂度 <a class="header-anchor" href="#空间复杂度" aria-hidden="true">#</a></h3><p>与上面的意思一致，假如我们只需要有限的几个变量需要申请存储空间，与样本数据量无关时，我们称其空间复杂度为 <code>O(1)</code></p><p>若类似需要额外开辟跟样本数据一样大小的内存空间来实现算法功能，我们则称其空间复杂度为 <code>O(N)</code></p><h3 id="位运算" tabindex="-1">位运算 <a class="header-anchor" href="#位运算" aria-hidden="true">#</a></h3><p>既然上面提到了位运算，这里就简单讲讲吧：</p><ul><li><code>&amp;</code>：两个位都为 1 时，结果才为 1，其余为 0</li><li><code>|</code>：两个位都为 0 时，结果才为 0，其余为 1</li><li><code>^</code>：两个位相同为 1（同为 0 或同为 1），不同则为 0</li><li><code>&lt;&lt;</code>：各二进位全部左移若干位，高位丢弃，低位补 0</li><li><code>&gt;&gt;</code>：各二进位全部右移若干位，对无符号数，高位补 0，有符号数，各编译器处理方法不一样，有的补符号位（算术右移），有的补 0（逻辑右移）</li></ul><div class="language-ts"><pre><code><span class="token number">10</span> <span class="token operator">&lt;&lt;</span> <span class="token number">1</span>
+
+<span class="token comment">// 10 转换为二进制数为：1010，&lt;&lt; 1 表示左移一位</span>
+<span class="token comment">// 即变为：10100，转换为十进制即为：20</span>
+<span class="token comment">// 同样可以把左移看作以下公式：a * (2 ^ b)</span>
+<span class="token comment">// 10 &lt;&lt; 1 = 10 * (2 ^ 1) = 20</span>
+
+<span class="token number">11</span> <span class="token operator">&gt;&gt;</span> <span class="token number">1</span>
+
+<span class="token comment">// 11 转换为二进制数为：1011，&gt;&gt; 1 表示右移一位，</span>
+<span class="token comment">// 并去除多余的右边，即变为：101，转换为十进制即为：5</span>
+<span class="token comment">// 同样可以把右移看作以下公式：~~(a / (2 ^ b))</span>
+<span class="token comment">// 11 &gt;&gt; 1 = ~~(11 / (2 ^ 1)) = 5</span>
+</code></pre></div><h3 id="选择排序" tabindex="-1">选择排序 <a class="header-anchor" href="#选择排序" aria-hidden="true">#</a></h3><p>先简单理解一下思路吧：</p><div class="language-js"><pre><code><span class="token comment">// 比如说有一个无序数组，我们需要实现升序排列</span>
+<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">]</span>
+
+<span class="token comment">// 简单选择排序的思路就是，从左往右扫（右往左也行）</span>
+<span class="token comment">// 找到最小的值，将它放到最左侧记录到的最小值位置</span>
+
+<span class="token comment">// 简单说明如下：</span>
+<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">]</span>
+ ↑  ↑
+ i  j
+
+i：记录当前最小值索引
+j：从 i 的下一位开始依次往后扫到数组结束，找到
+   比当前 i 位置上的值小的值，进行交换
+</code></pre></div><p>示例实现代码如下：</p><div class="language-ts"><pre><code><span class="token keyword">function</span> <span class="token function">selectSort</span><span class="token punctuation">(</span>arr<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>arr <span class="token operator">||</span> arr<span class="token punctuation">.</span>length <span class="token operator">&lt;</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token keyword">return</span>
+
+  <span class="token keyword">const</span> len <span class="token operator">=</span> arr<span class="token punctuation">.</span>length
+  <span class="token comment">// i 从 0 → N-1</span>
+  <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> len <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// j 从 i+1 → N</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> j <span class="token operator">=</span> i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> len<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// j 位置上的小</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>arr<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">&lt;</span> arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 两数交换</span>
+        <span class="token function">swap</span><span class="token punctuation">(</span>arr<span class="token punctuation">,</span> i<span class="token punctuation">,</span> j<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 交换 arr 数组中 i，j 位置上的数</span>
+<span class="token keyword">function</span> <span class="token function">swap</span><span class="token punctuation">(</span>arr<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> i<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">,</span> j<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> temp <span class="token operator">=</span> arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+  arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> arr<span class="token punctuation">[</span>j<span class="token punctuation">]</span>
+  arr<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> temp
+<span class="token punctuation">}</span>
+</code></pre></div><p>从上面的示例代码，我们看到需要两层 <code>for</code> 循环，从时间复杂度上分析需要 <code>O(N^2)</code> （常数操作为 等差数列 求和），空间复杂度为 <code>O(1)</code></p><h3 id="冒泡排序" tabindex="-1">冒泡排序 <a class="header-anchor" href="#冒泡排序" aria-hidden="true">#</a></h3><p>简单说明：</p><div class="language-ts"><pre><code><span class="token comment">// 还是上面的示例无序数组，依旧升序排</span>
+<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">]</span>
+
+<span class="token comment">// 依次比较索引位置上的数</span>
+<span class="token comment">// 1. 0 与 1 位置上的数比较，大的往后移</span>
+<span class="token comment">// 2. 1 与 2 位置上的数比较，大的往后移</span>
+<span class="token comment">// 3. 2 与 3 位置上的数比较，大的往后移</span>
+<span class="token comment">// 4. 3 与 4 位置上的数比较，大的往后移</span>
+<span class="token comment">// 依次进行比较（效果上来看就是，大的数会逐渐往后冒，直到排好序）</span>
+</code></pre></div><p>示例实现代码如下：</p><div class="language-ts"><pre><code><span class="token keyword">function</span> <span class="token function">bubbleSort</span><span class="token punctuation">(</span>arr<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>arr <span class="token operator">||</span> arr<span class="token punctuation">.</span>length <span class="token operator">&lt;</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token keyword">return</span>
+
+  <span class="token keyword">const</span> len <span class="token operator">=</span> arr<span class="token punctuation">.</span>length
+  <span class="token comment">// i 从 N → 1</span>
+  <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> len <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">--</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// j 从 0 → i</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> i<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// j 位置与 j+1 位置上的值比较，大的后移</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>arr<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">&gt;</span> arr<span class="token punctuation">[</span>j <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">swap</span><span class="token punctuation">(</span>arr<span class="token punctuation">,</span> j<span class="token punctuation">,</span> j <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 交换 arr 数组中 i，j 位置上的数</span>
+<span class="token keyword">function</span> <span class="token function">swap</span><span class="token punctuation">(</span>arr<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> i<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">,</span> j<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">^</span> arr<span class="token punctuation">[</span>j<span class="token punctuation">]</span>
+  arr<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">^</span> arr<span class="token punctuation">[</span>j<span class="token punctuation">]</span>
+  arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">^</span> arr<span class="token punctuation">[</span>j<span class="token punctuation">]</span>
+  <span class="token comment">// 解构语法</span>
+  <span class="token comment">// [arr[i], arr[j]] = [arr[j], arr[i]]</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>从上面的示例代码，我们看到还是需要两层 <code>for</code> 循环，从时间复杂度上分析需要 <code>O(N^2)</code>，空间复杂度为 <code>O(1)</code></p><p>另外，可能你会注意到这里的 <code>swap</code> 方法好像有点 <strong>黑魔法</strong> 的意思！！！</p><p>这里也就是巧用了 <code>异或运算</code>（<code>^</code>）的性质达到了两数交换的效果</p><p>我们可能在学校里学习过异或运算：即 <code>相同为 0，不同为 1</code>，举个栗子：</p><div class="language-ts"><pre><code><span class="token comment">// 二进制数进行异或运算</span>
+<span class="token number">01001001</span> <span class="token operator">^</span> <span class="token number">11010101</span>
+
+<span class="token comment">// 我们写得好一点就是：</span>
+  <span class="token number">01001001</span>
+<span class="token operator">^</span> <span class="token number">11010101</span>
+<span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">-</span>
+  <span class="token number">10011100</span>
+</code></pre></div><p>其实按另一种更简单的理解就是 <strong><code>无进位相加</code></strong></p><p>但它还有一些性质：</p><blockquote><ol><li>0 与任何数异或，结果都是这个数：0 ^ N = N</li><li>相同的数异或，结果为 0：N ^ N = 0</li><li>异或运算满足数学的 <code>交换律</code> 和 <code>结合律</code>：a ^ b ^ c ^ d = a ^ (b ^ d) ^ c</li></ol></blockquote><p>由上面这些性质描述，我们解释一下上面的 黑魔法 <code>swap</code> 方法</p><div class="language-ts"><pre><code><span class="token comment">// 我们假设</span>
+<span class="token keyword">let</span> a <span class="token operator">=</span> 甲
+<span class="token keyword">let</span> b <span class="token operator">=</span> 乙
+
+<span class="token comment">// 跑这三行代码，a, b 的值互换</span>
+<span class="token comment">// 这里我们带入值并运用上面的性质就一目了然了</span>
+a <span class="token operator">=</span> a <span class="token operator">^</span> b  <span class="token comment">// a = 甲 ^ 乙</span>
+b <span class="token operator">=</span> a <span class="token operator">^</span> b  <span class="token comment">// b = (甲 ^ 乙) ^ 乙 → b = 甲</span>
+a <span class="token operator">=</span> a <span class="token operator">^</span> b  <span class="token comment">// a = (甲 ^ 乙) ^ (甲 ^ 乙 ^ 乙) → a = 乙</span>
+</code></pre></div><p><strong>注意：</strong> 上面的 <code>a</code>，<code>b</code> 必须得是内存中两块不同的区域（值可以相同，但内存不能是同一块，否则会把它抹为 0）</p><h3 id="面试题练手" tabindex="-1">面试题练手 <a class="header-anchor" href="#面试题练手" aria-hidden="true">#</a></h3><blockquote><p>在一个数组（<code>arr: number[]</code>）中，<br><code>问题1</code>：已知其中一种数出现了奇数次，其他数出现了偶数次，求这个出现奇数次的数是啥？<br><code>问题2</code>：已知其中两种数出现了奇数次，其他数出现了偶数次，求这两个出现奇数次的数是啥？<br> 要求：时间复杂度为 <code>O(N)</code>，空间复杂度为 <code>O(1)</code></p></blockquote><div class="language-ts"><pre><code><span class="token comment">// 有上面的铺垫，我们可以知道问题1很简单，</span>
+<span class="token comment">// 直接将数组中的数全部一起进行 异或运算，最后的结果就是这个数</span>
+<span class="token keyword">function</span> <span class="token function">resolveOne</span><span class="token punctuation">(</span>arr<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>arr <span class="token operator">||</span> arr<span class="token operator">?.</span>length <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">Error</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">The array is of the wrong type or
+      the array is empty!</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">let</span> eor <span class="token operator">=</span> <span class="token number">0</span>
+  arr<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>item <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    eor <span class="token operator">^=</span> item
+    <span class="token comment">// 上面是下面的简写语法（应该都看得懂）</span>
+    <span class="token comment">// eor = eor ^ item</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token keyword">return</span> eor
+<span class="token punctuation">}</span>
+</code></pre></div><div class="language-ts"><pre><code><span class="token comment">// 问题2，我们需要借助无进位相加的思想来方便理解</span>
+<span class="token comment">// 转换为二进制来看时，异或运算计算时，只看对应位上 1 的个数有关</span>
+<span class="token comment">// 这一位上出现奇数个 1，最后结果这位上就是 1，否则为 0</span>
+<span class="token keyword">function</span> <span class="token function">resolveTwo</span><span class="token punctuation">(</span>arr<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>arr <span class="token operator">||</span> arr<span class="token operator">?.</span>length <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">Error</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">The array is of the wrong type or
+      the array is empty!</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">let</span> eor <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> onlyOne <span class="token operator">=</span> <span class="token number">0</span>
+  <span class="token comment">// 首先，还是得像问题1一样全部进行异或运算</span>
+  <span class="token comment">// 得到这两个出现奇数次的数（假设为 a, b）的异或结果</span>
+  arr<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>cur <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    eor <span class="token operator">^=</span> cur
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token comment">// 此时得到的 eor = a ^ b</span>
+  <span class="token comment">// 且 eor !== 0</span>
+  <span class="token comment">// 那么在转换为二进制时，eor 必然有一个位置上的值为 1</span>
+
+  <span class="token comment">// 那么 a, b 两数在这一位上必然是不同的，我们就能得到其中一个</span>
+
+  <span class="token comment">// 提取出 eor 二进制数最右的 1</span>
+  <span class="token keyword">let</span> rightOne <span class="token operator">=</span> eor <span class="token operator">&amp;</span> <span class="token punctuation">(</span><span class="token operator">~</span>eor <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span>
+  <span class="token comment">// 我们不妨假设 eor 为：100101100</span>
+  <span class="token comment">// 那 rightOne 为：100101100 &amp; (011010011 + 1) = 0000000100</span>
+  arr<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>cur <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 括号别丢，否则运算顺序错误会导致结果异常</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>cur <span class="token operator">&amp;</span> rightOne<span class="token punctuation">)</span> <span class="token operator">===</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// 得到 a 或者 b 其中一个</span>
+      onlyOne <span class="token operator">^=</span> cur
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token comment">// 得到 a 或者 b 的另一个</span>
+  eor <span class="token operator">^=</span> onlyOne
+  <span class="token keyword">return</span> <span class="token punctuation">[</span>eor<span class="token punctuation">,</span> onlyOne<span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre></div></div></div><footer class="page-footer" data-v-7eddb2c4 data-v-fb8d84c6><div class="edit" data-v-fb8d84c6><div class="edit-link" data-v-fb8d84c6 data-v-1ed99556><a class="link" href="https://github.com/suressk/edit/deploy/docs/algorithm/summary/complexity.md" target="_blank" rel="noopener noreferrer" data-v-1ed99556>Edit this page on GitHub <svg class="icon outbound icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15" data-v-1ed99556><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div></div><div class="updated" data-v-fb8d84c6><p class="last-updated" data-v-fb8d84c6 data-v-5797b537><span class="prefix" data-v-5797b537>Last Updated:</span><span class="datetime" data-v-5797b537></span></p></div></footer><!----><!--[--><!--]--></div></main></div><!----><!--]--></div>
+    <script>__VP_HASH_MAP__ = JSON.parse("{\"algorithm_index.md\":\"36836133\",\"algorithm_summary_complexity.md\":\"04932454\",\"index.md\":\"8ebb6f39\",\"interview_index.md\":\"369c5dd2\",\"knowledge_index.md\":\"29a3b09b\",\"knowledge_react_index.md\":\"b052d26c\",\"knowledge_study_algorithm.md\":\"a324e64c\",\"knowledge_study_jseventloop.md\":\"044fdda7\",\"knowledge_study_promise.md\":\"0995bea9\",\"knowledge_study_vuenexttick.md\":\"9f7000f6\",\"knowledge_vite_esbuild.md\":\"220cd26c\",\"knowledge_vite_index.md\":\"df9a496a\",\"knowledge_vite_plugin.md\":\"0c769f20\",\"knowledge_vite_resolveconfig.md\":\"81c1d357\",\"knowledge_vite_vitejs.md\":\"c45bc508\",\"mood_autumn.md\":\"e8c68fb8\",\"mood_chinaintheclassics.md\":\"7c9dd2d1\",\"mood_christmas.md\":\"4af5fbc9\",\"mood_dragonboatfestival.md\":\"e1d82ddf\",\"mood_feels.md\":\"ceeb13a0\",\"mood_index.md\":\"37528c0b\",\"mood_loneliness.md\":\"707fd56f\",\"mood_spring.md\":\"22444e2f\",\"mood_wind.md\":\"b75df6a1\",\"mood_yearend.md\":\"8f614695\"}")</script>
+    <script type="module" async src="/assets/app.48225e0a.js"></script>
+    
+  </body>
+</html>
