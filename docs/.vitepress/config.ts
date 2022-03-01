@@ -42,11 +42,23 @@ module.exports = {
         link: "/knowledge/index",
         activeMatch: "^/knowledge/",
       },
+      {
+        text: "Interview",
+        link: "/interview/index",
+        activeMatch: "^/interview/",
+      },
+      {
+        text: "Algorithm",
+        link: "/algorithm/index",
+        activeMatch: "^/algorithm/",
+      },
     ],
 
     sidebar: {
       "/mood/": getMoodSidebar(),
       "/knowledge/": getKnowledgeSidebar(),
+      "/interview/": getInterviewSidebar(),
+      "/algorithm/": getAlgorithmSidebar(),
       "/": [],
     },
   },
@@ -129,6 +141,42 @@ function getKnowledgeSidebar() {
       text: "React",
       children: [
         { text: "React 笔记文章 - 掘金", link: "/knowledge/react/index" },
+      ],
+    },
+  ];
+}
+
+/**
+ * 面试相关文章列表
+ * @returns nav[]
+ */
+function getInterviewSidebar() {
+  return [
+    // {
+    //   text: "Introduction",
+    // },
+    {
+      text: "Knowledge Summary",
+      // children: [
+      //   { text: "Nothing...", link: "/interview/summary/" },
+      // ],
+    },
+  ];
+}
+
+/**
+ * 算法相关文章列表
+ * @returns nav[]
+ */
+ function getAlgorithmSidebar() {
+  return [
+    {
+      text: "Introduction",
+    },
+    {
+      text: "Knowledge Summary",
+      children: [
+        { text: "复杂度与简单排序", link: "/algorithm/summary/complexity" },
       ],
     },
   ];
