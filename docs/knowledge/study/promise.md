@@ -3,17 +3,17 @@
 呃，手写实现 Promise (宏任务方式实现)，欲尝试使用 MutationObserver 来用微任务实现一下 (todo)
 
 ```js
-const MyPromise = (() => {
+const MyOwnPromise = (() => {
   const PENDING = Symbol("pending"),
     RESOLVED = Symbol("resolved"),
     REJECTED = Symbol("rejected"),
-    PromiveValue = Symbol("PromiseValue"), //状态数据
-    PromiseStatus = Symbol("PromiseStatus"),
-    thenables = Symbol("thenables"), //thenable
-    catchables = Symbol("catchbles"), //catchables
-    changeStatus = Symbol("changeStatus"), //当前状态
-    settleHandle = Symbol("settleHandle"), //后续处理的通用函数
-    linkPromise = Symbol("linkPromise"); //创建串联的Promise
+    PromiseValue = Symbol("PromiseValue"), // 状态数据
+    PromiseStatus = Symbol("PromiseStatus"), // promise 状态
+    thenables = Symbol("thenables"), // thenables 状态的 promise 列表
+    catchables = Symbol("catchbles"), // catchables 状态的 promise 列表
+    changeStatus = Symbol("changeStatus"), // 当前状态
+    settleHandle = Symbol("settleHandle"), // 后续处理的通用函数
+    linkPromise = Symbol("linkPromise"); // 创建串联的Promise
 
   return class MyPromise {
     /**
@@ -28,7 +28,7 @@ const MyPromise = (() => {
         return;
       }
       this[PromiseStatus] = newStatus;
-      this[PromiveValue] = newValue;
+      this[PromiseValue] = newValue;
       //执行相应队列中的函数
       queue.forEach((handler) => handler(newValue));
     }
@@ -38,7 +38,7 @@ const MyPromise = (() => {
      */
     constructor(executor) {
       this[PromiseStatus] = PENDING;
-      this[PromiveValue] = undefined;
+      this[PromiseValue] = undefined;
       this[thenables] = []; //后续处理函数的数组 -> resolved
       this[catchables] = []; //后续处理函数的数组 -> rejected
 
@@ -69,7 +69,7 @@ const MyPromise = (() => {
       if (this[PromiseStatus] === immediatelyStatus) {
         //直接运行
         setTimeout(() => {
-          handler(this[PromiveValue]);
+          handler(this[PromiseValue]);
         }, 0);
       } else {
         queue.push(handler);

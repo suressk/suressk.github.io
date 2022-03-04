@@ -12,7 +12,7 @@ title: 认识复杂度与简单排序
 
 **`在描述时间复杂度的表达式中，只要最高阶项，不要低阶项及高阶项的系数，即为该算法的时间复杂度`**
 
-形如我们初中接触过的一元二次方程的表达式：
+比如我们初中接触过的一元二次方程的表达式：
 
 ```ts
 // 最终化简结果为
@@ -21,9 +21,9 @@ aN^2 + bN + c
 // a, b, c 都是常数
 ```
 
-这个栗子，我们使用 `O(N^2)` 来表示此算法的时间复杂度（读作：`Big O N 的平方`）
+对这个栗子，我们使用 `O(N^2)` 来表示此算法的时间复杂度（读作：`Big O N 的平方`）
 
-评价一个算法流程的好坏，先看时间复杂度的指标（`O(N^2)` 与 `O(N)` 比较），然后再分析不同数据样本下的实际运行时间（如均为 `O(N)` 时，就需要实际运行结果来区分了）
+评价一个算法流程的好坏，先看时间复杂度的指标（`O(N^2)` 与 `O(N)` 比较），然后再分析不同数据样本下的实际运行时间（如两个算法分析得到的时间复杂度均为 `O(N)` 时，就需要实际运行结果来区分了）
 
 ### 空间复杂度
 
@@ -37,6 +37,7 @@ aN^2 + bN + c
 
 - `&`：两个位都为 1 时，结果才为 1，其余为 0
 - `|`：两个位都为 0 时，结果才为 0，其余为 1
+- `~`：取反，0 变 1，1 变 0
 - `^`：两个位相同为 1（同为 0 或同为 1），不同则为 0
 - `<<`：各二进位全部左移若干位，高位丢弃，低位补 0
 - `>>`：各二进位全部右移若干位，对无符号数，高位补 0，有符号数，各编译器处理方法不一样，有的补符号位（算术右移），有的补 0（逻辑右移）
@@ -49,7 +50,7 @@ aN^2 + bN + c
 // 同样可以把左移看作以下公式：a * (2 ^ b)
 // 10 << 1 = 10 * (2 ^ 1) = 20
 
-11 >> 1
+11 >> 1 // 10 >> 1 的结果同样是 5
 
 // 11 转换为二进制数为：1011，>> 1 表示右移一位，
 // 并去除多余的右边，即变为：101，转换为十进制即为：5
@@ -82,7 +83,7 @@ j：从 i 的下一位开始依次往后扫到数组结束，找到
 
 ```ts
 function selectSort(arr: number[]) {
-  if (!arr || arr.length < 2) return
+  if (!arr || arr?.length < 2) return
 
   const len = arr.length
   // i 从 0 → N-1
@@ -96,6 +97,7 @@ function selectSort(arr: number[]) {
       }
     }
   }
+  console.log('after sort: ', arr)
 }
 
 // 交换 arr 数组中 i，j 位置上的数
@@ -128,7 +130,7 @@ function swap(arr: number[], i: number, j: number) {
 
 ```ts
 function bubbleSort(arr: number[]) {
-  if (!arr || arr.length < 2) return
+  if (!arr || arr?.length < 2) return
 
   const len = arr.length
   // i 从 N → 1
@@ -141,6 +143,7 @@ function bubbleSort(arr: number[]) {
       }
     }
   }
+  console.log('after sort: ', arr)
 }
 
 // 交换 arr 数组中 i，j 位置上的数
@@ -176,9 +179,9 @@ function swap(arr: number[], i: number, j: number) {
 
 但它还有一些性质：
 
-> 1. 0 与任何数异或，结果都是这个数：0 ^ N = N
-> 2. 相同的数异或，结果为 0：N ^ N = 0
-> 3. 异或运算满足数学的 `交换律` 和 `结合律`：a ^ b ^ c ^ d = a ^ (b ^ d) ^ c
+> 1. 0 与任何数异或，结果都是这个数：`0 ^ N = N`
+> 2. 对于任意一个数 N 与它自己异或（包括六亲不认的 `NaN`），结果为 0：`N ^ N = 0`
+> 3. 异或运算满足数学的 `交换律` 和 `结合律`：`a ^ b ^ c ^ d = a ^ (b ^ d) ^ c`
 
 由上面这些性质描述，我们解释一下上面的 黑魔法 `swap` 方法
 
@@ -207,7 +210,7 @@ a = a ^ b  // a = (甲 ^ 乙) ^ (甲 ^ 乙 ^ 乙) → a = 乙
 // 有上面的铺垫，我们可以知道问题1很简单，
 // 直接将数组中的数全部一起进行 异或运算，最后的结果就是这个数
 function resolveOne(arr: number[]) {
-  if (!arr || arr?.length = 0) {
+  if (!arr || !Array.isArray(arr) || arr?.length = 0) {
     throw new Error(`The array is of the wrong type or
       the array is empty!`)
   }
@@ -226,7 +229,7 @@ function resolveOne(arr: number[]) {
 // 转换为二进制来看时，异或运算计算时，只看对应位上 1 的个数有关
 // 这一位上出现奇数个 1，最后结果这位上就是 1，否则为 0
 function resolveTwo(arr: number[]) {
-  if (!arr || arr?.length = 0) {
+  if (!arr || !Array.isArray(arr) || arr?.length = 0) {
     throw new Error(`The array is of the wrong type or
       the array is empty!`)
   }
