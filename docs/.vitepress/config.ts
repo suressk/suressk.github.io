@@ -152,14 +152,14 @@ function getKnowledgeSidebar() {
  */
 function getInterviewSidebar() {
   return [
-    // {
-    //   text: "Introduction",
-    // },
+    {
+      text: "Introduction",
+    },
     {
       text: "Knowledge Summary",
-      // children: [
-      //   { text: "Nothing...", link: "/interview/summary/" },
-      // ],
+      children: [
+        { text: "Components", link: "/interview/summary/" },
+      ],
     },
   ];
 }

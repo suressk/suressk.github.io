@@ -1,5 +1,7 @@
 ---
 title: 认识复杂度与简单排序
+layout: cover
+background: https://sli.dev/demo-cover.png
 ---
 
 ### 认识时间复杂度
@@ -260,4 +262,10 @@ function resolveTwo(arr: number[]) {
   eor ^= onlyOne
   return [eor, onlyOne]
 }
+```
+
+### 插入排序
+
+```ts
+[4, 2, 6, 3, 8, 9, 0, 1, 5, 7]
 ```
