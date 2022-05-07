@@ -159,6 +159,7 @@ function getInterviewSidebar() {
       text: "Knowledge Summary",
       children: [
         { text: "八股文（一）", link: "/interview/summary/index" },
+        { text: "八股文（二）", link: "/interview/summary/stands" },
       ],
     },
   ];
