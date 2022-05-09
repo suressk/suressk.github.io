@@ -159,7 +159,14 @@ function getInterviewSidebar() {
       text: "Knowledge Summary",
       children: [
         { text: "八股文（一）", link: "/interview/summary/index" },
-        { text: "八股文（二）", link: "/interview/summary/stands" },
+        { text: "八股文（二）", link: "/interview/summary/strands" },
+        { text: "八股文（三）", link: "/interview/summary/optimization" },
+      ],
+    },
+    {
+      text: "Actual Combat",
+      children: [
+        { text: "ByteDance", link: "/interview/actual/bytedance" },
       ],
     },
   ];
