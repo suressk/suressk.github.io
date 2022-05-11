@@ -1,1 +1,0 @@
-import{_ as t,c as p,o,b as e}from"./app.ba878d8d.js";const q='{"title":"\u611F \u4E0E \u53F9","description":"","frontmatter":{"title":"\u611F \u4E0E \u53F9"},"relativePath":"mood/feels.md","lastUpdated":1652120144134}',a={},s=e('',15),c=[s];function l(_,r,i,n,u,d){return o(),p("div",null,c)}var f=t(a,[["render",l]]);export{q as __pageData,f as default};
