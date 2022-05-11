@@ -161,14 +161,15 @@ function getInterviewSidebar() {
         { text: "八股文（一）", link: "/interview/summary/index" },
         { text: "八股文（二）", link: "/interview/summary/strands" },
         { text: "八股文（三）", link: "/interview/summary/optimization" },
+        { text: "实战面试题", link: "/interview/summary/actual" },
       ],
     },
-    {
-      text: "Actual Combat",
-      children: [
-        { text: "ByteDance", link: "/interview/actual/bytedance" },
-      ],
-    },
+    // {
+    //   text: "Actual Combat",
+    //   children: [
+    //     { text: "ByteDance", link: "/interview/actual/bytedance" },
+    //   ],
+    // },
   ];
 }
 

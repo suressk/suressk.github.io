@@ -4,17 +4,46 @@ title: 面试题分析（二）
 
 ### 1. webpack 与 rollup 的区别？webpack5 与 webpack4？
 
+#### `webpack` vs `rollup`：
+
 `webpack` 最初用于构建复杂的单页应用程序（SPA），特别是它的两个特性：
 
 - **代码拆分（Code Splitting）**：可以将应用程序分解成可管理的代码块
 
 - **静态资源导入（Static Assets）**：如图像、CSS 资源，我们无需关心它们是不是在正确的项目目录，也不用关心文件 URL 的 hash 值问题
 
-`rollup` 是一个模块化打包工具，专门针对于类库打包，在打包时自动进行 `Tree-shaking`，所以打包后的文件体积相比 webpack 会小很多。它利用 `ES2015` 巧妙的模块设计，尽可能高效地构建出能够直接被其它 JavaScript 库引用的模块
+`rollup` 是一个模块化打包工具，专门针对于类库打包，在打包时默认进行 `Tree-shaking`，所以打包后的文件体积相比 webpack 会小很多。它利用 `ES2015` 巧妙的模块设计，尽可能高效地构建出能够直接被其它 JavaScript 库引用的模块
 
 rollup 虽说可以通过插件机制处理大多数的 CommonJS 模块，但有些东西确实无法转换为 ES2015 语法，也不支持 HMR（热模块替换）；而 webpack 通过将模块封装成一个个函数的方式，可以处理任何你丢给它的东西
 
-大多数情况下的经验法则：**对于应用使用 webpack，对于类库使用 Rollup**
+#### `webpack5` vs `webpack4`：
+
+- 新增 `Tree-shaking` 功能
+
+    ```js
+    // webpack.config.js 配置开启
+    module.exports = {
+        optimization: {
+            usedExports: true, // 只导出被使用的模块
+            minimize : true // 启动压缩
+        }
+    }
+    ```
+
+    由于 `CommonJS` 是动态导入，`Tree-shaking` 是只能工作在静态编译阶段的代码优化方案，因而只支持 `ES6 Module`，因而在 `babel-loader` 预设环境需要配置
+
+    ```json
+    {
+        "presets": [
+            "@babel/preset-env",
+            {
+                "modules": false
+            }
+        ]
+    }
+    ```
+
+    `webpack5` 的 `mode = production` 默认开启 `Tree-shaking` 功能
 
 ### 2. composition-api 与 hooks 的异同点？
 
