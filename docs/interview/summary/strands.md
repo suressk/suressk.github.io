@@ -14,9 +14,9 @@ title: 面试题分析（二）
 
 `rollup` 是一个模块化打包工具，专门针对于类库打包，在打包时默认进行 `Tree-shaking`，所以打包后的文件体积相比 webpack 会小很多。它利用 `ES2015` 巧妙的模块设计，尽可能高效地构建出能够直接被其它 JavaScript 库引用的模块
 
-rollup 虽说可以通过插件机制处理大多数的 CommonJS 模块，但有些东西确实无法转换为 ES2015 语法，也不支持 HMR（热模块替换）；而 webpack 通过将模块封装成一个个函数的方式，可以处理任何你丢给它的东西
+rollup 虽说可以通过插件机制处理大多数的 CommonJS 模块，但有些东西确实无法转换为 ES2015 语法，也不支持 HMR（热模块替换 / 热更新）；而 webpack 通过将模块封装成一个个函数的方式，可以处理任何你丢给它的东西
 
-#### `webpack5` vs `webpack4`：
+#### `webpack5` vs `webpack4`（以下简称 v5，v4）：
 
 - 新增 `Tree-shaking` 功能
 
@@ -25,7 +25,6 @@ rollup 虽说可以通过插件机制处理大多数的 CommonJS 模块，但有
     module.exports = {
         optimization: {
             usedExports: true, // 只导出被使用的模块
-            minimize : true // 启动压缩
         }
     }
     ```
@@ -38,12 +37,50 @@ rollup 虽说可以通过插件机制处理大多数的 CommonJS 模块，但有
             "@babel/preset-env",
             {
                 "modules": false
-            }
+            },
+            "@babel/preset-react",
+            "@babel/preset-typescript",
         ]
     }
     ```
 
-    `webpack5` 的 `mode = production` 默认开启 `Tree-shaking` 功能
+    `modules: false` 将开启的 ESModule 模式 [内容描述可见 ➡️](https://github.com/babel/babel-loader/issues/521)，防止 `Babel` 将任何类型的模块都转换成 `CommonJS` 模块
+
+    `webpack5` 的 `mode = "production"` 默认开启 `Tree-shaking` 功能
+
+- v5 默认内置 `terser-webpack-plugin` 插件进行代码压缩，且在 `mode = "production"` 的模式下默认开启；v4 则需要我们先安装此插件，再进行配置
+
+    ```js
+    // webpack.config.js in v5
+    module.exports = {
+        optimization: {
+            minimize : true // 启动压缩
+        }
+    }
+
+    // webpack.config.js in v4
+    const TerserPlugin = require('terser-webpack-plugin')
+
+    module.exports = { 
+        optimization: {
+            minimize: !isDev, // 非开发环境开启压缩
+            minimizer: [
+                new TerserPlugin({
+                    // 注释是否需要提取到一个单独的文件中
+                    extractComments: false,
+                    terserOptions: { 
+                        compress: {
+                            // 去除打印内容
+                            pure_funcs: ['console.log'] 
+                        }
+                    }
+                })
+            ]
+        }
+    }
+    ```
+
+- 
 
 ### 2. composition-api 与 hooks 的异同点？
 

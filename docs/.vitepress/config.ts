@@ -162,6 +162,7 @@ function getInterviewSidebar() {
         { text: "八股文（二）", link: "/interview/summary/strands" },
         { text: "八股文（三）", link: "/interview/summary/optimization" },
         { text: "实战面试题", link: "/interview/summary/actual" },
+        { text: "基础知识点", link: "/interview/summary/basis" },
       ],
     },
     // {
