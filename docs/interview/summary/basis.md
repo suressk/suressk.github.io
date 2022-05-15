@@ -40,7 +40,7 @@ title: JS / 网络基础
     Object.prototype.toString.call(obj) // '[object Object]'
     ```
 
-判断某个变量是一个 `数组`
+4. 判断某个变量是一个 `数组`
 
 ```js
 const arr = [1, 2, 3];
@@ -300,14 +300,15 @@ W3C 不推荐直接使用系统成员属性 `__proto__`
     // 旧版的继承实现方案
     /**
      * const inherit = (function() {
-     *    const Temp = function () {}
+     *    // 通过闭包声明一个可重用的空函数
+     *    const F = function () {}
      *    return function (Son, Father) {
-     *         Temp.prototype = Father.prototype
-     *         Son.prototype = new Temp()
+     *         F.prototype = Father.prototype
+     *         Son.prototype = new F()
      *         Son.prototype.constructor = Son
      *         Son.prototype.uber = Father.prototype
      *    }
-     * })()
+     * }())
     */
     // 使用
     // User 类
