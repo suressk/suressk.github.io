@@ -159,6 +159,7 @@ function getInterviewSidebar() {
       text: "Knowledge Summary",
       children: [
         { text: "JavaScript 基础", link: "/interview/summary/basis" },
+        { text: "网络基础", link: "/interview/summary/internet" },
         { text: "实战面试题", link: "/interview/summary/actual" },
         { text: "八股文（一）", link: "/interview/summary/index" },
         { text: "八股文（二）", link: "/interview/summary/strands" },

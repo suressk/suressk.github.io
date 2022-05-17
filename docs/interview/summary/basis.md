@@ -1,5 +1,5 @@
 ---
-title: JS / 网络基础
+title: JavaScript 基础
 ---
 
 ## JS 基础
@@ -42,42 +42,76 @@ title: JS / 网络基础
 
 4. 判断某个变量是一个 `数组`
 
-```js
-const arr = [1, 2, 3];
-```
-
-- **`Array.isArray()`**
-
     ```js
-    Array.isArray(arr); // true
+    const arr = [1, 2, 3];
     ```
 
-- **`toString`**
+    - **`Array.isArray()`**
+        ```js
+        Array.isArray(arr); // true
+        ```
+
+    - **`toString`**
+        ```js
+        Object.prototype.toString.call(arr) === "[object Array]"; // true
+        ```
+
+    - **`isPrototypeOf()`**
+        ```js
+        Array.prototype.isPrototypeOf(arr); // true
+        ```
+
+    - **`constructor`**
+        ```js
+        // 不推荐直接访问 __proto__ 属性
+        // arr.__proto__.constructor === Array; // true
+        Object.getPrototypeOf(arr).constructor === Array // true
+        // 或者
+        arr.constructor === Array; // true
+        ```
+
+    - **`instanceof`**
+        ```js
+        arr instanceof Array; // true 一般不推荐使用
+        ```
+
+5. this 指向
+
+    - 全局环境中的 this 指向全局对象(window)(ES5也是)
+
+    - 函数中的 this，由调用函数的方式来决定
+
+        + 如果函数是独立调用，在严格模式下，this 指向 `undefined`，而不是全局对象；非严格模式下，this 指向 `window`
+
+        + 如果函数是被某个对象调用，那 this 指向被调用的这个对象。
+
+    - 构造函数里的 this 及原型里的 this 对象，指向的都是生成的实例，即由 new 决定的
+
+6. ***new的作用：***
+
+    1. 创建一个新对象
+    2. 将构造函数的 this 指向这个新对象
+    3. 返回这个新对象
+
+    实现 `new` 操作符方法
 
     ```js
-    Object.prototype.toString.call(arr) === "[object Array]"; // true
-    ```
-
-- **`isPrototypeOf()`**
-
-    ```js
-    Array.prototype.isPrototypeOf(arr); // true
-    ```
-
-- **`constructor`**
-
-    ```js
-    // 不推荐直接访问 __proto__ 属性
-    // arr.__proto__.constructor === Array; // true
-    Object.getPrototypeOf(arr).constructor === Array // true
-    // 或者
-    arr.constructor === Array; // true
-    ```
-
-- **`instanceof`**
-
-    ```js
-    arr instanceof Array; // true 一般不推荐使用
+    // 我们协商第一个参数传递我们需要生成实例的构造函数，
+    // 构造函数需要的参数，后面依次传入即可
+    function newFunc(Fn, ...args) {
+        if (typeof Fn !== 'function') {
+            throw new Error('The first param is not a function')
+        }
+        if (!Fn.prototype) {
+            throw new Error('The function doesnot have the prototype property')
+        }
+        // 创建一个对象，并将它的隐式原型指向 构造函数 Fn 的原型
+        const obj = Object.create(Fn.prototype)
+        const res = Fn.call(obj, ...args)
+        // const res = Fn.apply(obj, [...args])
+        // 存在 Fn 函数自己返回一个对象（原型指向 Object.prototype)
+        return (typeof res === 'object') ? res : obj
+    }
     ```
 
 ## 原型、原型链
@@ -346,6 +380,40 @@ W3C 不推荐直接使用系统成员属性 `__proto__`
     vUser.upgrade() // 已升级，消耗 ¥10
     ```
 
-## 网络
+## 函数柯里化
 
-### http 报文
+```js
+/**
+ * @description: 通用柯里化工具函数
+ * @param {Function} fn 待柯里化的函数
+ * @param {array} args 已经接收的参数列表
+ * @return {Function}
+ */
+const currying = function(fn, ...args) {
+  // fn需要的参数个数
+  const len = fn.length
+  // 返回一个函数接收剩余参数
+  return function (...params) {
+      // 拼接已经接收和新接收的参数列表
+      const _args = [...args, ...params]
+      // 如果已经接收的参数个数还不够，继续返回一个新函数接收剩余参数
+      if (_args.length < len) {
+          return currying.call(this, fn, ..._args)
+      }
+     // 参数全部接收完调用原函数
+      return fn.apply(this, _args)
+  }
+}
+
+function add(a, b, c, d) {
+  return a + b + c + d
+}
+
+const curryingAdd = currying(add)
+
+// 我们就可以像下面这种方式进行调用
+// 参数不够的情况下，执行结果的返回值还是一个函数
+curryingAdd(1)(2)(3)(4) // => 10
+curryingAdd(1, 2)(3)(4) // => 10
+curryingAdd(1, 2, 3)(4) // => 10
+```
