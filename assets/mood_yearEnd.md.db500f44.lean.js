@@ -1,1 +1,0 @@
-import{_ as e,c as a,o as t,b as r}from"./app.dccebf5c.js";const f='{"title":"Year-End Summary","description":"","frontmatter":{"title":"Year-End Summary"},"relativePath":"mood/yearEnd.md","lastUpdated":1652812918811}',o={},d=r('',18),n=[d];function p(_,h,s,c,i,u){return t(),a("div",null,n)}var m=e(o,[["render",p]]);export{f as __pageData,m as default};
