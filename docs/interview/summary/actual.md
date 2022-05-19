@@ -25,7 +25,101 @@ title: 实战面试题分享
 
 ### 代码编写
 
-- 手写实现 `Promise.all()`：[实现方案参见 ➡️](/knowledge/study/promise)
+- 手写实现 `Promise.all()`：[实现方案参见 ➡️](/knowledge/study/promise) - ByteDance
+- 手写实现 `Promise.race()`：[实现方案参见 ➡️](/knowledge/study/promise) - ByteDance
+- ES5 实现继承：[实现方案参见 ➡️](/interview/summary/basis.html#原型链的应用) - ByteDance
+- 实现一个方法，输出数组的全排列方案（[LeetCode 46题](https://leetcode.cn/problems/permutations/)）： - ByteDance
+
+    ```js
+    // 输入：[1, 2, 3]
+    /* 输出：
+    [
+        [1, 2, 3],
+        [1, 3, 2],
+        [2, 1, 3],
+        [2, 3, 1],
+        [3, 2, 1],
+        [3, 1, 2]
+    ]
+    */
+    function solution(arr) {
+        // achieve it
+    }
+    ```
+
+- 实现一个方法，统计括号内的表达式： - ByteDance
+
+    ```js
+    // 输入：'((2 + 3) + (2 * 4)) + 2'
+    /* 输出：
+    [
+        '(2 + 3) + (2 * 4)',
+        '2 + 3',
+        '2 * 4'
+    ]
+    */
+    function solution(str) {
+        // achieve it
+    }
+    ```
+
+- 实现一个任务队列 `TaskQueue`：
+
+    ```js
+    // 支持添加任务，启动任务队列，停止任务队列，按顺序执行任务
+    // 任务都是函数，支持异步函数，支持设置每个任务的执行等待时间
+    class TaskQueue{
+       add(fn:Function,time:number):TaskQueue
+    }
+
+    // 调用示例：
+    const task = new TaskQueue();
+    task.start();
+    task.add(() => console.log(1), 0);
+    task.add(() => console.log(2), 1000);
+    task.add(() => console.log(3), 2000);
+    task.stop();
+
+    // 输出：
+    1
+    // 等待1000ms
+    2
+    // 等待2000ms
+    3
+
+    // 实现
+    class TaskQueue{
+        constructor() {
+            this.tasks = []
+        }
+        add(fn, time) {
+            this.tasks.push(function() {
+                return new Promise(resolve => {
+                    setTimeout(function() {
+                        fn()
+                        resolve()
+                    }, time)
+                })
+            })
+            return this
+        }
+        start() {
+            this.tasks.length = 0
+        }
+        stop() {
+            // 开启任务
+            if (this.tasks.length > 0) {
+                // 每次拿一个
+                const task = this.tasks.splice(0, 1)[0]
+                task().then(() => {
+                    // 递归
+                    this.stop()
+                })
+            }
+        }
+    }
+    ```
+
 - 实现一个 `convertTree` 方法：
 
     ```js
