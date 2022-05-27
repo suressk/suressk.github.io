@@ -141,6 +141,13 @@ function getKnowledgeSidebar() {
       text: "React",
       children: [
         { text: "React 笔记文章 - 掘金", link: "/knowledge/react/index" },
+        { text: "React Fiber", link: "/knowledge/react/fiber" },
+      ],
+    },
+    {
+      text: "Engineering",
+      children: [
+        { text: "webpack", link: "/knowledge/engineering/webpack " },
       ],
     },
   ];

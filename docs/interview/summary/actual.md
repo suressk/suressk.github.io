@@ -15,12 +15,14 @@ title: 实战面试题分享
 - React Hook 有哪些？ => `useCallback` 有什么作用？
 - 说一下重绘与重排？
 - 如何解决上下边距（`margin`）合并的问题？
+- DNS 劫持
+- React Fiber？Fiber 对象有哪些属性？
 
 <!-- tencent first-interview -->
 
 - react 源码部分，如何完成页面渲染？关键步骤有哪些？
 - `qiankun` 微应用方案？与 `iframe` 的区别？
-- `qiankun` 的路由匹配原理（源码）
+- `qiankun` 的路由匹配原理（源码层面）
 - `CI/CD` 流程方案
 
 ### 代码编写
