@@ -65,12 +65,14 @@ vue 中提供一系列指令帮助我们构建页面
 
 - 纯前端渲染方案中，尽量采用 `.innerText`、`.textContent`、`.setAttribute` 等 API，避免使用 `.innerHTML`、`.outerHTML`、`.document.write()` 等 API；在 vue/react 框架中，避免使用 `v-html`/`dangerouslySetInnerHTML` 功能；注意关注 DOM 内联事件或 `<a>` 标签的 `href` 属性，js 的 `eval()`、`setTimeout()`、`setImmediate()`、`setInterval()` 等 API 均能将 **字符串** 作为代码直接执行
 
-### 5. 说说 cors 跨站脚本攻击防范？
+### 5. DNS 劫持
+
+### 6. 说说 cors 跨站脚本攻击防范？
 
 `CORS`：跨域资源共享（Cross-origin resource sharing）
 
-### 6. devOps（如 jenkins 等）
+### 7. devOps（如 jenkins 等）
 
-### 7. 测试框架（jest）
+### 8. 测试框架（jest）
 
-### 8. 说一说 `qiankun` 的路由匹配原理
+### 9. 说一说 `qiankun` 的路由匹配原理
