@@ -148,6 +148,7 @@ function getKnowledgeSidebar() {
       text: "Engineering",
       children: [
         { text: "webpack", link: "/knowledge/engineering/webpack " },
+        { text: "打包工具对比", link: "/knowledge/engineering/compare " },
       ],
     },
   ];
