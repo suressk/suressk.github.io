@@ -83,7 +83,7 @@ module.exports = {
             {
                 test: /\.less$/,
                 use: [
-                    'style-loader',
+                    { loader: 'style-loader' },
                     {
                         loader: 'css-loader',
                         options: {
