@@ -1,1 +1,0 @@
-import{_ as e,c as a,o as p,b as t}from"./app.dccebf5c.js";const f='{"title":"\u65B0\u5E74\u5FEB\u4E50","description":"","frontmatter":{"title":"\u65B0\u5E74\u5FEB\u4E50"},"relativePath":"mood/spring.md","lastUpdated":1652995234622}',r={},_=t('',18),o=[_];function d(c,s,i,n,h,l){return p(),a("div",null,o)}var m=e(r,[["render",d]]);export{f as __pageData,m as default};

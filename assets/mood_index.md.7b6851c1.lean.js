@@ -1,1 +1,0 @@
-import{_ as t,c as o,o as c,b as s}from"./app.dccebf5c.js";const v='{"title":"Mood","description":"","frontmatter":{"title":"Mood"},"relativePath":"mood/index.md","lastUpdated":1652995234622}',e={},p=s('',3),a=[p];function _(d,i,l,n,r,m){return c(),o("div",null,a)}var b=t(e,[["render",_]]);export{v as __pageData,b as default};

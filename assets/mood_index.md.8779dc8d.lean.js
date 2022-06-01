@@ -1,0 +1,1 @@
+import{_ as t,c as o,o as s,b as c}from"./app.50c3ff41.js";const f='{"title":"Mood","description":"","frontmatter":{"title":"Mood"},"relativePath":"mood/index.md","lastUpdated":1654044527339}',e={},p=c('',3),a=[p];function _(i,d,l,n,r,m){return s(),o("div",null,a)}var v=t(e,[["render",_]]);export{f as __pageData,v as default};
