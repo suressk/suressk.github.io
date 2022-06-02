@@ -18,7 +18,7 @@ title: webpack
 
 1. 通过模块化的方式开发
 2. 通过一些高级特性来加快我们的开发效率或者安全性，如：`ES6+` 语法，`TypeScript` 开发脚本逻辑，`sass`、`less` 编写样式等
-3. 监听文件的变化来并且时时热更新反映到浏览器上，提升开发效率
+3. 监听文件的变化来并且实时热更新反映到浏览器上，提升开发效率
 4. js 代码需要模块化，同样还有其他类型的文件，如 css，图片等资源
 5. 开发完成后需要将代码进行压缩、合并以及其他相关的优化
 
@@ -30,7 +30,9 @@ title: webpack
 
 静态模块：指的是开发阶段，可以被 `webpack` 直接引用的资源（可以直接被获取打包进 `bundle.js` 的资源）
 
-当 `webpack` 处理应用程序时，它会在内部构建一个依赖图，此依赖图对应映射到项目所需的每个模块（不再局限 `js文件`），并生成一个或多个 `bundle`（如下图所示）
+当 `webpack` 处理应用程序时，它会在内部构建一个依赖图，此依赖图对应映射到项目所需的每个模块（不再局限 `js文件`），并生成一个或多个 `bundle`
+
+`webpack` 功能示意图：
 
 ![webpack功能示意图](https://static.vue-js.com/9ce194a0-a578-11eb-85f6-6fac77c0c9b3.png)
 
@@ -82,21 +84,7 @@ module.exports = {
         rules: [
             {
                 test: /\.less$/,
-                use: [
-                    { loader: 'style-loader' },
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            importLoaders: 1
-                        }
-                    },
-                    {
-                        loader: 'less-loader',
-                        options: {
-                            noIeCompat: true
-                        }
-                    }
-                ]
+                use: ['style-loader', 'css-loader', 'less-loader']
             }
         ]
     },

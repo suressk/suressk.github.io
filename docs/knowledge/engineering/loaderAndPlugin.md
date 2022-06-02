@@ -8,7 +8,7 @@ title: webpack loaders & plugins
 
 `loader` 则是用于对模块的 `源代码` 进行转换，在 `import` 或 `require` 模块（加载模块）时预处理文件
 
-在 `webpack` 中，任何文件都是模块，默认情况下，在遇到 `import` 或者 `require` 加载模块的时候，`webpack` 只支持对 `js` 和 `json` 文件打包；像 `css`、`sass`、`png` 等这些类型的文件的时候，`webpack` 则无能为力，这时候就需要配置对应的 `loader` 进行文件内容的解析
+在 `webpack` 中，任何文件都是模块，默认情况下，在遇到 `import` 或者 `require` 加载模块的时候，`webpack` 只支持对 `js` 和 `json` 文件打包；像 `css`、`sass`、`png` 等这些类型的文件，`webpack` 则无能为力，这时候就需要配置对应的 `loader` 进行文件内容的解析
 
 在加载模块的时候，执行顺序为： `入口 entry` ➡️ `loaders` ➡️ `output 输出`
 

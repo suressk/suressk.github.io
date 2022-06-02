@@ -91,10 +91,6 @@ function getMoodSidebar() {
       link: "/mood/dragonBoatFestival",
     },
     {
-      text: "Christmas",
-      link: "/mood/christmas",
-    },
-    {
       text: "Year-End",
       link: "/mood/yearEnd",
     },
@@ -105,6 +101,10 @@ function getMoodSidebar() {
     {
       text: "Spring Festival",
       link: "/mood/spring",
+    },
+    {
+      text: "Fate",
+      link: "/mood/fate",
     },
   ];
 }
@@ -149,6 +149,7 @@ function getKnowledgeSidebar() {
       children: [
         { text: "webpack", link: "/knowledge/engineering/webpack" },
         { text: "webpack Loader & plugin", link: "/knowledge/engineering/loaderAndPlugin" },
+        { text: "webpack 热更新", link: "/knowledge/engineering/hotUpdate" },
         { text: "打包工具对比", link: "/knowledge/engineering/compare" },
       ],
     },
