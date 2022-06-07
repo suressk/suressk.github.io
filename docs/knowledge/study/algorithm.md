@@ -2,11 +2,9 @@
 title: Summary of Interview Algorithm
 ---
 
-### 面试所遇算法题目小结
+## 面试所遇算法题目小结
 
-<br/>
-
-###### 1. 括号字符串匹配：
+### 1. 括号字符串匹配：
 
 ```js
 // 实现一个 isMatch 函数，输入字符只有 '()[]{}' 三种括号字符之中的若干项，
@@ -89,7 +87,7 @@ const isMatch = (str) => {
 };
 ```
 
-###### 2. 数字对称判定
+### 2. 数字对称判定
 
 ```js
 // 如数字 3，121，12321 成左右对称（在不转换类型的情况下，实现数字的对称判定）
@@ -109,7 +107,7 @@ const isPalindrome = (n: number) => {
 };
 ```
 
-###### 3. 字符串解析编译
+### 3. 字符串解析编译
 
 ```js
 // 描述：给定字符串如：'a[2]bc[3](def)[4]((g[2]h)[1]i)[2]'
@@ -180,14 +178,16 @@ const str4 = "(a[2]bc[3])[3](def)[4]"; // aabcccaabcccaabcccdefdefdefdef // ×
 console.log("(a[2]bc[3])[3](def)[4]: ", compileStr(str4)); // 此结果尚还不对，待做......
 ```
 
-###### 4. 斐波那契数列
+### 4. 斐波那契数列
 
 ```js
 // 传入一个非负整数，获取斐波那契数列该项的值，并优化
 // 方案一（简单递归实现，存在调用栈内存溢出问题）：
 const recursionFib = (n: number) => {
   if (n < 0) {
-    throw new Error("The required parameters must be non-negative integers.");
+    throw new Error(
+      "The required parameters must be non-negative integers."
+    );
   }
   if (n === 0 || n === 1) return n;
   return recursionFib(n - 1) + recursionFib(n - 2);
@@ -198,7 +198,9 @@ const cacheFib = (function () {
   const cacheArr: number[] = [0, 1];
   return function (n: number) {
     if (n < 0) {
-      throw new Error("The required parameters must be non-negative integers.");
+      throw new Error(
+        "The required parameters must be non-negative integers."
+      );
     }
     if (cacheArr[n] !== undefined) {
       return cacheArr[n];
@@ -213,7 +215,9 @@ const cacheFib = (function () {
 // 方案三（动态规划）：
 const dynamicFib = (n: number) => {
   if (n < 0) {
-    throw new Error("The required parameters must be non-negative integers.");
+    throw new Error(
+      "The required parameters must be non-negative integers."
+    );
   }
   let current = 0;
   let next = 1;
@@ -225,9 +229,11 @@ const dynamicFib = (n: number) => {
 
 // 方案四（ES6尾调用优化）：
 ("use strict"); // 必须开启严格模式
-const tailCallFib = (n: number, current: number = 0, next: number = 1) => {
+const tailCallFib = (n: number, current = 0, next = 1) => {
   if (n < 0) {
-    throw new Error("The required parameters must be non-negative integers.");
+    throw new Error(
+      "The required parameters must be non-negative integers."
+    );
   }
   if (n === 0) return 0;
   if (n === 1) return next;
@@ -235,7 +241,7 @@ const tailCallFib = (n: number, current: number = 0, next: number = 1) => {
 };
 ```
 
-###### 5. 遍历二叉树
+### 5. 遍历二叉树
 
 ```js
 // 例如，遍历二叉树，示例结构如下：
@@ -260,7 +266,7 @@ const testData = {
 // 输出根节点到叶子节点：[[1, 2, 4], [1, 3, 5], [1, 3, 6]]
 ```
 
-###### 6. 实现一个方法，找出数组中第 k 大的和第 m 大的数字相加之和
+### 6. 找出数组中第 k 大的和第 m 大的数字相加之和
 
 ```js
 /* 描述：
@@ -268,7 +274,8 @@ const testData = {
  * 说明：实现一个方法，找出数组中第k大的和第m大的数字相加之和
  * 示例：
  *   let arr = [1,2,4,4,3,5], k = 2, m = 4
- *   findTopSum(arr, k, m); // 第2大的数是4，出现2次，第4大的是2，出现1次，所以结果为10
+ *   findTopSum(arr, k, m);
+ *   第2大的数是4，出现2次，第4大的是2，出现1次，所以结果为10
  * */
 function findTopSum(arr, k, m) {
   const temp = Array.from(new Set(arr)); // 数组去重
@@ -288,7 +295,7 @@ function findTopSum(arr, k, m) {
 }
 ```
 
-###### 7. 实现一个方法 addJoin
+### 7. 实现一个方法 addJoin
 
 ```js
 /**
@@ -326,7 +333,7 @@ function addJoin(arr, condition) {
 }
 ```
 
-###### 8. 实现一个方法 EatMan
+### 8. 实现一个方法 EatMan
 
 ```js
 // 分别输出如下：
