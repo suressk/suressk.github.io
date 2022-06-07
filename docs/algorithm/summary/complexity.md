@@ -4,7 +4,7 @@ layout: cover
 background: https://sli.dev/demo-cover.png
 ---
 
-### 认识时间复杂度
+## 认识时间复杂度
 
 常数时间操作
 
@@ -27,20 +27,20 @@ aN^2 + bN + c
 
 评价一个算法流程的好坏，先看时间复杂度的指标（`O(N^2)` 与 `O(N)` 比较），然后再分析不同数据样本下的实际运行时间（如两个算法分析得到的时间复杂度均为 `O(N)` 时，就需要实际运行结果来区分了）
 
-### 空间复杂度
+## 空间复杂度
 
 与上面的意思一致，假如我们只需要有限的几个变量需要申请存储空间，与样本数据量无关时，我们称其空间复杂度为 `O(1)`
 
 若类似需要额外开辟跟样本数据一样大小的内存空间来实现算法功能，我们则称其空间复杂度为 `O(N)`
 
-### 位运算
+## 位运算
 
 既然上面提到了位运算，这里就简单讲讲吧：
 
-- `&`：两个位都为 1 时，结果才为 1，其余为 0
-- `|`：两个位都为 0 时，结果才为 0，其余为 1
-- `~`：取反，0 变 1，1 变 0
-- `^`：两个位相同为 1（同为 0 或同为 1），不同则为 0
+- `&`：（`与`）两个位都为 1 时，结果才为 1，其余为 0
+- `|`：（`或`）两个位都为 0 时，结果才为 0，其余为 1
+- `~`：（`非`）取反，0 变 1，1 变 0
+- `^`：（`异或`）两个位相同为 1（同为 0 或同为 1），不同则为 0（`无进位相加`）
 - `<<`：各二进位全部左移若干位，高位丢弃，低位补 0
 - `>>`：各二进位全部右移若干位，对无符号数，高位补 0，有符号数，各编译器处理方法不一样，有的补符号位（算术右移），有的补 0（逻辑右移）
 
@@ -60,7 +60,74 @@ aN^2 + bN + c
 // 11 >> 1 = ~~(11 / (2 ^ 1)) = 5
 ```
 
-### 选择排序
+## 面试题练手
+
+> 在一个数组（`arr: number[]`）中，<br/>
+> `问题1`：已知其中一种数出现了奇数次，其他数出现了偶数次，求这个出现奇数次的数是啥？<br/>
+> `问题2`：已知其中两种数出现了奇数次，其他数出现了偶数次，求这两个出现奇数次的数是啥？<br/>
+> 要求：时间复杂度为 `O(N)`，空间复杂度为 `O(1)`
+
+```ts
+// 有上面的铺垫，我们可以知道问题1很简单，
+// 直接将数组中的数全部一起进行 异或运算，最后的结果就是这个数
+function resolveOne(arr: number[]) {
+  if (!arr || !Array.isArray(arr) || arr?.length = 0) {
+    throw new Error(`The array is of the wrong type or
+      the array is empty!`)
+  }
+  let eor = 0
+  arr.forEach(item => {
+    eor ^= item
+    // 上面是下面的简写语法（应该都看得懂）
+    // eor = eor ^ item
+  })
+  return eor
+}
+```
+
+```ts
+// 问题2，我们需要借助无进位相加的思想来方便理解
+// 转换为二进制来看时，异或运算计算时，只看对应位上 1 的个数有关
+// 这一位上出现奇数个 1，最后结果这位上就是 1，否则为 0
+function resolveTwo(arr: number[]) {
+  if (!arr || !Array.isArray(arr) || arr?.length === 0) {
+    throw new Error(
+      `The array is of the wrong type or the array is empty!`
+    )
+  }
+  let eor = 0, onlyOne = 0
+  // 首先，还是得像问题1一样全部进行异或运算
+  // 得到这两个出现奇数次的数（假设为 a, b）的异或结果
+  arr.forEach(cur => {
+    eor ^= cur
+  })
+  // 此时得到的 eor = a ^ b
+  // 且 eor !== 0
+  // 那么在转换为二进制时，eor 必然有一个位置上的值为 1
+
+  // 那么 a, b 两数在这一位上必然是不同的，我们就能得到其中一个
+
+  // 提取出 eor 二进制数最右的 1
+  let rightOne = eor & (~eor + 1)
+  // 我们不妨假设 eor 为：100101100
+  // 那 rightOne 为：100101100 & (011010011 + 1) = 0000000100
+  arr.forEach(cur => {
+    // 括号别丢，否则运算顺序错误会导致结果异常
+    // rightOne 仅为最右侧数为 1（二进制）
+    // 两个奇数次的数在这一位上：一个为 0，另一个数一定为 1
+    // 由 & 操作特性我们得到结果为 0 的数一定是其中一个出现奇数次的数
+    if ((cur & rightOne) === 0) {
+      // 得到 a 或者 b 其中一个
+      onlyOne ^= cur
+    }
+  })
+  // 得到 a 或者 b 的另一个
+  eor ^= onlyOne
+  return [eor, onlyOne]
+}
+```
+
+## 选择排序
 
 先简单理解一下思路吧：
 
@@ -76,8 +143,8 @@ aN^2 + bN + c
  ↑  ↑
  i  j
 
-i：记录当前最小值索引
-j：从 i 的下一位开始依次往后扫到数组结束，找到
+i: 记录当前最小值索引
+j: 从 i 的下一位开始依次往后扫到数组结束，找到
    比当前 i 位置上的值小的值，进行交换
 ```
 
@@ -112,7 +179,7 @@ function swap(arr: number[], i: number, j: number) {
 
 从上面的示例代码，我们看到需要两层 `for` 循环，从时间复杂度上分析需要 `O(N^2)` （常数操作为 等差数列 求和），空间复杂度为 `O(1)`
 
-### 冒泡排序
+## 冒泡排序
 
 简单说明：
 
@@ -170,7 +237,7 @@ function swap(arr: number[], i: number, j: number) {
 // 二进制数进行异或运算
 01001001 ^ 11010101
 
-// 我们写得好一点就是：
+// 我们写得好看一点就是：
   01001001
 ^ 11010101
 -----------
@@ -201,71 +268,125 @@ a = a ^ b  // a = (甲 ^ 乙) ^ (甲 ^ 乙 ^ 乙) → a = 乙
 
 **注意：** 上面的 `a`，`b` 必须得是内存中两块不同的区域（值可以相同，但内存不能是同一块，否则会把它抹为 0）
 
-### 面试题练手
+## 插入排序
 
-> 在一个数组（`arr: number[]`）中，<br/>
-> `问题1`：已知其中一种数出现了奇数次，其他数出现了偶数次，求这个出现奇数次的数是啥？<br/>
-> `问题2`：已知其中两种数出现了奇数次，其他数出现了偶数次，求这两个出现奇数次的数是啥？<br/>
-> 要求：时间复杂度为 `O(N)`，空间复杂度为 `O(1)`
+时间复杂度 `O(N^2)`（算法流程按最差情况来估计时间复杂度），空间复杂度 `O(1)`
 
-```ts
-// 有上面的铺垫，我们可以知道问题1很简单，
-// 直接将数组中的数全部一起进行 异或运算，最后的结果就是这个数
-function resolveOne(arr: number[]) {
-  if (!arr || !Array.isArray(arr) || arr?.length = 0) {
-    throw new Error(`The array is of the wrong type or
-      the array is empty!`)
-  }
-  let eor = 0
-  arr.forEach(item => {
-    eor ^= item
-    // 上面是下面的简写语法（应该都看得懂）
-    // eor = eor ^ item
-  })
-  return eor
-}
-```
+与数据状况有关，会优于 `冒泡排序` 与 `选择排序`（最好情况是 `O(N)`，最差是 `O(N^2)`）
+
+> 思路：
+> 1. 索引从 0 到 n - 1，依次将第 n - 1 位的数依次与前一个数比较，小于前一个数，则交换
+> 2. 交换后，记载索引位前移一位（此时为：n-2），再将它与前一个比较，依次类推
+> 3. 则依次排列：0～1 索引位，0～2 索引位，0～3 索引位... 直到 0～n-1 上有序则结束
 
 ```ts
-// 问题2，我们需要借助无进位相加的思想来方便理解
-// 转换为二进制来看时，异或运算计算时，只看对应位上 1 的个数有关
-// 这一位上出现奇数个 1，最后结果这位上就是 1，否则为 0
-function resolveTwo(arr: number[]) {
-  if (!arr || !Array.isArray(arr) || arr?.length = 0) {
-    throw new Error(`The array is of the wrong type or
-      the array is empty!`)
+// 实现
+const arr = [4, 2, 6, 3, 8, 9, 0, 1, 5, 7]
+
+function insertSort(arr: number[]) {
+  if (!arr || !Array.isArray(arr) || arr?.length === 0) {
+    throw new Error(
+      `The array is of the wrong type or the array is empty!`
+    )
   }
-  let eor = 0, onlyOne = 0
-  // 首先，还是得像问题1一样全部进行异或运算
-  // 得到这两个出现奇数次的数（假设为 a, b）的异或结果
-  arr.forEach(cur => {
-    eor ^= cur
-  })
-  // 此时得到的 eor = a ^ b
-  // 且 eor !== 0
-  // 那么在转换为二进制时，eor 必然有一个位置上的值为 1
-
-  // 那么 a, b 两数在这一位上必然是不同的，我们就能得到其中一个
-
-  // 提取出 eor 二进制数最右的 1
-  let rightOne = eor & (~eor + 1)
-  // 我们不妨假设 eor 为：100101100
-  // 那 rightOne 为：100101100 & (011010011 + 1) = 0000000100
-  arr.forEach(cur => {
-    // 括号别丢，否则运算顺序错误会导致结果异常
-    if ((cur & rightOne) === 0) {
-      // 得到 a 或者 b 其中一个
-      onlyOne ^= cur
+  const len = arr.length
+  for (let i = 0; i < len; i++) {
+    for (let j = i - 1; j >= 0 && arr[j] > arr[j + 1]; j--) {
+      swap(arr, j, j + 1) // 此方法见上面的实现
     }
-  })
-  // 得到 a 或者 b 的另一个
-  eor ^= onlyOne
-  return [eor, onlyOne]
+    // 或者这样：
+    // for (let j = i - 1; j >= 0; j--) {
+    //   if (arr[j] > arr[j + 1]) {
+    //      swap(arr, j, j + 1)
+    //   }
+    // }
+  }
+  console.log('after sort: ', arr)
 }
 ```
 
-### 插入排序
+## 二分法
+
+在一个 **有序** 数组中，查找某个数是否存在，普通遍历时间复杂度为 `O(N)`，二分法的时间复杂度为 `O(logN)`
+
+二分法：每次对数组中的数据进行对半拆分，比较要查找的这个数与中间数（对半分的位置数）的大小，则可在剩下的一半数据中继续此操作，找到则返回 `true`（可能无需二分完全结束）
+
+> 变式：
+> 1. 在一个有序数组中，查找 `>= 某个数` 最左侧的位置（需要完全二分结束才能判定）
+> 2. `局部最小值` 问题
+>> 某个 `无序数组` 中，相邻的数一定 **`不相等`**，当存在 `N` 位置上的数小于 `N-1` 和 `N+1` 位置上的数时，那么这个第 `N` 位上的数即为我们要找的局部最小数，要求时间复杂度小于 `O(N)`
+
+```js
+思路：
+1. 首先看 arr[0]、arr[n-1] 的值与其相邻数的比较结果，
+   若存在 arr[0] 或 arr[n-1] 的数小，则直接返回这其中一个即可
+2. 若二者均大于相邻数（即：arr[0] > arr[1], arr[n-1] > arr[n-2]），
+   那么 0～N-1 范围内必定存在一个拐点（也就是局部最小值）
+3. 根据这点，我们开始二分查找（记中间数拆分点索引为 m，比较
+   arr[m-1], arr[m], arr[m+1]）；判断 0～m 或者 m～n-1 区间上的情况
+   若与第 2 步一样，则继续二分
+```
+
+算法优化思路：`数据状况特殊` or `求解的问题特殊`
+
+## 对数器
+
+> 有一个你想要测的方法 a
+> 1. 实现一个绝对正确但是复杂度不好的方法 b
+> 2. 实现一个随机样本产生器
+> 3. 实现比对的方法
+> 4. 把方法 a 和方法 b 比对很多次来验证方法 a 是否正确
+> 5. 如果有一个样本使得比对出错，打印样本分析是哪个方法出错，当样本数量很多时比对测试依然正确，可以确定方法 a 已经正确
+
+如下示例所示：
 
 ```ts
-[4, 2, 6, 3, 8, 9, 0, 1, 5, 7]
+// 比如说你用 插入排序 实现的方法 insertSort 是我们说的方法 a
+// Array.prototype.sort 为 js 内部实现的排序算法，就是我们说的算法 b
+function insertSort(arr: number[]) {
+  // ... 插入排序实现代码
+}
+
+// 得到 [min, max] 区间上的随机整数
+function getRamdomInteger(min: number = 0, max: number = 10) {
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
+// 得到随机长度的随机数
+function generateRandomArr(
+  maxLength = 0,
+  minValue = 0,
+  maxValue = 10
+) {
+  const arr = new Array(maxLength)
+  for (let i = 0; i < maxLength; i++) {
+    arr[i] = getRamdomInteger(minValue, maxValue)
+  }
+}
+
+function testFn() {
+  const testTimes = 500000
+  const maxLength = 100
+  const minValue = -100
+  const maxValue = 100
+  let succeed = true
+  for (let i = 0; i < testTimes; i++) {
+    const arr1 = generateRandomArr(maxLength, minValue, maxValue)
+    // 这里直接用扩展运算符复制一份（这里只是一维数组）
+    const arr2 = [...arr1]
+    insertSort(arr1) // 插入排序 arr1，假设是升序排序
+    arr2.sort((a, b) => (a - b)) // 升序
+    if (!isEqual(arr1, arr2)) {
+      succeed = false
+      break
+    }
+  }
+  console.log(succeed ? 'Good job!' : 'Looks like something wrong~~')
+}
+
+function isEqual(originArr: number[], targetArr: number[]) {
+  // 简便比较两个数组排序结果是否一致，直接转成字符串比较就好
+  return (originArr.join(',') === targetArr.join(','))
+}
+
+testFn() // 执行看结果如何
 ```
