@@ -198,6 +198,7 @@ function getInterviewSidebar() {
       text: "Knowledge Summary",
       children: [
         { text: "复杂度与简单排序", link: "/algorithm/summary/complexity" },
+        { text: "N·log(N) 的排序", link: "/algorithm/summary/merge" },
       ],
     },
   ];
