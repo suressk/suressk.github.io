@@ -6,16 +6,18 @@ title: 归并排序
 
 流程：
 
-> 取数组中点，分别将左右部分排好序，再将两侧整合到一起<br/>
-> 使用两个下标（左右指针），分别从左右两边开始扫，比较两个指针所指的数<br/>
+> 取数组中点，分别将左右部分排好序（递归），再将两侧整合到一起<br/>
+> 使用两个下标（左右指针），分别从左右两侧排好序部分的开头开始扫，比较两个指针所指的数<br/>
 > 用一个新数组存储合并排序好的数，再更新原数组
 
 ```ts
+// 递归版
 function mergeSort(arr: number[]) {
-    if (!arr || !Array.isArray(arr) || arr?.length < 2) {
+    const len = arr?.length
+    if (!arr || !Array.isArray(arr) || len < 2) {
         return
     }
-    sort(arr, 0, arr.length - 1)
+    sort(arr, 0, len - 1)
 }
 
 function sort(
@@ -69,6 +71,38 @@ function merge(
     for (i = 0; i < len; i++) {
         arr[l + i] = resArr[i]
     }
+}
+```
+
+```ts
+// 采用自上而下的递归方法
+function mergeSort(arr: number[]) {
+    const len = arr.length;
+    if (len < 2) {
+        return arr;
+    }
+    const middle = len >> 1,
+        leftArr = arr.slice(0, middle),
+        rightArr = arr.slice(middle);
+    return merge(mergeSort(leftArr), mergeSort(rightArr));
+}
+
+function merge(leftArr: number[], rightArr: number[]) {
+    const result = [];
+    while (leftArr.length && rightArr.length) {
+        if (leftArr[0] <= rightArr[0]) {
+            result.push(leftArr.shift());
+        } else {
+            result.push(rightArr.shift());
+        }
+    }
+    while (leftArr.length) {
+        result.push(leftArr.shift());
+    }
+    while (rightArr.length) {
+        result.push(rightArr.shift());
+    }
+    return result;
 }
 ```
 
@@ -228,7 +262,7 @@ function getResult(arr: number[], num: number) {
 
 ### 1.0 版
 
-> 我们取区间数组中的最后一个数作为 `num`，可以划分为 `<num` 区，当前 `num`，和 `>num` 区（每一步就可将 **一个** `num` 的位置固定），然后左右两侧区域按这个方式去递归
+> 我们取区间数组中的最后一个数作为 `num`，可以划分为 `<=num` 区和 `>num` 区（每一步就可将 **一个** `num` 的位置固定），然后左右两侧区域按这个方式去递归
 
 ### 2.0 版
 
