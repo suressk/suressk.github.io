@@ -51,7 +51,7 @@ Fiber 可以理解为一种 `执行单元`，它本身也是一种 `数据结构
 
     > 文件位置：[packages/react-reconciler/src/ReactFiber.js](https://github.com/facebook/react/blob/main/packages/react-reconciler/src/ReactFiber.new.js)
 
-    它是一个 `js对象`，每一个 React 元素就对应一个 Fiber 对象，它是基于链表实现的，主要利用其 `child`、`return`、`sibling` 属性来实现 React Fiber 机制（可控中断操作等）；fiber 对象的主要属性如下：
+    一个 `fiber` 就是一个 `js对象`，每一个 React 元素就对应一个 Fiber 对象，它是基于链表实现的，主要利用其 `child`、`return`、`sibling` 属性来实现 React Fiber 机制（可控中断操作等）；fiber 对象的主要属性如下：
 
     ```ts
     type Fiber = {

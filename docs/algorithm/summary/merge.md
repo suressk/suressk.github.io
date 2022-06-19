@@ -272,7 +272,7 @@ function getResult(arr: number[], num: number) {
 
 ### 3.0 版
 
-> 在 `2.0 版本` 的基础上，不再固定以区间数组最后一个数作为 `num`，而是在区间数组范围内随机选一个数，将它与区间数组最后一项交换，用它作为 `num` 进行划分（从概率论的角度可以证明其时间复杂度为 `O(N·logN)`）
+> 在 `2.0 版本` 的基础上，不再固定以区间数组最后一个数作为 `num`，而是在区间数组范围内随机选一个数，将它与区间数组最后一项交换，用它作为 `num` 进行划分（从概率论的角度可以证明其时间复杂度为 `O(N·logN)`），空间复杂度为 `O(logN)`（最差为 `O(N)`）
 
 ```ts
 function quickSort(arr: number[]) {
@@ -289,7 +289,7 @@ function sort(
     r: number
 ) {
     if (l < r) {
-        // 随机选择一个数
+        // 随机选择一个数，并放到数组的末尾
         swap(arr, ~~(Math.random() * (r - l + 1)), r)
         const par = partation(arr, l, r) // 返回 =区 的左右下标
         sort(arr, l, par[0] - 1) // <区 右边界：p[0] - 1

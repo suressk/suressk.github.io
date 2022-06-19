@@ -149,8 +149,10 @@ function getKnowledgeSidebar() {
       children: [
         { text: "webpack", link: "/knowledge/engineering/webpack" },
         { text: "webpack Loader & plugin", link: "/knowledge/engineering/loaderAndPlugin" },
+        { text: "webpack Tapable", link: "/knowledge/engineering/tapable" },
         { text: "webpack 热更新", link: "/knowledge/engineering/hotUpdate" },
         { text: "打包工具对比", link: "/knowledge/engineering/compare" },
+        { text: "代码规范", link: "/knowledge/engineering/lint" },
       ],
     },
   ];
@@ -199,6 +201,7 @@ function getInterviewSidebar() {
       children: [
         { text: "复杂度与简单排序", link: "/algorithm/summary/complexity" },
         { text: "N·log(N) 的排序", link: "/algorithm/summary/merge" },
+        { text: "堆 & 栈", link: "/algorithm/summary/stack" },
       ],
     },
   ];

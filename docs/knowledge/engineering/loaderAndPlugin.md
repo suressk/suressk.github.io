@@ -26,9 +26,9 @@ module.exports = {
                 use: [
                     /* 创建 <style> 标签插入 html */
                     'style-loader',
-                    /* 使 webpack 可以识别解析 css 语法 ⬆️ */
+                    /* 识别解析 css 语法 ⬆️ */
                     'css-loader',
-                    /* 使 webpack 可以识别解析 sass 语法 ⬆️ */
+                    /* 识别解析 sass 语法 ⬆️ */
                     'sass-loader'
                 ]
             }
@@ -40,11 +40,11 @@ module.exports = {
 ### loader 特性
 
 - `loader` 支持 **链式调用**
-    > 链中的每个 `loader` 会处理之前已处理过的资源，最终变为 `js代码`。顺序为 **相反** 的顺序执行，即上述执行方式为 `sass-loader`、`css-loader`、`style-loader`
+    > 链中的每个 `loader` 会处理之前已处理过的资源，最终变为 `js代码`。顺序为 **相反** 的顺序执行，即上述执行顺序为 `sass-loader`、`css-loader`、`style-loader`
 
 - `loader` 可以是同步的，也可以是异步的
-- `loader` 运行在 `Node.js` 环境中，并且能够执行任何操作
-- 插件(`plugin`)可以进一步增强 `loader` 的功能
+- `loader` 运行在 `Node` 环境中，并且能够执行任何操作（比如读取文件，输出文件等）
+- 插件（`plugin`）可以进一步增强 `loader` 的功能
 - `loader` 能够产生额外的任意文件
 
 使用 loader 可以将各功能模块进行更细粒度的拆分
@@ -131,7 +131,7 @@ module.exports = HtmlWebpackPlugin;
 
 ### 常见 plugin
 
-- `html-webpack-plugin`：在打包结束后，⾃动生成⼀个 `html` ⽂文件，并把打包生成的 `js` 模块引⼊到该 `html` 中
+- `html-webpack-plugin`：在打包结束后，⾃动生成⼀个 `html` 文件，并把打包生成的 `js` 模块引⼊到该 `html` 中
 - `clean-webpack-plugin`：删除（清理）构建目录（每次打包都清除上次打包生成的文件）
 - `copy-webpack-plugin`：复制文件或目录到打包结果目录中
 
