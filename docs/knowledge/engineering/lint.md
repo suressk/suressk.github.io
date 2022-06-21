@@ -14,6 +14,8 @@ title: 代码规范
 
 `Lint` 其实就是编辑器中运行的一个 `脚本进程`，它会将代码解析为 `AST 抽象语法树` 🌲，再通过遍历语法树并通过预设规则去进行判断和改动，再将更新后的语法树转换为（尽量）规范化的代码
 
+> 待完善～
+
 ## Commit 规范
 
 我们在使用 `Git` 托管代码时，规范化的 `Commit Message` 可以帮助大家直观清晰地理解每次修改的内容，不仅能帮助别人 `Review`，还可以有效地输出 `ChangeLog`。那么要想前端工程化项目更易于维护，最好有一套 `Git` 提交说明的 `规范化模板`
@@ -63,8 +65,8 @@ title: 代码规范
 
     ```git
     feat(Component): add Layout component
-    feat(View): change the color of the button
-    feat(Button.tsx): add Button component and change the default size of it
+    feat(Button.tsx): change the default size of the button
+    fix(EmitEvent): handle event on blur (closes #28)
     ```
 
 2. `Body` 部分可书写多行，对 `subject` 做更详尽的描述，内容应包括 `改动动机` 与 `改动前后对比`
@@ -117,11 +119,13 @@ title: 代码规范
 - 在 `package.json` 配置 `hooks`
 
   ```json
-  "husky": {
-    "hooks": {
-      /* commit 信息提交前会执行此 script，若未配置此命令，将会跳过 */
-      "pre-commit": "npm run test",
-      "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS"
+  {
+    "husky": {
+      "hooks": {
+        /* commit 信息提交前会执行此 script，若未配置此命令，将会跳过 */
+        "pre-commit": "npm run test",
+        "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS"
+      }
     }
   }
   ```
@@ -153,17 +157,17 @@ test...... # index.js 就一句: console.log('test......')
 husky - commit-msg hook exited with code 1 (error)
 ```
 
-### 方案二：自定义 verifyCommits 方法
+### 方案二：`yorkie`+`verifyCommits.js`（实践发现并不能触发 gitHooks）
 
 结合上面的代码规范 `Lint`，我们可以在 `pre-commit` hook 中进行代码格式化，`commit-msg` hook 我们可以执行我们自己定义的 js 文件去校验 `commit` 信息是否符合我们定义的 `commit 规范`
 
 - 安装
 
   ```shell
-  pnpm i husky lint-staged chalk eslint prettier @typescript-eslint/parser -D
+  pnpm i yorkie lint-staged chalk eslint prettier @typescript-eslint/parser -D
   ```
 
-  - `yorkie`：`EvanYou` fork `husky` 的一个 `npm` 包（可替换 `husky`）
+  - `yorkie`：`EvanYou` fork `husky` 的一个 `npm` 包（不兼容 `husky`）
   - `lint-staged`：它仅是一个文件过滤器，这里的 staged 是与 Git 中的概念一致的，过滤出 `Git` 代码暂存区的代码（`committed` 的代码）
   - `chalk`：一个多彩的 `log` 记录工具
   - `eslint`，`prettier`：上面的 `Lint` 工具
@@ -172,20 +176,22 @@ husky - commit-msg hook exited with code 1 (error)
 - 配置 `hooks` （`package.json`）
 
   ```json
-  "gitHooks": {
-    /* 触发格式化 */
-    "pre-commit": "lint-staged",
-    /* 我们自定义的校验 commit 信息的 js 文件 */
-    "commit-msg": "node scripts/verifyCommit.js"
-  },
-  "lint-staged": {
-    "*.js": [
-      "prettier --write" /* 结合 .prettierrc 文件声明格式 */
-    ],
-    "*.ts?(x)": [
-      "eslint", /* 结合 .eslintrc.js 文件声明格式 */
-      "prettier --parser=typescript --write"
-    ]
+  {
+    "gitHooks": {
+      /* 触发格式化 */
+      "pre-commit": "lint-staged",
+      /* 我们自定义的校验 commit 信息的 js 文件 */
+      "commit-msg": "node scripts/verifyCommit.js"
+    },
+    "lint-staged": {
+      "*.js": [
+        "prettier --write" /* 结合 .prettierrc 文件声明格式 */
+      ],
+      "*.ts?(x)": [
+        "eslint", /* 结合 .eslintrc.js 文件声明格式 */
+        "prettier --parser=typescript --write"
+      ]
+    }
   }
   ```
 
@@ -205,6 +211,82 @@ husky - commit-msg hook exited with code 1 (error)
   if (!commitRE.test(msg)) {
     console.log()
     console.error(
+      `  ${bgRed.white(' ERROR ')} ${red(
+        `invalid commit message format.`
+      )}\n\n` +
+        red(
+          `  Proper commit message format is required for automated changelog generation. Examples:\n\n`
+        ) +
+        `    ${green(`feat(compiler): add 'comments' option`)}\n` +
+        `    ${green(
+          `fix(Input.tsx): handle events on blur (close #28)`
+        )}\n\n` +
+        red(`  See .github/commit-convention.md for more details.\n`)
+    )
+    process.exit(1)
+  }
+  ```
+
+至此，已经完成 yorkie 配置，但实际测试提交 commit 时，并不能触发 `pre-commit` 和 `commit-msg` hook，可能是我哪里使用的姿势不对吧！（故放弃）
+
+### 方案三：结合 husky 和自定义 verifyCommits.js
+
+- 安装
+
+  ```shell
+  pnpm i husky lint-staged eslint prettier chalk -D
+  # 太长，分两行书写，下面的是对 ts 文件格式化的插件
+  pnpm i @typescript-eslint/parser @typescript-eslint/eslint-plugin -D
+  ```
+
+  ```shell
+  npx husky install # 安装 .husky 目录
+  npx husky-init # 创建 pre-commit hook
+  ```
+
+- 修改 `.husky/pre-commit` 文件：
+
+  ```sh
+  #!/usr/bin/env sh
+  . "$(dirname -- "$0")/_/husky.sh"
+
+  # npm test  # 这句删掉，改为下面这行，进行代码格式化检测
+  npx lint-staged
+  ```
+
+- 添加 `commit-msg` hook
+
+  ```sh
+  # scripts/verifyCommits.js 即为我们自定义的校验文件
+  npx husky add .husky/commit-msg 'node scripts/verifyCommits.js "$1"'
+  ```
+  **⚠️：** **`$1`** 必须在 `.husky/commit-msg` 文件中写上（在我们使用 `git commit -m "[msg]"` 时，会传递给 `$1` 参数），否则我们执行自定义校验 commit 文件时是无法拿到 commit 信息的，文件内容如下：
+
+  ```sh
+  #!/usr/bin/env sh
+  . "$(dirname -- "$0")/_/husky.sh"
+
+  node scripts/verifyCommits.js "$1"
+  ```
+ 
+- 创建 `scripts/verifyCommits.js` 文件：
+
+  ```js
+  const chalk = require('chalk')
+
+  // const msgPath = process.env.GIT_PARAMS // 此为 undefined 拿不到 msg 信息
+  const msgPath = process.argv[2]
+  const msg = require('fs').readFileSync(msgPath, 'utf-8').trim()
+
+  console.log()
+  console.log(chalk.bgBlueBright.white('Commit Msg: '), msg)
+
+  const commitRE =
+    /^(revert: )?(feat|fix|docs|dx|style|refactor|perf|test|workflow|build|ci|chore|types|wip|release)(\(.+\))?: .{1,50}/
+
+  if (!commitRE.test(msg)) {
+    console.log()
+    console.error(
       `  ${chalk.bgRed.white(' ERROR ')} ${chalk.red(
         `invalid commit message format.`
       )}\n\n` +
@@ -213,10 +295,90 @@ husky - commit-msg hook exited with code 1 (error)
         ) +
         `    ${chalk.green(`feat(compiler): add 'comments' option`)}\n` +
         `    ${chalk.green(
-          `fix(v-model): handle events on blur (close #28)`
+          `fix(input): handle events on blur (close #28)`
         )}\n\n` +
         chalk.red(`  See .github/commit-convention.md for more details.\n`)
     )
     process.exit(1)
   }
   ```
+
+- 配置 `package.json` 文件内容（实际上这里配不配都不影响，实际执行的依旧是 `.husky` 目录下的 hook 文件，为了在 `package.json` 文件中直观展示，我们将其同步）
+
+  ```json
+  {
+    /* husky hooks 不配也不影响 */
+    "husky": {
+      "hooks": {
+        /* commit 信息提交前会执行此 script，若未配置此命令，将会跳过 */
+        "pre-commit": "lint-staged",
+        "commit-msg": "node scripts/verifyCommits.js"
+      }
+    },
+    /* lint-staged 必须配置 */
+    "lint-staged": {
+      "*.js": [
+        "prettier --write" /* 结合 .prettierrc 文件声明格式 */
+      ],
+      "*.ts?(x)": [
+        "eslint", /* 结合 .eslintrc.js 文件声明格式 */
+        "prettier --parser=typescript --write"
+      ]
+    }
+  }
+  ```
+
+- 创建 `.eslintrc.js` 文件和 `.pretterrc` 文件中写上
+
+  ```js
+  // .eslintrc.js 文件
+  module.exports = {
+    env: {
+      browser: true,
+      es2021: true
+    },
+    extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
+    parser: '@typescript-eslint/parser',
+    parserOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module'
+    },
+    plugins: ['@typescript-eslint'],
+    rules: {}
+  }
+  ```
+
+  ```js
+  // .pretterrc 文件
+  semi: false
+  singleQuote: true
+  printWidth: 80
+  trailingComma: 'none'
+  arrowParens: 'avoid'
+  ```
+
+配置完毕，我们试试吧
+
+```shell
+➡️ git commit -m "tes: 错误示例 🙅<200d>♂️"
+
+✔ Preparing lint-staged...
+✔ Running tasks for staged files...
+✔ Applying modifications from tasks...
+✔ Cleaning up temporary files...
+
+Commit Msg:  tes: 错误示例 🙅‍♂️
+
+   ERROR  invalid commit message format.
+
+  Proper commit message format is required for automated changelog generation. Examples:
+
+    feat(compiler): add 'comments' option
+    fix(input): handle events on blur (close #28)
+
+  See .github/commit-convention.md for more details.
+
+husky - commit-msg hook exited with code 1 (error)
+```
+
+当然，整体来说也只是一个推荐性的规范方案，`commit` 同样可以通过 `-n` 或者是 `-no-verify` 直接绕开 `commit` 检测
