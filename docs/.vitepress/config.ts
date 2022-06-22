@@ -153,6 +153,7 @@ function getKnowledgeSidebar() {
         { text: "webpack 热更新", link: "/knowledge/engineering/hotUpdate" },
         { text: "打包工具对比", link: "/knowledge/engineering/compare" },
         { text: "代码规范", link: "/knowledge/engineering/lint" },
+        { text: "webpack 打包优化", link: "/knowledge/engineering/wpOptimize" },
       ],
     },
   ];
@@ -191,7 +192,7 @@ function getInterviewSidebar() {
  * 算法相关文章列表
  * @returns nav[]
  */
- function getAlgorithmSidebar() {
+function getAlgorithmSidebar() {
   return [
     {
       text: "Introduction",
