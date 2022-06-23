@@ -19,7 +19,8 @@ hero:
   text: 要么孤独，要么庸俗
   tagline: Keep calm and carry on!
   image:
-    src: /images/raining.gif
+    # src: /images/raining.gif
+    src: /images/k.icons.png
     alt: K.island
   actions:
     - theme: brand
