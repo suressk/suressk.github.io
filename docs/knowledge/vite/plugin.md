@@ -8,24 +8,18 @@ plugin 是 vite 的核心功能，通过 plugin 实现预构建资源路径替�
 
 ##### 本篇目标
 
-1. plugin 的各个 hook 函数的作用
-
-2. vite 独有的 hook 函数的执行时间
-
-3. 内置的插件如何使 vite 对各种文件开箱即用
-
-4. 所有插件机中之后各个 hook 函数的使用流程
+> 1. plugin 的各个 hook 函数的作用
+> 2. vite 独有的 hook 函数的执行时间
+> 3. 内置的插件如何使 vite 对各种文件开箱即用
+> 4. 所有插件机中之后各个 hook 函数的使用流程
 
 **[vite 插件](https://vite-rollup-plugins.patak.dev/)基于 [rollup 插件](https://rollupjs.org/guide/en/#plugin-development)，插件的 hook 函数返回值和参数类型完全依照 rollup，但并没有全部接受 rollup 的 hook 函数。目前只使用了 rollup 的 [7 个 hook 函数](https://cn.vitejs.dev/guide/api-plugin.html#universal-hooks)，另外提供了 vite 独有的 [5 个 hook 函数](https://cn.vitejs.dev/guide/api-plugin.html#vite-specific-hooks)**
 
-[rollup build-hooks](https://rollupjs.org/guide/en/#build-hooks) 分四种种类：
+[rollup build-hooks](https://rollupjs.org/guide/en/#build-hooks) 分四个种类：
 
 - `async`：返回解析类型为 Promise 的异步 hook
-
 - `first`：若多个插件实现了这个 hook 函数，它们会按指定的插件顺序串行执行，直到一个 hook 返回的不是 `null` 或 `undefined`（也就是说会存在在某个插件终止的情况）
-
 - `sequential`：若多个插件都实现了这个 hook 函数，它们会按指定的插件顺序串行执行。如果某个 hook 是异步的，后续的 hook 会等待当前 hook 执行结束再继续运行
-
 - `parallel`：若多个插件都实现了这个 hook 函数，它们会按指定的插件顺序串行执行。如果某个 hook 是异步的，后续的这种 hook 函数将并行运行，而不是等待当前的 hook 执行结束
 
 ##### 一个完整的插件示例

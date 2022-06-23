@@ -71,42 +71,47 @@ module.exports = {
 function getMoodSidebar() {
   return [
     {
-      text: "孤独与庸俗",
-      link: "/mood/loneliness",
-    },
-    {
-      text: "感与叹",
-      link: "/mood/feels",
-    },
-    {
-      text: "入秋",
-      link: "/mood/autumn",
-    },
-    {
-      text: "典籍里的中国",
-      link: "/mood/chinaInTheClassics",
-    },
-    {
-      text: "端午",
-      link: "/mood/dragonBoatFestival",
-    },
-    {
-      text: "Year-End",
-      link: "/mood/yearEnd",
-    },
-    {
-      text: "风过无痕",
-      link: "/mood/wind",
-    },
-    {
-      text: "Spring Festival",
-      link: "/mood/spring",
-    },
-    {
-      text: "Fate",
-      link: "/mood/fate",
-    },
-  ];
+      test: 'Mood',
+      items: [
+        {
+          text: "孤独与庸俗",
+          link: "/mood/loneliness",
+        },
+        {
+          text: "感与叹",
+          link: "/mood/feels",
+        },
+        {
+          text: "入秋",
+          link: "/mood/autumn",
+        },
+        {
+          text: "典籍里的中国",
+          link: "/mood/chinaInTheClassics",
+        },
+        {
+          text: "端午",
+          link: "/mood/dragonBoatFestival",
+        },
+        {
+          text: "Year-End",
+          link: "/mood/yearEnd",
+        },
+        {
+          text: "风过无痕",
+          link: "/mood/wind",
+        },
+        {
+          text: "Spring Festival",
+          link: "/mood/spring",
+        },
+        {
+          text: "Fate",
+          link: "/mood/fate",
+        },
+      ]
+    }
+  ]
 }
 
 /**
@@ -120,7 +125,7 @@ function getKnowledgeSidebar() {
     },
     {
       text: "Study Note",
-      children: [
+      items: [
         { text: "JS EventLoop", link: "/knowledge/study/jsEventLoop" },
         { text: "Promise", link: "/knowledge/study/promise" },
         { text: "Vue NextTick", link: "/knowledge/study/vueNextTick" },
@@ -129,7 +134,7 @@ function getKnowledgeSidebar() {
     },
     {
       text: "Vite",
-      children: [
+      items: [
         { text: "Vite 原理简介", link: "/knowledge/vite/index" },
         { text: "从 vite 到 createServer", link: "/knowledge/vite/vitejs" },
         { text: "resolveConfig", link: "/knowledge/vite/resolveConfig" },
@@ -139,21 +144,21 @@ function getKnowledgeSidebar() {
     },
     {
       text: "React",
-      children: [
+      items: [
         { text: "React 笔记文章 - 掘金", link: "/knowledge/react/index" },
         { text: "React Fiber", link: "/knowledge/react/fiber" },
       ],
     },
     {
       text: "Engineering",
-      children: [
+      items: [
         { text: "webpack", link: "/knowledge/engineering/webpack" },
         { text: "webpack Loader & plugin", link: "/knowledge/engineering/loaderAndPlugin" },
         { text: "webpack Tapable", link: "/knowledge/engineering/tapable" },
         { text: "webpack 热更新", link: "/knowledge/engineering/hotUpdate" },
-        { text: "打包工具对比", link: "/knowledge/engineering/compare" },
-        { text: "代码规范", link: "/knowledge/engineering/lint" },
         { text: "webpack 打包优化", link: "/knowledge/engineering/wpOptimize" },
+        { text: "代码规范", link: "/knowledge/engineering/lint" },
+        { text: "打包工具对比", link: "/knowledge/engineering/compare" },
       ],
     },
   ];
@@ -170,7 +175,7 @@ function getInterviewSidebar() {
     },
     {
       text: "Knowledge Summary",
-      children: [
+      items: [
         { text: "JavaScript 基础", link: "/interview/summary/basis" },
         { text: "网络基础", link: "/interview/summary/internet" },
         { text: "实战面试题", link: "/interview/summary/actual" },
@@ -181,7 +186,7 @@ function getInterviewSidebar() {
     },
     // {
     //   text: "Actual Combat",
-    //   children: [
+    //   items: [
     //     { text: "ByteDance", link: "/interview/actual/bytedance" },
     //   ],
     // },
@@ -199,7 +204,7 @@ function getAlgorithmSidebar() {
     },
     {
       text: "Knowledge Summary",
-      children: [
+      items: [
         { text: "复杂度与简单排序", link: "/algorithm/summary/complexity" },
         { text: "N·log(N) 的排序", link: "/algorithm/summary/merge" },
         { text: "堆 & 栈", link: "/algorithm/summary/stack" },

@@ -15,8 +15,8 @@ title: 风过无痕
 心头一紧，赶紧翻出来一看，果然，黄了...（因为我跟嫂子都在那里买过单，但老哥没有）。既然黄了，就得去通过 "三天两测" 来确定是否存在可能被感染的情况（所幸，两次核酸检测的结果都是阴性）
 
 <div style="display: flex; align-items: center;">
-  <img src="/images/yellow_code.jpg" alt="yellow code" height="250" style="margin-right: 20px;">
-  <img src="/images/record.jpg" alt="test record" height="250">
+  <img src="/images/yellow_code.jpg" alt="yellow code" width="200" style="margin-right: 20px;">
+  <img src="/images/record.jpg" alt="test record" width="200">
 </div>
 
 但近两天又出现了新的感染者，而且都是由于跟之前检测到的具有间接或者直接接触者，因而好像是从昨天起，领导发话凡是涉及到有空间接触或者间接接触者均需要进行居家隔离，由社区工作者、社康医生等组成的监督服务小组对我们这类潜在风险人群进行居家隔离医学观察（毕竟可能是无症状感染，还在潜伏期也说不定）
@@ -25,7 +25,7 @@ title: 风过无痕
 
 希望还是没有被感染吧，坦然面对，毕竟是否会 “中奖”，你的担心其实也毫无意义
 
-<img src="/images/seal.jpg" alt="seal" height="250">
+<img src="/images/seal.jpg" alt="seal" width="300">
 
 虽然于我而言，跟放假的我没多少区别（我想区别就是工作日必须得在线上支持工作，然后不能想出去就出去了，也仅此而已）
 

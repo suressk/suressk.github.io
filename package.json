@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@types/node": "^16.11.11",
-    "vitepress": "^0.20.1"
+    "vitepress": "^1.0.0-alpha.4"
   },
   "license": "MIT"
 }
