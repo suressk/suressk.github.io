@@ -4,6 +4,8 @@ title: vite 命令到 createServer
 
 我们知道， `package.json` 文件的 `bin` 字段是用来指定要运行的命令及运行命令所要执行的文件
 
+## createServer
+
 vite 的配置如下：
 
 ```json

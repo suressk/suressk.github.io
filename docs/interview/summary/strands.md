@@ -2,11 +2,11 @@
 title: 面试题分析（二）
 ---
 
-### 1. webpack 与 rollup 的区别？webpack5 与 webpack4？
+## 1. webpack 与 rollup 的区别？webpack5 与 webpack4？
 
 见 [链接➡️](/knowledge/engineering/webpack)
 
-### 2. composition-api 与 hooks 的异同点？
+## 2. composition-api 与 hooks 的异同点？
 
 react 对 hook 的定义是：
 
@@ -29,7 +29,7 @@ vue 的 composition-api（我们也可称为 `Vue Hooks`）：
 
 3. React 使用 `useState` Hook 来声明数据，传入一个参数作为数据初始值（只会在初次运行这个函数时使用这个值进行初始化）；Vue 中使用 `ref` 和 `reactive` 这两个函数来定义数据
 
-### 3. vue 中的 jsx 与 react 的 jsx 区别？
+## 3. vue 中的 jsx 与 react 的 jsx 区别？
 
 vue 组件使用 jsx 需要使用插件进行编译，react 组件中是默认支持的
 
@@ -37,7 +37,7 @@ vue template 与 react jsx 的区别：
 
 vue 中提供一系列指令帮助我们构建页面
 
-### 4. 说说 XSS 攻击与防范？
+## 4. 说说 XSS 攻击与防范？
 
 `XSS` 攻击（`Cross-Site Scripting`，跨站脚本攻击），它是页面中被注入了恶意的代码
 
@@ -65,14 +65,14 @@ vue 中提供一系列指令帮助我们构建页面
 
 - 纯前端渲染方案中，尽量采用 `.innerText`、`.textContent`、`.setAttribute` 等 API，避免使用 `.innerHTML`、`.outerHTML`、`.document.write()` 等 API；在 vue/react 框架中，避免使用 `v-html`/`dangerouslySetInnerHTML` 功能；注意关注 DOM 内联事件或 `<a>` 标签的 `href` 属性，js 的 `eval()`、`setTimeout()`、`setImmediate()`、`setInterval()` 等 API 均能将 **字符串** 作为代码直接执行
 
-### 5. DNS 劫持
+## 5. DNS 劫持
 
-### 6. 说说 cors 跨站脚本攻击防范？
+## 6. 说说 cors 跨站脚本攻击防范？
 
 `CORS`：跨域资源共享（Cross-origin resource sharing）
 
-### 7. devOps（如 jenkins 等）
+## 7. devOps（如 jenkins 等）
 
-### 8. 测试框架（jest）
+## 8. 测试框架（jest）
 
-### 9. 说一说 `qiankun` 的路由匹配原理
+## 9. 说一说 `qiankun` 的路由匹配原理

@@ -6,7 +6,7 @@ plugin 是 vite 的核心功能，通过 plugin 实现预构建资源路径替�
 
 > [vite 可以使用插件进行扩展，这得益于 Rollup 优秀的插件接口设计和一部分 Vite 独有的额外选项。这意味着 Vite 用户可以利用 Rollup 插件的强大生态系统，同时根据需要也能够扩展开发服务器和 SSR 功能](https://cn.vitejs.dev/guide/using-plugins.html)
 
-##### 本篇目标
+## 本篇目标
 
 > 1. plugin 的各个 hook 函数的作用
 > 2. vite 独有的 hook 函数的执行时间
@@ -22,7 +22,7 @@ plugin 是 vite 的核心功能，通过 plugin 实现预构建资源路径替�
 - `sequential`：若多个插件都实现了这个 hook 函数，它们会按指定的插件顺序串行执行。如果某个 hook 是异步的，后续的 hook 会等待当前 hook 执行结束再继续运行
 - `parallel`：若多个插件都实现了这个 hook 函数，它们会按指定的插件顺序串行执行。如果某个 hook 是异步的，后续的这种 hook 函数将并行运行，而不是等待当前的 hook 执行结束
 
-##### 一个完整的插件示例
+## 一个完整的插件示例
 
 插件本质上就是一个实现了各个 hook 的对象，按 hook 的使用顺序如下排列：
 

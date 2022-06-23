@@ -2,7 +2,7 @@
 title: 依赖预构建功能分析
 ---
 
-#### 主要流程
+## 主要流程
 
 1. 开启 dev-server 之前进行 [依赖预构建](https://cn.vitejs.dev/guide/dep-pre-bundling.html)
 
@@ -18,7 +18,7 @@ title: 依赖预构建功能分析
 
 7. 启动 dev-server 后，每当依赖变化，则重新进行依赖构建，执行 2，3，4，5 过程
 
-#### 分析
+## 分析
 
 1. 构建入口
 

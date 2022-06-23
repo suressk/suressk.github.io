@@ -11,12 +11,13 @@
   "scripts": {
     "dev": "vitepress dev docs --port=10814",
     "build": "vitepress build docs",
-    "serve": "vitepress serve docs",
+    "serve": "vitepress serve docs --port=10815",
     "publish": "deploy.sh"
   },
   "devDependencies": {
     "@types/node": "^16.11.11",
-    "vitepress": "^1.0.0-alpha.4"
+    "vitepress": "^1.0.0-alpha.2",
+    "vue": "^3.2.37"
   },
   "license": "MIT"
 }

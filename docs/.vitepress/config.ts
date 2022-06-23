@@ -34,7 +34,7 @@ module.exports = {
       { text: "Home", link: "/", activeMatch: "^/$|^/home/" },
       {
         text: "Mood",
-        link: "/mood/index",
+        link: "/mood/",
         activeMatch: "^/mood/",
       },
       {
@@ -59,7 +59,7 @@ module.exports = {
       "/knowledge/": getKnowledgeSidebar(),
       "/interview/": getInterviewSidebar(),
       "/algorithm/": getAlgorithmSidebar(),
-      "/": [],
+      // "/": [],
     },
   },
 };
@@ -122,6 +122,7 @@ function getKnowledgeSidebar() {
   return [
     {
       text: "Introduction",
+      items: []
     },
     {
       text: "Study Note",
@@ -172,6 +173,7 @@ function getInterviewSidebar() {
   return [
     {
       text: "Introduction",
+      items: []
     },
     {
       text: "Knowledge Summary",
@@ -201,6 +203,7 @@ function getAlgorithmSidebar() {
   return [
     {
       text: "Introduction",
+      items: []
     },
     {
       text: "Knowledge Summary",

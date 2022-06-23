@@ -4,29 +4,22 @@ title: resolveConfig 参数解析
 
 本文旨在分析 vite 源码中解析 config 参数的函数 `resolveConfig`
 
-#### config 来源
+## config 来源
 
-1. inlineConfig：来自命令行或配置的 `npm scripts`
+> 1. inlineConfig：来自命令行或配置的 `npm scripts`
+> 2. vite.config.ts/vite.config.js：用户配置的文件
+> 3. Plugin.config：插件的 config 方法返回的配置项
 
-2. vite.config.ts/vite.config.js：用户配置的文件
-
-3. Plugin.config：插件的 config 方法返回的配置项
-
-#### 涉及功能
+## 涉及功能
 
 1. 设置 `--configFile false` 参数来禁用配置文件
-
 2. 按需加载插件
-
 3. 插件强制顺序
-
 4. 加载 `.env` 文件
-
 5. `plugin.config` 钩子函数
-
 6. `plugin.configResolved` 钩子函数
 
-#### 流程
+## 流程
 
 1. 入口：
 

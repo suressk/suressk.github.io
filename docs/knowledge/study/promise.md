@@ -1,6 +1,8 @@
-# Promise
+---
+title: Promise
+---
 
-呃，手写实现 Promise (宏任务方式实现)，欲尝试使用 MutationObserver 来用微任务实现一下 (todo)
+## 宏任务方式实现 Promise
 
 ```js
 const MyOwnPromise = (() => {

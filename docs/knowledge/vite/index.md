@@ -1,8 +1,10 @@
-# Vite 源码解读
+---
+title: Vite 源码解读
+---
 
 > `版本： 2.7.0-bate.9`
 
-### 目录结构
+## 目录结构
 
 > `vite`<br>
 > | + `bin`<br>
@@ -42,7 +44,7 @@
 
 <!-- <a :href="$withBase('/profiles/vite-dev.xmind')" target="_blank">vite-dev Map XMind</a> -->
 
-### 原理梗概
+## 原理梗概
 
 > 对于第三方依赖包（不常变动的）使用 `esbuild` 进行编译打包放置于 `node_modules/.vite` 目录下
 
@@ -58,7 +60,7 @@ vite 的实现离不开现代浏览器原生 ES 模块化的支持，当声明�
 
 由于浏览器只会对需要用到的模块发起请求，所以就不需要像 webpack 一样将所有的内容进行打包 📦 再一起返回，而是只编译浏览器发起 HTTP 请求的模块，这就相当于是 `“按需加载”` 了
 
-### sure-vite
+## sure-vite
 
 这里我简单实现了一个非常粗糙的简易版 vite ➡️ [sure-vite](https://github.com/suressk/sure-vite)，可以用来大致理解一下 vite 的工作逻辑是什么（参照 vite 1.x 版本）：
 
@@ -89,7 +91,7 @@ vite 的实现离不开现代浏览器原生 ES 模块化的支持，当声明�
 
 以上，便是最简单浅显的功能描述了
 
-### Bundle vs BundleLess
+## Bundle vs BundleLess
 
 从下面两张图片，我们可以清晰地看到二者的区别（代表：webpack vs vite）：
 

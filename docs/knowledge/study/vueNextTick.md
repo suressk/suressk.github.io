@@ -1,8 +1,10 @@
-# vue nextTick
+---
+title: vue nextTick
+---
 
 尽管 MVVM 框架并不推荐访问 DOM，但有时候确实会有这样的需求，免不了要进行 DOM 操作。而 nextTick 就提供了一个桥梁，确保我们操作的是更新后的 DOM，而能监听到 DOM 改动的 API 好像只有 HTML5 新增的 MutationObserver 了
 
-##### 理解 MutationObserver
+## 理解 MutationObserver
 
 MutationObserver ([MDN 参考](https://developer.mozilla.org/zh-CN/docs/Web/API/MutationObserver)) 是 HTML5 新增的属性，用于监听 DOM 修改事件，能够监听到节点的属性、文本内容、子节点等的改动，基本用法如下：
 
@@ -37,7 +39,7 @@ observer.observe(targetNode, config); // 监听目标节点的变化 (targetNode
 // observer.disconnect() // 取消监听
 ```
 
-##### Vue nextTick
+## Vue nextTick 实现原理
 
 通过看这部分源码 (vue 2.6.14) 得知其实现方案：
 

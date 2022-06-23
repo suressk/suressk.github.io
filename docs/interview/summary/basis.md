@@ -6,7 +6,6 @@ title: JavaScript 基础
 
 1. 基本数据类型：`Number`、`String`、`Boolean`、`Symbol`、`Undefined`、`Null`
 2. 引用数据类型：`Function`、`Array`、`Object`、`RegExp`、`Date`
-
 3. `typeof` 的返回值：
 
     ```js

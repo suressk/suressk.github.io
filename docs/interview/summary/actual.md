@@ -2,6 +2,7 @@
 title: 实战面试题分享
 ---
 
+## 问题
 <!-- bytedance first-interview -->
 
 - 浏览器输入 URL 到页面展示的整个过程 [参见](/interview/summary/index.html#_2-%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BE%93%E5%85%A5url%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%9F)
@@ -25,7 +26,7 @@ title: 实战面试题分享
 - `qiankun` 的路由匹配原理（源码层面）
 - `CI/CD` 流程方案
 
-### 代码编写
+## 代码题
 
 - 手写实现 `Promise.all()`：[实现方案参见 ➡️](/knowledge/study/promise) - ByteDance
 - 手写实现 `Promise.race()`：[实现方案参见 ➡️](/knowledge/study/promise) - ByteDance
