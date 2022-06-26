@@ -3,7 +3,7 @@ node_modules
 
 # lock files
 *.lock
-# package-lock.json
+package-lock.json
 
 *.log
 
