@@ -8,16 +8,16 @@ plugin 是 vite 的核心功能，通过 plugin 实现预构建资源路径替�
 
 ## 本篇目标
 
-> 1. plugin 的各个 hook 函数的作用
-> 2. vite 独有的 hook 函数的执行时间
-> 3. 内置的插件如何使 vite 对各种文件开箱即用
-> 4. 所有插件集中之后各个 hook 函数的使用流程
+> 1. `plugin` 的各个 `hook` 函数的作用
+> 2. `vite` 独有的 `hook` 函数的执行时间
+> 3. 内置的插件如何使 `vite` 对各种文件开箱即用
+> 4. 所有插件集中之后各个 `hook` 函数的使用流程
 
 **[vite 插件](https://vite-rollup-plugins.patak.dev/)基于 [rollup 插件](https://rollupjs.org/guide/en/#plugin-development)，插件的 hook 函数返回值和参数类型完全依照 rollup，但并没有全部接受 rollup 的 hook 函数。目前只使用了 rollup 的 [7 个 hook 函数](https://cn.vitejs.dev/guide/api-plugin.html#universal-hooks)，另外提供了 vite 独有的 [5 个 hook 函数](https://cn.vitejs.dev/guide/api-plugin.html#vite-specific-hooks)**
 
 [rollup build-hooks](https://rollupjs.org/guide/en/#build-hooks) 分四个种类：
 
-- `async`：返回解析类型为 Promise 的异步 hook
+- `async`：返回解析类型为 `Promise` 的异步 hook
 - `first`：若多个插件实现了这个 hook 函数，它们会按指定的插件顺序串行执行，直到一个 hook 返回的不是 `null` 或 `undefined`（也就是说会存在在某个插件终止的情况）
 - `sequential`：若多个插件都实现了这个 hook 函数，它们会按指定的插件顺序串行执行。如果某个 hook 是异步的，后续的 hook 会等待当前 hook 执行结束再继续运行
 - `parallel`：若多个插件都实现了这个 hook 函数，它们会按指定的插件顺序串行执行。如果某个 hook 是异步的，后续的这种 hook 函数将并行运行，而不是等待当前的 hook 执行结束
@@ -133,7 +133,11 @@ async function resolveConfig(
   let config = inlineConfig // 存储配置
   // ... other code
 
-  // 首先扁平化 plugins 数组，可能存在多维数组的错误配置形式：[[pulginA, pulginB], pulginC]
+  // 首先扁平化 plugins 数组，可能存在多维数组的错误配置形式：
+  // [
+  //   [pulginA, pulginB],
+  //   pulginC
+  // ]
   // 筛选应用apply设置应用场景(serve|build)的插件
   const rawUserPlugins = (config.plugins || []).flat(Infinity).filter(p => {
     if (!p) {
@@ -144,7 +148,7 @@ async function resolveConfig(
       return p.apply({ ...config, mode }, configEnv)
     }
     return p.apply === command
-  }) as Plugin[]
+  }) as Plugin[] // Plugin extends RollupPlugin
 
   /**
    * sortUserPlugins 函数根据 enforce 字段对插件进行排序
@@ -166,5 +170,140 @@ async function resolveConfig(
       }
     }
   }
+
+  // 处理获得 resolvedAlias, resolveOptions, resolvedBuildOptions ...
+
+  const createResolver: ResolvedConfig['createResolver'] = options => {
+    let aliasContainer: PluginContainer | undefined
+    let resolverContainer: PluginContainer | undefined
+    return async (id, importor, aliasOnly, ssr) => {
+      let container: PluginContainer
+      // 根据 aliasOnly 判定 container 赋值
+      container = await createPluginContainer({
+        ...resolved,
+        plugins: [
+          aliasPlugin(/* ... params */),
+          resolvePlugin(/* ... params */) // !aliasOnly 则会有此插件
+        ]
+      })
+      return (await container.resolveId(id, importer, { ssr }))?.id
+    }
+  }
+
+  // 最终参数配置对象
+  const resolved: ResolvedConfig = {
+    // ... other configuration
+    ...config,
+    plugins: userPlugins,
+    createResolver
+  }
+
+  resolved.worker.plugins = await resolvePlugins(
+    workerResolved,
+    workerPrePlugins,
+    workerNormalPlugins,
+    workerPostPlugins
+  )
+
+  // 调用 configResolved.worker.plugins 的 hooks 函数
+  await Promise.all(
+    resolved.worker.plugins.map(p => p.configResolved?.(workerResolved))
+  )
+
+  // resolvePlugins 函数添加 vite 内部插件，使完成各功能开箱即用
+  (resolved.plugins as Plugin[]) = await resolvePlugins(
+    resolved,
+    prePlugins,
+    normalPlugins,
+    postPlugins
+  )
+
+  // 调用各插件的 configResolved hooks 函数
+  await Promise.all(userPlugins.map((p) => p.configResolved?.(resolved)))
+
+  return resolved
+}
+```
+
+## `resolvePlugins`
+
+```ts
+async function resolvePlugins(
+  config: ResolvedConfig,
+  prePlugins: Plugin[],
+  normalPlugins: Plugin[],
+  postPlugins: Plugin[]
+): Promise<Plugin[]> {
+  // build 模式 or dev 模式
+  const isBuild = config.command === 'build'
+  const isWatch = isBuild && !!config.build.watch
+
+  const buildPlugins = isBuild
+    ? (await import('../build')).resolveBuildPlugins(config)
+    : { pre: [], post: [] }
+
+  return [
+    isWatch ? ensureWatchPlugin() : null,
+    isBuild ? metadataPlugin() : null,
+    /* 'vite:pre-alias' 插件 */
+    isBuild ? null : preAliasPlugin(), //
+    /* 路径别名 插件 */
+    aliasPlugin({ entries: config.resolve.alias }),
+    ...prePlugins, // 'enforce: pre' 插件
+    /* polyfill 预加载 */
+    config.build.polyfillModulePreload
+      ? modulePreloadPolyfillPlugin(config)
+      : null,
+    /* 解析各类资源路径的插件 */
+    resolvePlugin({
+      ...config.resolve,
+      root: config.root,
+      isProduction: config.isProduction,
+      isBuild,
+      packageCache: config.packageCache,
+      ssrConfig: config.ssr,
+      asSrc: true
+    }),
+    /* 'vite:optimized-deps' vite 内置优化依赖插件 */
+    isBuild ? null : optimizedDepsPlugin(),
+    htmlInlineProxyPlugin(config),
+    cssPlugin(config) /* 解析 css */,
+    /* 开发者配置使用 esbuild 插件 */
+    config.esbuild !== false ? esbuildPlugin(config.esbuild) : null,
+    /* 解析 json */
+    jsonPlugin(
+      {
+        namedExports: true,
+        ...config.json
+      },
+      isBuild
+    ),
+    /* 解析 webassembly */
+    wasmHelperPlugin(config),
+    webWorkerPlugin(config),
+    assetPlugin(config), // 解析静态资源
+    ...normalPlugins, // 默认 插件，未配置 enforce
+    /* .wasm 解析失败提示 ESM 不支持 */
+    wasmFallbackPlugin(),
+    /* 解析全局常量 */
+    definePlugin(config),
+    /* 解析 css post */
+    cssPostPlugin(config),
+    /* ssr 模式必须调用的 hook */
+    config.build.ssr ? ssrRequireHookPlugin(config) : null,
+    /* 生成 html */
+    isBuild && buildHtmlPlugin(config),
+    workerImportMetaUrlPlugin(config),
+    ...buildPlugins.pre,
+    dynamicImportVarsPlugin(config),
+    importGlobPlugin(config),
+    ...postPlugins, // 'enforce: post' 插件
+    ...buildPlugins.post,
+    // internal server-only plugins are always
+    // applied after everything else
+    ...(isBuild
+      ? []
+      : [clientInjectionsPlugin(config), importAnalysisPlugin(config)])
+  ].filter(Boolean) as Plugin[]
 }
 ```
