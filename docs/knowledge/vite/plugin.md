@@ -153,7 +153,7 @@ async function resolveConfig(
   /**
    * sortUserPlugins 函数根据 enforce 字段对插件进行排序
    * pre： Vite 核心插件之【前】调用
-   * 默认： Vite 核心插件之【后】调用
+   * 默认： Vite 核心插件之【后】调用，静态资源解析插件之后
    * post： Vite 核心插件之【后】调用
    */
   const [prePlugins, normalPlugins, postPlugins] =
@@ -246,7 +246,7 @@ async function resolvePlugins(
     isWatch ? ensureWatchPlugin() : null,
     isBuild ? metadataPlugin() : null,
     /* 'vite:pre-alias' 插件 */
-    isBuild ? null : preAliasPlugin(), //
+    isBuild ? null : preAliasPlugin(),
     /* 路径别名 插件 */
     aliasPlugin({ entries: config.resolve.alias }),
     ...prePlugins, // 'enforce: pre' 插件
@@ -289,7 +289,7 @@ async function resolvePlugins(
     definePlugin(config),
     /* 解析 css post */
     cssPostPlugin(config),
-    /* ssr 模式必须调用的 hook */
+    /* ssr 模式调用的 hook */
     config.build.ssr ? ssrRequireHookPlugin(config) : null,
     /* 生成 html */
     isBuild && buildHtmlPlugin(config),
@@ -307,3 +307,158 @@ async function resolvePlugins(
   ].filter(Boolean) as Plugin[]
 }
 ```
+
+## `createPluginContainer`
+
+集中处理 `hook` 函数的执行，并确定各 `hook` 函数的返回值
+
+```ts
+async function createPluginContainer(
+  { plugins, logger, root, build: { rollupOptions } }: ResolvedConfig,
+  moduleGraph?: ModuleGraph,
+  watcher?: FSWatcher
+): Promise<PluginContainer> {
+  const isDebug = process.env.DEBUG
+  // debugResolve, debugPluginResolve, debugPluginTransform
+
+  const minimalContext: MinimalPluginContext = {
+    meta: {
+      rollupVersion: JSON.parse(fs.readFileSync(rollupPkgPath, 'utf-8'))
+        .version,
+      watchMode: true
+    }
+  }
+  function getModuleInfo(id: string) {
+    const module = moduleGraph?.getModuleById(id)
+    // new Proxy 代理 module.info
+    return module.info
+  }
+
+  // 为每个异步 hook 创建的上下文
+  class Context implements PluginContext {}
+
+  // transform hooks 上下文
+  class TransformContext extends Context {}
+
+  const container: PluginContainer = {
+    /* 调用插件 options hook 函数 */
+    options: await (async () => {
+      let options = rollupOptions
+      for (const plugin of plugins) {
+        if (!plugin.options) continue
+        options =
+          (await plugin.options.call(minimalContext, options)) || options
+      }
+      return {
+        acorn, // 'acorn': a javascript parser
+        acornInjectPlugins: [],
+        ...options
+      }
+    })(),
+
+    /* 上面 Proxy 代理的 module.info */
+    getModuleInfo,
+
+    /* 调用插件的 buildStart hook */
+    async buildStart() {
+      await Promise.all(
+        plugins.map(plugin => {
+          if (plugin.buildStart) {
+            return plugin.buildStart.call(
+              new Context(plugin) as any,
+              container.options as NormalizedInputOptions
+            )
+          }
+        })
+      )
+    },
+
+    /* 调用插件的 resolveId hook */
+    async resolveId(rawId, importer = join(root, 'index.html'), options) {
+      const ctx = new Context()
+      for (const plugin of plugins) {
+        const result = await plugin.resolveId.call(
+          ctx as any,
+          rawId,
+          importer,
+          { ssr, scan }
+        )
+        if (!result) continue
+      }
+      // 返回 Partial<PartialResolvedId> 对象 / null
+    },
+
+    /* 调用插件的 load hook */
+    async load(id, options) {
+      const ctx = new Context()
+      for (const plugin of plugins) {
+        if (!plugin.load) continue
+        const result = await plugin.load.call(ctx as any, id, { ssr })
+        // return result || null
+      }
+    },
+
+    /* 调用插件的 transform hook */
+    async transform(code, id, options) {
+      const ctx = new TransformContext(id, code, inMap as SourceMap)
+      for (const plugin of plugins) {
+        try {
+          result = await plugin.transform.call(ctx as any, code, id, { ssr })
+        } catch (e) {
+          ctx.error(e)
+        }
+      }
+      return {
+        code /* 转换后的代码 result.code */,
+        map: ctx._getCombinedSourcemap()
+      }
+    },
+
+    /* buildEnd && closeBundle hook */
+    async close() {
+      const ctx = new Context()
+      await Promise.all(
+        plugins.map(p => p.buildEnd && p.buildEnd.call(ctx as any))
+      )
+      await Promise.all(
+        plugins.map(p => p.closeBundle && p.closeBundle.call(ctx as any))
+      )
+    }
+  }
+
+  return container
+}
+```
+
+## 其他 Hook 函数
+
+在上面 [`从 vite 到 createServer`](/knowledge/vite/vitejs.html#createserver) 一文中就已经说明过：
+
+### `transformIndexHtml` Hook
+
+```ts
+// tansformIndexHtml hook 在转换 index.html 时触发，在
+// createServer 函数中进行 hook 初始化
+server.transformIndexHtml = createDevHtmlTransformFn(server)
+```
+
+### `handleHotUpdate` Hook
+
+```ts
+// createServer 函数中，通过 chokidar.watch 返回的
+// watcher 监听文件变化：change, add, unlink
+watcher.on('change', async file => {
+  // 格式化文件路径
+  file = normalizePath(file)
+  // 若是 package.json 文件变化，校验依赖是否变更
+  // 删除 packageCache 中的缓存记录
+
+  // 若是其他文件变更，更新 moduleGraph
+  // 判断是否开启 hmr（默认开启）
+  await handleHMRUpdate(file, server) // 触发热更新
+})
+```
+
+## 插件的执行流程
+
+客户端（浏览器）请求服务器资源后，在返回资源过程中，将资源的名称、内容等信息传入由 `createPluginContainer` 创建的 `plugins` 集合中，执行相关 `hook`，再返回给客户端

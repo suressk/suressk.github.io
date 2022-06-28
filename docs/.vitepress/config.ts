@@ -30,6 +30,10 @@ module.exports = {
     editLinkText: "Edit this page on GitHub",
     lastUpdated: "Last Updated",
 
+    footer: {
+      message: 'MIT',
+      copyright: 'Copyright © 2022 suressk (K.)'
+    },
     nav: [
       { text: "Home", link: "/", activeMatch: "^/$|^/home/" },
       {
@@ -60,9 +64,9 @@ module.exports = {
       "/interview/": getInterviewSidebar(),
       "/algorithm/": getAlgorithmSidebar(),
       // "/": [],
-    },
-  },
-};
+    }
+  }
+}
 
 /**
  * 心情文章列表

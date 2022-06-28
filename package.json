@@ -17,7 +17,7 @@
   "devDependencies": {
     "@types/node": "^16.11.11",
     "prettier": "^2.7.1",
-    "vitepress": "^1.0.0-alpha.2",
+    "vitepress": "^1.0.0-alpha.4",
     "vue": "^3.2.37"
   },
   "license": "MIT"
