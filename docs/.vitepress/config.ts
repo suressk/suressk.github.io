@@ -138,6 +138,13 @@ function getKnowledgeSidebar() {
       ],
     },
     {
+      text: "React",
+      items: [
+        { text: "React 笔记文章 - 掘金", link: "/knowledge/react/index" },
+        { text: "React Fiber", link: "/knowledge/react/fiber" },
+      ],
+    },
+    {
       text: "Vite",
       items: [
         { text: "Vite 原理简介", link: "/knowledge/vite/index" },
@@ -145,13 +152,7 @@ function getKnowledgeSidebar() {
         { text: "resolveConfig", link: "/knowledge/vite/resolveConfig" },
         { text: "依赖预构建", link: "/knowledge/vite/esbuild" },
         { text: "插件机制", link: "/knowledge/vite/plugin" },
-      ],
-    },
-    {
-      text: "React",
-      items: [
-        { text: "React 笔记文章 - 掘金", link: "/knowledge/react/index" },
-        { text: "React Fiber", link: "/knowledge/react/fiber" },
+        { text: "热更新机制", link: "/knowledge/vite/hmr" },
       ],
     },
     {
@@ -164,6 +165,7 @@ function getKnowledgeSidebar() {
         { text: "webpack 打包优化", link: "/knowledge/engineering/wpOptimize" },
         { text: "代码规范", link: "/knowledge/engineering/lint" },
         { text: "打包工具对比", link: "/knowledge/engineering/compare" },
+        { text: "tsconfig 配置一览", link: "/knowledge/engineering/tsconfig" },
       ],
     },
   ];
