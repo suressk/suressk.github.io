@@ -19,9 +19,7 @@ title: resolveConfig 参数解析
 5. `plugin.config` 钩子函数
 6. `plugin.configResolved` 钩子函数
 
-## 流程
-
-1. 入口：
+## 1. 入口
 
 ```ts
 // /src/node/config.ts
@@ -30,7 +28,7 @@ import { resolveConfig, InlineConfig, ResolvedConfig } from '../config'
 const config = await resolveConfig(inlineConfig, 'serve', 'development')
 ```
 
-2. 参数：
+## 2. 参数定义
 
 ```ts
 function resolveConfig(
@@ -40,7 +38,7 @@ function resolveConfig(
 ): Promise<ResolvedConfig>
 ```
 
-3. 设置 `config`，`mode`，`configFileDependencies`
+## 3. 设置 `config`，`mode`，`configFileDependencies`
 
 ```ts
 let config = inlineConfig // 存储配置
@@ -57,7 +55,9 @@ const configEnv = {
 }
 ```
 
-4. 加载配置文件，重置配置 `mode`，同时知道可以使用 **`--configFile false`** 来禁用配置文件
+## 4. 加载配置文件，重置配置 `mode`
+
+同时知道可以在命令行使用 **`--configFile false`** 配置来禁用读取配置文件
 
 ```ts
 let { configFile } = config
@@ -79,7 +79,7 @@ mode = inlineConfig.mode || config.mode || mode
 configEnv.mode = mode
 ```
 
-`loadConfigFromFile` 就是根据项目目录，获取相关的配置文件，当使用配置文件类型是 ts 且使用 ES Module 时，会被 esbuild 转义读取，然后删除转义后的文件
+`loadConfigFromFile` 就是根据项目目录，获取相关的配置文件，当使用配置文件类型是 `ts` 且使用 `ES Module` 时，会被 `esbuild` 转义读取，然后删除转义后的文件
 
 ```ts
 function loadConfigFromFile(
@@ -118,8 +118,10 @@ function loadConfigFromFile(
     // vite.config.js
     // vite.config.mjs（存在则取其配置，并将 isESM = true）
     // vite.config.ts（存在则取其配置，并将 isESM = true）
+    // vite.config.cjs（存在则取其配置，并将 isESM = false）
     // 按上面检测顺序优先级，取配置文件路径存储到 resolvedPath
     resolvedPath = path.resolve(configRoot, 'vite.config.[xx]')
+    // 上面几个配置文件都没扫到，则直接返回 null
   }
 
   // 若均为取到配置文件的路径
@@ -137,19 +139,20 @@ function loadConfigFromFile(
     dependencies = bundled.dependencies
 
     fs.writeFileSync(resolvedPath + '.js', bundled.code) // 暂存读取的配置
-    userConfig = (await dynamicImport(`${fileUrl}.js?t=${Date.now()}`))
-      .default
+    userConfig = (await dynamicImport(`${fileUrl}.js?t=${Date.now()}`)).default
     fs.unlinkSync(resolvedPath + '.js') // 删除临时文件
   }
 }
 ```
 
-5. 解析应用插件，[按需加载 plugin.apply 属性](https://cn.vitejs.dev/guide/using-plugins.html#conditional-application)，[强制插件排序 plugin.enforce 属性](https://cn.vitejs.dev/guide/using-plugins.html#enforcing-plugin-ordering)，[执行 plugin.config 钩子函数](https://cn.vitejs.dev/guide/api-plugin.html#config)，添加用户配置
+## 5. 解析应用插件
+
+[按需加载 plugin.apply 属性](https://cn.vitejs.dev/guide/using-plugins.html#conditional-application)，[强制插件排序 plugin.enforce 属性](https://cn.vitejs.dev/guide/using-plugins.html#enforcing-plugin-ordering)，[执行 plugin.config 钩子函数](https://cn.vitejs.dev/guide/api-plugin.html#config)，添加用户配置
 
 ```ts
 // resolve plugins
 // 扁平数组，筛选应用在当前 command 下的插件
-const rawUserPlugins = (config.plugins || []).flat().filter((p) => {
+const rawUserPlugins = (config.plugins || []).flat().filter(p => {
   if (!p) {
     return false
   } else if (!p.apply) {
@@ -164,8 +167,7 @@ const rawUserPlugins = (config.plugins || []).flat().filter((p) => {
 // pre： Vite 核心插件之【前】调用
 // 默认： Vite 核心插件之【后】调用
 // post： Vite 核心插件之【后】调用
-const [prePlugins, normalPlugins, postPlugins] =
-  sortUserPlugins(rawUserPlugins)
+const [prePlugins, normalPlugins, postPlugins] = sortUserPlugins(rawUserPlugins)
 // 执行 plugin.config 钩子函数，再次配置
 const userPlugins = [...prePlugins, ...normalPlugins, ...postPlugins]
 for (const p of userPlugins) {
@@ -178,11 +180,16 @@ for (const p of userPlugins) {
 }
 ```
 
-6. 解析 `resolve` 参数：`alias`、`dedupe`。这两个参数可以用于 resolve 同级，此处解析 `/^[\/]?@vite\/env/` 和 `/^[\/]?@vite\/client/`，是为了解析 hmr 的客户端文件路径
+## 6. 解析 `resolve` 参数：`alias`、`dedupe`
+
+这两个参数可以用于 resolve 同级，此处解析 `/^[\/]?@vite\/env/` 和 `/^[\/]?@vite\/client/`，是为了解析 hmr 的客户端文件路径，对 `/@vite` 路径请求开头的文件进行重定向
 
 ```ts
 const clientAlias = [
+  /* vite package 目录由 `import.meta.url` 获取 */
+  /* ENV_ENTRY 为 vite package 下的 `dist/client/env.mjs` 文件 */
   { find: /^[\/]?@vite\/env/, replacement: () => ENV_ENTRY },
+  /* CLIENT_ENTRY 为 vite package 下的 `dist/client/client.mjs` 文件 */
   { find: /^[\/]?@vite\/client/, replacement: () => CLIENT_ENTRY }
 ]
 const resolvedAlias = mergeAlias(
@@ -196,7 +203,15 @@ const resolveOptions: ResolvedConfig['resolve'] = {
 }
 ```
 
-7. 加载 [.env 文件](https://cn.vitejs.dev/guide/env-and-mode.html#env-files) 配置用户环境变量，官网 [区分 pro/dev 环境和模式](https://cn.vitejs.dev/guide/env-and-mode.html#modes) 也有体现。至此，用户有三次改变 pro/dev 的环境和模式：1. 命令行指定；2. 配置文件；3. `.env` 文件。而且，这里有通过 `--envFile false` 禁用加载 `.env` 文件，但可见上一篇 `cli 并未配置这个 option`
+## 7. 配置用户环境变量
+
+加载 [.env 文件](https://cn.vitejs.dev/guide/env-and-mode.html#env-files) 配置用户环境变量，官网 [区分 pro/dev 环境和模式](https://cn.vitejs.dev/guide/env-and-mode.html#modes) 也有体现。至此，用户有三次改变 pro/dev 的环境和模式：
+
+1. 命令行指定
+2. 配置文件
+3. `.env` 文件
+
+而且，这里有通过 `--envFile false` 禁用加载 `.env` 文件，但可见上一篇说明 `cli 并未配置这个 option`
 
 ```ts
 const resolvedRoot = normalizePath(
@@ -218,7 +233,7 @@ if (isProduction) {
 }
 ```
 
-`loadEnv` 方法就是根据 mode 使用 `dotenv` (npm pkg) 加载环境下的 .env 文件，并 [判断 'VITE__' 前缀](https://cn.vitejs.dev/guide/env-and-mode.html#env-files)，同时根据 [用户配置的 NODE_ENV](https://cn.vitejs.dev/guide/env-and-mode.html#modes) 配置 `VITE_USER_NODE_ENV` 变量
+`loadEnv` 方法就是根据 mode 使用 `dotenv` (npm pkg) 加载环境下的 .env 文件，并 [判断 'VITE\_\_' 前缀](https://cn.vitejs.dev/guide/env-and-mode.html#env-files)，同时根据 [用户配置的 NODE_ENV](https://cn.vitejs.dev/guide/env-and-mode.html#modes) 配置 `VITE_USER_NODE_ENV` 变量
 
 ```ts
 function loadEnv(
@@ -228,16 +243,11 @@ function loadEnv(
 ): Record<string, string> {
   prefixes = arraify(prefixes) // string => string[]
   const env: Record<string, string> = {}
-  const envFiles = [
-    `.env.${mode}.local`,
-    `.env.${mode}`,
-    `.env.local`,
-    `.env`
-  ]
+  const envFiles = [`.env.${mode}.local`, `.env.${mode}`, `.env.local`, `.env`]
 
   for (const key in process.env) {
     if (
-      prefixes.some((prefix) => key.startsWith(prefix)) &&
+      prefixes.some(prefix => key.startsWith(prefix)) &&
       env[key] === undefined
     ) {
       env[key] = process.env[key] as string
@@ -261,7 +271,7 @@ function loadEnv(
       // only keys that start with prefix are exposed to client
       for (const [key, value] of Object.entries(parsed)) {
         if (
-          prefixes.some((prefix) => key.startsWith(prefix)) &&
+          prefixes.some(prefix => key.startsWith(prefix)) &&
           env[key] === undefined
         ) {
           env[key] = value
@@ -276,17 +286,19 @@ function loadEnv(
 }
 ```
 
-8. 解析 [BASE_URL](https://cn.vitejs.dev/config/#base)，[buildOptions](https://cn.vitejs.dev/config/#build-options)，[cacheDir](https://cn.vitejs.dev/config/#cachedir)，[assetsFilter](https://cn.vitejs.dev/config/#assetsinclude)，[publicDir](https://cn.vitejs.dev/config/#publicdir)
+## 8. 解析相关配置
+
+- [BASE_URL 🔗](https://cn.vitejs.dev/config/#base)
+- [buildOptions 🔗](https://cn.vitejs.dev/config/#build-options)
+- [cacheDir 🔗](https://cn.vitejs.dev/config/#cachedir)
+- [assetsFilter 🔗](https://cn.vitejs.dev/config/#assetsinclude)
+- [publicDir 🔗](https://cn.vitejs.dev/config/#publicdir)
 
 ```ts
 const BASE_URL = resolveBaseUrl(config.base, command === 'build', logger)
 const resolvedBuildOptions = resolveBuildOptions(resolvedRoot, config.build)
 // resolve cache directory
-const pkgPath = lookupFile(
-  resolvedRoot,
-  [`package.json`],
-  true /* pathOnly */
-)
+const pkgPath = lookupFile(resolvedRoot, [`package.json`], true /* pathOnly */)
 const cacheDir = config.cacheDir
   ? path.resolve(resolvedRoot, config.cacheDir)
   : pkgPath && path.join(path.dirname(pkgPath), `node_modules/.vite`)
@@ -305,17 +317,19 @@ const resolvedPublicDir =
     : ''
 ```
 
-9. 添加内置插件，如 css 解析，ts 解析等，并对所有插件 [排序](https://cn.vitejs.dev/guide/api-plugin.html#handlehotupdate)
+## 9. 添加内置插件
+
+如 css 解析，ts 解析等，并对所有插件 [排序](https://cn.vitejs.dev/guide/api-plugin.html#handlehotupdate)
 
 ```ts
-(resolved.plugins as Plugin[]) = await resolvePlugins(
+;(resolved.plugins as Plugin[]) = await resolvePlugins(
   resolved,
   prePlugins,
   normalPlugins,
   postPlugins
 )
 // call configResolved hooks
-await Promise.all(userPlugins.map((p) => p.configResolved?.(resolved)))
+await Promise.all(userPlugins.map(p => p.configResolved?.(resolved)))
 
 async function resolvePlugins(
   config: ResolvedConfig,
@@ -330,55 +344,18 @@ async function resolvePlugins(
     : { pre: [], post: [] }
 
   return [
-    isBuild ? null : preAliasPlugin(),
-    aliasPlugin({ entries: config.resolve.alias }),
-    ...prePlugins,
-    config.build.polyfillModulePreload
-      ? modulePreloadPolyfillPlugin(config)
-      : null,
-    resolvePlugin({
-      ...config.resolve,
-      root: config.root,
-      isProduction: config.isProduction,
-      isBuild,
-      packageCache: config.packageCache,
-      ssrConfig: config.ssr,
-      asSrc: true
-    }),
-    config.build.ssr ? ssrRequireHookPlugin(config) : null,
-    htmlInlineScriptProxyPlugin(config),
-    cssPlugin(config),
-    config.esbuild !== false ? esbuildPlugin(config.esbuild) : null,
-    jsonPlugin(
-      {
-        namedExports: true,
-        ...config.json
-      },
-      isBuild
-    ),
-    wasmPlugin(config),
-    webWorkerPlugin(config),
-    assetPlugin(config),
-    ...normalPlugins,
-    definePlugin(config),
-    cssPostPlugin(config),
-    ...buildPlugins.pre,
-    ...postPlugins,
-    ...buildPlugins.post,
-    // internal server-only plugins are always applied after everything else
-    ...(isBuild
-      ? []
-      : [clientInjectionsPlugin(config), importAnalysisPlugin(config)])
+    /* 插件排序 */
+    /* 详情可见下面的 【插件机制】 一文 */
   ].filter(Boolean) as Plugin[]
 }
 ```
 
-10. createResolver，创建一个内部使用的插件解析器，执行所有的插件
+## 10. 创建一个内部使用的插件解析器，执行所有的插件
 
 ```ts
 // create an internal resolver to be used in special scenarios, e.g.
 // optimizer & handling css @imports
-const createResolver: ResolvedConfig['createResolver'] = (options) => {
+const createResolver: ResolvedConfig['createResolver'] = options => {
   let aliasContainer: PluginContainer | undefined
   let resolverContainer: PluginContainer | undefined
   return async (id, importer, aliasOnly, ssr) => {
@@ -389,13 +366,17 @@ const createResolver: ResolvedConfig['createResolver'] = (options) => {
 }
 ```
 
-11. 执行钩子函数 [plugin.configResolved](https://cn.vitejs.dev/guide/api-plugin.html#configresolved)
+## 11. 执行 Hook 函数
+
+[plugin.configResolved](https://cn.vitejs.dev/guide/api-plugin.html#configresolved)
 
 ```ts
-await Promise.all(userPlugins.map((p) => p.configResolved?.(resolved)))
+await Promise.all(userPlugins.map(p => p.configResolved?.(resolved)))
 ```
 
-12. 汇总 `resolved`，这里有 [用户env中额外的数据](https://cn.vitejs.dev/guide/env-and-mode.html#env-variables)
+## 12. 汇总 `resolved`
+
+这里有 [用户 env 中额外的数据](https://cn.vitejs.dev/guide/env-and-mode.html#env-variables)
 
 ```ts
 const resolved: ResolvedConfig = {

@@ -4,7 +4,7 @@ title: vite 命令到 createServer
 
 我们知道， `package.json` 文件的 `bin` 字段是用来指定要运行的命令及运行命令所要执行的文件
 
-## createServer
+## vite 命令执行的文件
 
 vite 的配置如下：
 
@@ -18,7 +18,9 @@ vite 的配置如下：
 
 好了，我们知道启动 dev-server 的 `vite` 命令，实际运行的就是 `bin/vite.js` 文件，那我们进去看看：
 
-1. 判断当前目录是否包含 `node_modules` 目录，若不包含，则需要 `source-map` 支持
+## 1. 入口：`vite/bin/vite.js`
+
+判断当前目录是否包含 `node_modules` 目录，若不包含，则需要 `source-map` 支持
 
 ```js
 #!/usr/bin/env node // 固定格式，用来指定命令运行的环境（node）
@@ -31,14 +33,12 @@ if (!__dirname.includes('node_modules')) {
 }
 ```
 
-2. 检查 `process.argv` 是否是 `debug` 模式
+## 2. 检查 `process.argv` 是否是 `debug` 模式
 
 ```js
 // check debug mode first before requiring the CLI.
-const debugIndex = process.argv.findIndex((arg) => /^(?:-d|--debug)$/.test(arg))
-const filterIndex = process.argv.findIndex((arg) =>
-  /^(?:-f|--filter)$/.test(arg),
-)
+const debugIndex = process.argv.findIndex(arg => /^(?:-d|--debug)$/.test(arg))
+const filterIndex = process.argv.findIndex(arg => /^(?:-f|--filter)$/.test(arg))
 
 if (debugIndex > 0) {
   let value = process.argv[debugIndex + 1]
@@ -49,7 +49,7 @@ if (debugIndex > 0) {
     // with comma-separated list
     value = value
       .split(',')
-      .map((v) => `vite:${v}`)
+      .map(v => `vite:${v}`)
       .join(',')
   }
   process.env.DEBUG = value
@@ -63,7 +63,7 @@ if (debugIndex > 0) {
 }
 ```
 
-3. 导入编译后的 `cli` 脚本
+## 3. 导入编译后的 `cli` 脚本
 
 ```js
 const profileIndex = process.argv.indexOf('--profile')
@@ -93,7 +93,7 @@ if (profileIndex > 0) {
 }
 ```
 
-4. 进入编译后的 `dist/node/cli.js`，即 `src/node/cli.ts`
+## 4. 进入 `cli.js`，源码：`vite/src/node/cli.ts`
 
 ```ts
 import { cac } from 'cac' /* 一个简单且强大的命令行库，比 commander 更轻量 */
@@ -109,7 +109,7 @@ import { preview } from './preview' /* 打包结果预览方法 */
 const cli = cac('vite')
 ```
 
-5. 全局 cli 选项及清理选项
+## 5. 全局 `cli` 选项及清理选项
 
 ```ts
 // global options
@@ -134,7 +134,7 @@ interface GlobalCLIOptions {
  * 删除全局 cli 配置
  */
 function cleanOptions<Options extends GlobalCLIOptions>(
-  options: Options,
+  options: Options
 ): Omit<Options, keyof GlobalCLIOptions> {
   const ret = { ...options }
   delete ret['--']
@@ -154,7 +154,9 @@ function cleanOptions<Options extends GlobalCLIOptions>(
 }
 ```
 
-6. cli 参数定义，这里我们就只研究一下开发环境下的功能实现，生产环境/预览环境后续再考虑吧～
+## 6. cli 参数定义
+
+这里我们就只研究一下开发环境下的功能实现，生产环境/预览环境后续再考虑吧～
 
 ```ts
 // 下面是一些核心参数，如 -c 指定配置文件等
@@ -180,7 +182,7 @@ cli
   .option('--strictPort', `[boolean] exit if specified port is already in use`)
   .option(
     '--force',
-    `[boolean] force the optimizer to ignore the cache and re-bundle`,
+    `[boolean] force the optimizer to ignore the cache and re-bundle`
   )
   .action(devAction)
 /* 这里将 action 函数抽出来单独看，免得篇幅过长，拎不清注意点 */
@@ -196,7 +198,7 @@ cli.parse() // 解析命令行参数
 ```ts
 const devAction = async (
   root: string,
-  options: ServerOptions & GlobalCLIOptions,
+  options: ServerOptions & GlobalCLIOptions
 ) => {
   // output structure is preserved even after bundling so require()
   // is ok here
@@ -209,7 +211,7 @@ const devAction = async (
       configFile: options.config,
       logLevel: options.logLevel,
       clearScreen: options.clearScreen,
-      server: cleanOptions(options),
+      server: cleanOptions(options)
     })
     // native Node http server instance or null
     if (!server.httpServer) {
@@ -222,8 +224,8 @@ const devAction = async (
       chalk.cyan(`\n  vite v${require('vite/package.json').version}`) +
         chalk.green(` dev server running at:\n`),
       {
-        clear: !server.config.logger.hasWarned,
-      },
+        clear: !server.config.logger.hasWarned
+      }
     )
     // 调用 logger.ts 的 printCommonServerUrls 方法打印 dev-server 运行的 url
     server.printUrls()
@@ -239,7 +241,7 @@ const devAction = async (
     // 打印服务启动失败的日志
     createLogger(options.logLevel).error(
       chalk.red(`error when starting dev server:\n${e.stack}`),
-      { error: e },
+      { error: e }
     )
     // 结束进程
     process.exit(1)
@@ -247,11 +249,12 @@ const devAction = async (
 }
 ```
 
-7. 接下来，我们进入 server 模块，查看 `createServer`：
+## 7. `createServer`
 
 ```ts
+// vite/src/node/server/index.ts
 export async function createServer(
-  inlineConfig: InlineConfig = {},
+  inlineConfig: InlineConfig = {}
 ): Promise<ViteDevServer> {
   // 这个方法里，大概做了下面这些事：
   // 1. 处理服务的启动配置
@@ -276,19 +279,19 @@ export async function createServer(
     ignored: [
       '**/node_modules/**',
       '**/.git/**',
-      ...(Array.isArray(ignored) ? ignored : [ignored]),
+      ...(Array.isArray(ignored) ? ignored : [ignored])
     ],
     ignoreInitial: true,
     ignorePermissionErrors: true,
     disableGlobbing: true,
-    ...watchOptions,
+    ...watchOptions
   }) as FSWatcher
 
   // 5. 创建 pluginContainer，创建模块映射表
   const container = await createPluginContainer(config, moduleGraph, watcher)
 
-  const moduleGraph: ModuleGraph = new ModuleGraph((url) =>
-    container.resolveId(url),
+  const moduleGraph: ModuleGraph = new ModuleGraph(url =>
+    container.resolveId(url)
   )
   const closeHttpServer = createServerCloseFn(httpServer)
 
@@ -326,7 +329,7 @@ export async function createServer(
     },
     async restart(forceOptimize: boolean) {
       // 调用 restartServer 方法，重启 dev-server
-    },
+    }
     // _xxxx  一些私有属性
   }
 
@@ -344,23 +347,9 @@ export async function createServer(
   }
 
   // 8. watcher 监听文件变化：change, add, unlink
-  watcher.on('change', async (file) => {
-    // 格式化文件路径
-    file = normalizePath(file)
-    // 若是 package.json 文件变化，校验依赖是否变更
-    // 删除 packageCache 中的缓存记录
-
-    // 若是其他文件变更，更新 moduleGraph
-    // 判断是否开启 hmr（默认开启）
-    // handleHMRUpdate(file, server) 触发热更新
-  })
-
-  watcher.on('add', (file) => {
-    handleFileAddUnlink(normalizePath(file), server)
-  })
-
-  watcher.on('unlink', (file) => {
-    handleFileAddUnlink(normalizePath(file), server, true)
+  // 具体可见 【热更新机制】
+  watcher.on('change', async file => {
+    /* ...other code */
   })
 
   // 9. 一堆中间件的应用
