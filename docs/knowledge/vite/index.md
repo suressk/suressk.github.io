@@ -2,7 +2,7 @@
 title: Vite 源码解读
 ---
 
-> `版本： 2.7.0-bate.9`
+> `版本： 3.0.0-alpha.1` (当然，部分内容是基于 `2.7.0-bate.9` 版看的，可能有些许更新，但差别应该不大)
 
 ## 目录结构
 
@@ -11,7 +11,8 @@ title: Vite 源码解读
 > | — | — openChrome.applescript<br>
 > | — | — vite.js<br>
 > | + `scripts`<br>
-> | — | - patchTypes.cjs<br>
+> | — | - patchTypes.ts<br>
+> | — | - tsconfig.json<br>
 > | + `src`<br>
 > | — | + `client`<br>
 > | — | — | — client.ts<br>
@@ -25,18 +26,19 @@ title: Vite 源码解读
 > | — | — | + `server`<br>
 > | — | — | + `ssr`<br>
 > | — | — | — build.ts<br>
+> | — | — | — certificate.ts<br>
 > | — | — | — cli.ts<br>
 > | — | — | — config.ts<br>
 > | — | — | — constants.ts<br>
 > | — | — | — http.ts<br>
-> | — | — | — importGlob.ts<br>
 > | — | — | — index.ts<br>
 > | — | — | — logger.ts<br>
 > | — | — | — packages.ts<br>
 > | — | — | — plugin.ts<br>
 > | — | — | — preview.ts<br>
-> | — | — | — utils.ts<br>
+> | — | — | — publicUtils.ts<br>
 > | — | — | — tsconfig.json<br>
+> | — | — | — utils.ts<br>
 > | + `types`<br>
 > | + ... // other files<br>
 
@@ -46,23 +48,25 @@ title: Vite 源码解读
 
 ## 原理梗概
 
-> 对于第三方依赖包（不常变动的）使用 `esbuild` 进行编译打包放置于 `node_modules/.vite` 目录下
-
-> 它是一个基于浏览器原生 `ES Module` 的开发服务器，利用浏览器去解析 `imports`，在服务器端按需编译返回，基本跳过了打包这个概念，服务器随起随用。同时搞定了热更新，而且热更新的速度不会随着模块增多而变慢。针对生产环境则可以把同一份代码用 rollup 打包
+> - 基于浏览器原生 `ES Module` 的开发服务器，利用浏览器去解析 `imports`<br/>
+> - 对于第三方依赖包（不常变动的）使用 `esbuild` 进行编译打包后放置于 `node_modules/.vite` 目录下进行缓存<br/>
+> - 在服务器端按需编译返回，基本跳过了打包这个概念，服务器随起随用<br/>
+> - 同时搞定热更新，而且热更新的速度不会随着模块增多而变慢<br/>
+> - 针对生产环境可以把同一份代码用 `rollup` 打包成适应不同环境使用的代码
 
 我们可以注意到两个点：
 
 1. `vite` 对应的场景是开发模式，原理是拦截浏览器发出的请求并做相应的处理
 
-2. `vite` 在开发模式下不需要打包（这里不包含第三方模块），只需要编译浏览器发出的 HTTP 请求对应的文件即可，所以热更新速度很快
+2. `vite` 在开发模式下不需要打包（这里不包含第三方模块），只需要编译浏览器发出的 `HTTP` 请求对应的文件即可，所以热更新速度很快
 
-vite 的实现离不开现代浏览器原生 ES 模块化的支持，当声明一个 `<script>` 标签，`type` 属性置为 `module` 时，浏览器就会发起一个 HTTP 请求来获取，解析内容中的一个 import 语句也同样会发起一个请求来获取。vite 就劫持了这些请求，并在开启的 dev-server 中进行处理再返回给浏览器
+vite 的实现离不开现代浏览器原生 `ES` 模块化的支持，当声明一个 `<script>` 标签，`type` 属性置为 `module` 时，浏览器就会发起一个 `HTTP` 请求来获取，解析内容中的一个 `import` 语句也同样会发起一个请求来获取。`vite` 就劫持了这些请求，并在开启的 `dev-server` 中进行处理再返回给浏览器
 
-由于浏览器只会对需要用到的模块发起请求，所以就不需要像 webpack 一样将所有的内容进行打包 📦 再一起返回，而是只编译浏览器发起 HTTP 请求的模块，这就相当于是 `“按需加载”` 了
+由于浏览器只会对需要用到的模块发起请求，所以就不需要像 `webpack` 一样将所有的内容进行打包 📦 再一起返回，而是只编译浏览器发起 `HTTP` 请求的模块，这就相当于是 `“按需加载”` 了
 
 ## sure-vite
 
-这里我简单实现了一个非常粗糙的简易版 vite ➡️ [sure-vite](https://github.com/suressk/sure-vite)，可以用来大致理解一下 vite 的工作逻辑是什么（参照 vite 1.x 版本）：
+这里我简单实现了一个非常粗糙的简易版 vite ➡️ [sure-vite](https://github.com/suressk/sure-vite)，可以用来大致理解一下 vite 的工作逻辑是什么（参照 `vite 1.x`）：
 
 - 基于 Koa 框架启动一个服务，并通过访问静态路径加载 html 入口文件
 
@@ -74,18 +78,16 @@ vite 的实现离不开现代浏览器原生 ES 模块化的支持，当声明�
 
   ```jsx
   // 比如这样： /@modules/ 为任意你想命名的文件夹（当然你得去创建）
-  import React from 'react' // 无法识别的路径
-
-  import React from '/@modules/react' // 可以识别的路径
+  import React from 'react' /* 浏览器无法识别的路径 */
+  import React from '/@modules/react' /* 浏览器可以识别的路径 */
 
   // ------------=+=------------
 
-  import { createApp } from 'vue' // 无法识别的路径
-
-  import { createApp } from '/@modules/vue' // 可以识别的路径
+  import { createApp } from 'vue' /* 浏览器无法识别的路径 */
+  import { createApp } from '/@modules/vue' /* 浏览器可以识别的路径 */
   ```
 
-- 上面那步你加了 `/@modules/` 路径，但要么你去创建这个文件夹（否则请求就会由于找不到路径而返回 404），将打包后的结果放到这个目录下；或者拦截这个路径开头的请求，将它重定向到 node_modules 目录下的真实模块路径
+- 上面那步我们重写为 `/@modules/` 路径（本身是不存在 `@modules` 目录的），但要么去创建这个文件夹（否则请求就会由于找不到路径而返回 404），将打包后的结果放到这个目录下；或者拦截这个路径开头的请求，将它重定向到 `node_modules` 目录下的真实模块路径（我这里是方案二：重定向）
 
 - 然后，再向 html 文件中插入环境变量、添加热更新等额外功能
 
@@ -101,8 +103,8 @@ vite 的实现离不开现代浏览器原生 ES 模块化的支持，当声明�
   <img src="https://tse1-mm.cn.bing.net/th/id/R-C.e03bec7f8db104a75d714b3493ace4ae?rik=%2fl7fCXrZ3VPlHg&riu=http%3a%2f%2fcdn.xuedingmiao.com%2fvite-esm.png&ehk=rLslDZBKO%2bVgaKEg%2fZRdAygMTs2s697ceNTcgfRT0IQ%3d&risl=&pid=ImgRaw&r=0" width="50%" style="box-sizing: border-box; padding-left: 2px;">
 </div>
 
-`Bundle Server` 的思想就是不管你有没有用到这块儿的代码，我都在启动 dev-server 之前进行一次性打包，形成一个 bundle 后再来启动开发服务器（所以，当我们的一个项目比较大的时候，往往启动它可能就得花费几分钟的时间），另外我们在改动某个模块儿的代码后，热更新也是基于打包后的内容，所以相关依赖会再走一遍打包流程，然后形成新的 bundle 交给 dev-server
+- `Bundle Server` 的思想就是不管有没有用到这块儿的代码，都会在启动 `dev-server` 之前进行一次性打包，形成一个 `bundle` 后再来启动开发服务器（所以，当我们的一个项目比较大的时候，往往启动它可能就得花费几分钟的时间），另外我们在改动某个模块儿的代码后，热更新也是基于打包后的内容，所以相关依赖会再走一遍打包流程，然后形成新的 `bundle` 交给 `dev-server`
 
-`BundleLess Server` 的思想就是，你一个文件里的 import 更新，那么它只会去重新获取你这个更新的模块儿，其他没有更新的模块儿就会从之前请求的缓存中直接获取，几乎是毫秒级更新页面
+- `BundleLess Server` 的思想就是，你一个文件里的 `import` 更新，那么它只会去重新获取你这个更新的模块儿，其他没有更新的模块儿就会从之前请求的缓存中直接获取，几乎是毫秒级更新页面
 
-至于为什么是 BundleLess 而不是 UnBundle 呢？那是因为它（以 vite 为例）还是做了打包处理的，我们知道一个 import 就会发起一个 http 请求来获取，那当我们使用第三方包的时候，它里面又大量引用其他第三方包，那初次加载如此多的模块就极有可能让浏览器崩溃，所以针对第三方不怎么变动的模块及其依赖项就需要进行打包 📦 处理成一个模块，还能结合浏览器的缓存机制将打包后不太变动的包进行缓存，等到依赖变动重新打包才更新缓存文件，从而降低浏览器的压力
+- `BundleLess` or `UnBundle` ？那是因为构建工具（以 `vite` 为例）还是做了打包处理的，我们知道一个 `import` 就会发起一个 `http` 请求来获取，那当我们使用第三方包的时候，它里面又大量引用其他第三方包（以 `lodash` 为例就有几百上千个 api 吧），那加载如此多的模块就会让浏览器资源造成极大的浪费，所以针对第三方不怎么变动的模块及其依赖项就需要进行打包 📦 处理成一个模块，还能结合浏览器的缓存机制将打包后不太变动的包进行缓存，等到依赖变动重新打包才更新缓存文件，从而降低浏览器的压力

@@ -6,7 +6,7 @@ title: Knowledge
 ✌️
 :::
 
-<img src="/images/kaway.gif" width="300">
+<!-- <img src="/images/kaway.gif" width="300"> -->
 
 ```
 之前写的相关文章链接
