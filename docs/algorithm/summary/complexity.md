@@ -18,7 +18,7 @@ background: https://sli.dev/demo-cover.png
 
 ```ts
 // 最终化简结果为
-aN^2 + bN + c
+;`aN^2 + bN + c`
 
 // a, b, c 都是常数
 ```
@@ -62,9 +62,7 @@ aN^2 + bN + c
 
 ## 面试题练手
 
-> 在一个数组（`arr: number[]`）中，<br/>
-> `问题1`：已知其中一种数出现了奇数次，其他数出现了偶数次，求这个出现奇数次的数是啥？<br/>
-> `问题2`：已知其中两种数出现了奇数次，其他数出现了偶数次，求这两个出现奇数次的数是啥？<br/>
+> 在一个数组（`arr: number[]`）中，<br/> > `问题1`：已知其中一种数出现了奇数次，其他数出现了偶数次，求这个出现奇数次的数是啥？<br/> > `问题2`：已知其中两种数出现了奇数次，其他数出现了偶数次，求这两个出现奇数次的数是啥？<br/>
 > 要求：时间复杂度为 `O(N)`，空间复杂度为 `O(1)`
 
 ```ts
@@ -91,11 +89,10 @@ function resolveOne(arr: number[]) {
 // 这一位上出现奇数个 1，最后结果这位上就是 1，否则为 0
 function resolveTwo(arr: number[]) {
   if (!arr || !Array.isArray(arr) || arr?.length === 0) {
-    throw new Error(
-      `The array is of the wrong type or the array is empty!`
-    )
+    throw new Error(`The array is of the wrong type or the array is empty!`)
   }
-  let eor = 0, onlyOne = 0
+  let eor = 0,
+    onlyOne = 0
   // 首先，还是得像问题1一样全部进行异或运算
   // 得到这两个出现奇数次的数（假设为 a, b）的异或结果
   arr.forEach(cur => {
@@ -185,7 +182,7 @@ function swap(arr: number[], i: number, j: number) {
 
 ```ts
 // 还是上面的示例无序数组，依旧升序排
-[4, 2, 6, 3, 8, 9, 0, 1, 5, 7]
+;[4, 2, 6, 3, 8, 9, 0, 1, 5, 7]
 
 // 依次比较索引位置上的数
 // 1. 0 与 1 位置上的数比较，大的往后移
@@ -261,9 +258,9 @@ let b = 乙
 
 // 跑这三行代码，a, b 的值互换
 // 这里我们带入值并运用上面的性质就一目了然了
-a = a ^ b  // a = 甲 ^ 乙
-b = a ^ b  // b = (甲 ^ 乙) ^ 乙 → b = 甲
-a = a ^ b  // a = (甲 ^ 乙) ^ (甲 ^ 乙 ^ 乙) → a = 乙
+a = a ^ b // a = 甲 ^ 乙
+b = a ^ b // b = (甲 ^ 乙) ^ 乙 → b = 甲
+a = a ^ b // a = (甲 ^ 乙) ^ (甲 ^ 乙 ^ 乙) → a = 乙
 ```
 
 **注意：** 上面的 `a`，`b` 必须得是内存中两块不同的区域（值可以相同，但内存不能是同一块，否则会把它抹为 0）
@@ -275,9 +272,10 @@ a = a ^ b  // a = (甲 ^ 乙) ^ (甲 ^ 乙 ^ 乙) → a = 乙
 与数据状况有关，会优于 `冒泡排序` 与 `选择排序`（最好情况是 `O(N)`，最差是 `O(N^2)`）
 
 > 思路：
+>
 > 1. 索引从 0 到 n - 1，依次将第 n - 1 位的数依次与前一个数比较，小于前一个数，则交换
 > 2. 交换后，记载索引位前移一位（此时为：n-2），再将它与前一个比较，依次类推
-> 3. 则依次排列：0～1 索引位，0～2 索引位，0～3 索引位... 直到 0～n-1 上有序则结束
+> 3. 则依次排列：0 ～ 1 索引位，0 ～ 2 索引位，0 ～ 3 索引位... 直到 0 ～ n-1 上有序则结束
 
 ```ts
 // 实现
@@ -285,9 +283,7 @@ const arr = [4, 2, 6, 3, 8, 9, 0, 1, 5, 7]
 
 function insertSort(arr: number[]) {
   if (!arr || !Array.isArray(arr) || arr?.length === 0) {
-    throw new Error(
-      `The array is of the wrong type or the array is empty!`
-    )
+    throw new Error(`The array is of the wrong type or the array is empty!`)
   }
   const len = arr.length
   for (let i = 0; i < len; i++) {
@@ -311,16 +307,15 @@ function insertSort(arr: number[]) {
 
 二分法：每次对数组中的数据进行对半拆分，比较要查找的这个数与中间数（对半分的位置数）的大小，则可在剩下的一半数据中继续此操作，找到则返回 `true`（可能无需二分完全结束）
 
->对于二分法极小几率存在的求中间点索引计算，常规计算为：<br/>
-> `~~((leftIdx + rightIdx) / 2)`<br/>
-> 极小几率存在越界的问题（比如 `rightIdx` 为临界值，`(leftIdx + rightIdx)` 刚好超过最大值）， 那么我们可以换一种求值方案：<br/>
-> `~~(leftIdx + (rightIdx - leftIdx) / 2)`<br/>
+> 对于二分法极小几率存在的求中间点索引计算，常规计算为：<br/> > `~~((leftIdx + rightIdx) / 2)`<br/>
+> 极小几率存在越界的问题（比如 `rightIdx` 为临界值，`(leftIdx + rightIdx)` 刚好超过最大值）， 那么我们可以换一种求值方案：<br/> > `~~(leftIdx + (rightIdx - leftIdx) / 2)`<br/>
 > 另外再进一步可以写为：`leftIdx + ((rightIdx - leftIdx) >> 1)`
 
 **变式：**
+
 1. 在一个有序数组中，查找 `>= 某个数` 最左侧的位置（需要完全二分结束才能判定）
 2. `局部最小值` 问题
-> 某个 `无序数组` 中，相邻的数一定 **`不相等`**，当存在 `N` 位置上的数小于 `N-1` 和 `N+1` 位置上的数时，那么这个第 `N` 位上的数即为我们要找的局部最小数，要求时间复杂度小于 `O(N)`
+   > 某个 `无序数组` 中，相邻的数一定 **`不相等`**，当存在 `N` 位置上的数小于 `N-1` 和 `N+1` 位置上的数时，那么这个第 `N` 位上的数即为我们要找的局部最小数，要求时间复杂度小于 `O(N)`
 
 ```js
 思路：
@@ -338,6 +333,7 @@ function insertSort(arr: number[]) {
 ## 对数器
 
 > 有一个你想要测的方法 a
+>
 > 1. 实现一个绝对正确但是复杂度不好的方法 b
 > 2. 实现一个随机样本产生器
 > 3. 实现比对的方法
@@ -358,11 +354,7 @@ function getRamdomInteger(min: number = 0, max: number = 10) {
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
 // 得到随机长度的随机数
-function generateRandomArr(
-  maxLength = 0,
-  minValue = 0,
-  maxValue = 10
-) {
+function generateRandomArr(maxLength = 0, minValue = 0, maxValue = 10) {
   const arr = new Array(maxLength)
   for (let i = 0; i < maxLength; i++) {
     arr[i] = getRamdomInteger(minValue, maxValue)
@@ -380,7 +372,7 @@ function testFn() {
     // 这里直接用扩展运算符复制一份（这里只是一维数组）
     const arr2 = [...arr1]
     insertSort(arr1) // 插入排序 arr1，假设是升序排序
-    arr2.sort((a, b) => (a - b)) // 升序
+    arr2.sort((a, b) => a - b) // 升序
     if (!isEqual(arr1, arr2)) {
       succeed = false
       break
@@ -391,7 +383,7 @@ function testFn() {
 
 function isEqual(originArr: number[], targetArr: number[]) {
   // 简便比较两个数组排序结果是否一致，直接转成字符串比较就好
-  return (originArr.join(',') === targetArr.join(','))
+  return originArr.join(',') === targetArr.join(',')
 }
 
 testFn() // 执行看结果如何
@@ -406,11 +398,7 @@ function getMaxNum(arr: number[]) {
   return process(arr, 0, arr.length - 1)
 }
 
-function process(
-  arr: number[],
-  l: number,
-  r: number
-) {
+function process(arr: number[], l: number, r: number) {
   // 就一个数
   if (l === r) {
     return arr[l]
@@ -426,6 +414,7 @@ function process(
 但是递归操作十分容易导致调用栈溢出的问题，所以得想办法避免使用递归，或者使用 `ES6 尾调用优化方案`（比如：[斐波那契数列 方案四 🔗](/knowledge/study/algorithm.html#_4-斐波那契数列))
 
 尾调用优化需要满足下列条件：
+
 > - 必须在 `严格模式` 下：`'use strict'`
 > - 尾调用 `不访问` 当前栈帧的变量（也就是说函数不是一个闭包）
 > - 在函数内部，尾调用是最后一条语句
@@ -437,12 +426,10 @@ function process(
 T(N) = a*T(N/b) + O(N^d)
 ```
 
-> 解释：<br/>
-> `N` 表示 `问题的规模`，`a` 表示 `递归的次数`，也就是生成的子问题数，<br/>
-> `N/b` 表示 `子问题的规模`， `O(N^d)` 表示除了递归操作以外其余操作的复杂度
+> 解释：<br/> > `N` 表示 `问题的规模`，`a` 表示 `递归的次数`，也就是生成的子问题数，<br/> > `N/b` 表示 `子问题的规模`， `O(N^d)` 表示除了递归操作以外其余操作的复杂度
 
 结论：
 
 ![公式结论](/images/masterResult.png)
 
-**注意⚠️：不管分成几部分，子问题规模必须等分**
+**注意 ⚠️：不管分成几部分，子问题规模必须等分**
