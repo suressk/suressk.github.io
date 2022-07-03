@@ -377,8 +377,11 @@ function getLessLimit(arr: number[], limit: number) {
   /*
     定义 offset，比如追平数为：
     limit：68886，则 offet 应为：10000
-    目的是取每一位上的数值
-    (~~(limit / offset)) % 10
+    目的是取每一位上的数值: (~~(limit / offset)) % 10
+    假设 limit = 36875，则：
+    (~~(36875 / 10000)) % 10 = 3
+    (~~(36875 / 1000)) % 10 = 6
+    (~~(36875 / 100)) % 10 = 8
     我们就只需要控制 offset 依次除以 10，就能拿到每一位上的数值
     它会比 limit.toString().split('').map(i => Number(i)) 快得多
   */
@@ -386,5 +389,80 @@ function getLessLimit(arr: number[], limit: number) {
   while (offset <= limit / 10) {
     offset *= 10
   }
+
+  const ans = getLimit(arr, limit, offset)
+
+  if (ans !== -1) {
+    return ans
+  }
+  offset = ~~(offset / 10)
+  let res = 0
+  const maxNum = arr[arr.length - 1]
+  while (offset > 0) {
+    res += maxNum * offset
+    offset = ~~(offset / 10)
+  }
+  return res
+}
+
+/*
+  可以使用 arr 中的数字，期望得到尽可能接近 limit 的结果
+  若返回的结果无法跟 limit 数值位数一样，则返回一个固定值 -1
+*/
+function getLimit(arr: number[], limit: number, offset: number) {
+  // offset: n => 1000 => 100 => 10 => 1 => 0
+  // 每一位数字与 limit 追平，直接返回
+  if (offset === 0) {
+    return limit
+  }
+
+  // 当前位上的数字
+  const cur = ~~(limit / offset) % 10
+
+  let nearIdx = getNearIdx(arr, cur)
+  // 数组中拿不到 <= 当前位上的数字，则返回 -1
+  if (nearIdx === -1) {
+    return -1
+  }
+
+  // 找到的数字与当前位上的数字一样
+  if (arr[nearIdx] === cur) {
+    // 递归下一位数字
+    const ans = getLimit(arr, limit, ~~(offset / 10))
+    // 能找到追平数字
+    if (ans !== -1) {
+      return ans
+    }
+    // 当前位不能追平，但能找到更小的数字
+    if (nearIdx > 0) {
+      nearIdx--
+      return ~~(limit / (offset * 10)) * offset * 10 + arr[nearIdx] * offset
+    }
+    // 不能追平且不能找到更小数
+    return -1
+  }
+
+  // arr[nearIdx] < cur 小于当前位数字，只有变小，后面每位都填充最大数字
+  return ~~(limit / (offset * 10)) * offset * 10 + arr[arr.length - 1] * offset
+}
+
+// 获取数组中 <= cur 的值的索引
+// 没有则返回 -1
+function getNearIdx(arr: number[], cur: number) {
+  if (arr[0] > cur) {
+    return -1
+  }
+  let l = 0,
+    r = arr.length - 1
+  while (l <= r) {
+    const mid = ((r - l) >> 1) + l
+    // 中间值 < cur
+    if (arr[mid] < cur) {
+      l = mid + 1
+    } else {
+      r = mid - 1
+    }
+  }
+  return l
 }
 ```
