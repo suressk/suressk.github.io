@@ -428,7 +428,7 @@ function getLimit(arr: number[], limit: number, offset: number) {
   // 找到的数字与当前位上的数字一样
   if (arr[nearIdx] === cur) {
     // 递归下一位数字
-    const ans = getLimit(arr, limit, ~~(offset / 10))
+    const ans = getLimit(arr, limit, offset / 10)
     // 能找到追平数字
     if (ans !== -1) {
       return ans

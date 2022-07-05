@@ -1,23 +1,23 @@
 ---
-title: Promise
+title: 手写实现 Promise
 ---
 
 ## 宏任务方式实现 Promise
 
 ```js
-const MyOwnPromise = (() => {
-  const PENDING = Symbol("pending"),
-    RESOLVED = Symbol("resolved"),
-    REJECTED = Symbol("rejected"),
-    PromiseValue = Symbol("PromiseValue"), // 状态数据
-    PromiseStatus = Symbol("PromiseStatus"), // promise 状态
-    thenables = Symbol("thenables"), // thenables 状态的 promise 列表
-    catchables = Symbol("catchbles"), // catchables 状态的 promise 列表
-    changeStatus = Symbol("changeStatus"), // 当前状态
-    settleHandle = Symbol("settleHandle"), // 后续处理的通用函数
-    linkPromise = Symbol("linkPromise"); // 创建串联的Promise
+const MyPromise = (() => {
+  const PENDING = Symbol('pending'),
+    RESOLVED = Symbol('resolved'),
+    REJECTED = Symbol('rejected'),
+    PromiseValue = Symbol('PromiseValue'), // 状态数据
+    PromiseStatus = Symbol('PromiseStatus'), // promise 状态
+    thenables = Symbol('thenables'), // thenables 状态的 promise 列表
+    catchables = Symbol('catchbles'), // catchables 状态的 promise 列表
+    changeStatus = Symbol('changeStatus'), // 当前状态
+    settleHandle = Symbol('settleHandle'), // 后续处理的通用函数
+    linkPromise = Symbol('linkPromise') // 创建串联的Promise
 
-  return class MyPromise {
+  return class _MyPromise {
     /**
      * 改变当前Promise的状态
      * @param {*} newStatus
@@ -27,34 +27,34 @@ const MyOwnPromise = (() => {
     [changeStatus](newStatus, newValue, queue) {
       if (this[PromiseStatus] !== PENDING) {
         //状态无法变更
-        return;
+        return
       }
-      this[PromiseStatus] = newStatus;
-      this[PromiseValue] = newValue;
+      this[PromiseStatus] = newStatus
+      this[PromiseValue] = newValue
       //执行相应队列中的函数
-      queue.forEach((handler) => handler(newValue));
+      queue.forEach(handler => handler(newValue))
     }
 
     /**
      * @param {*} executor 未决阶段（pending状态）下的处理函数
      */
     constructor(executor) {
-      this[PromiseStatus] = PENDING;
-      this[PromiseValue] = undefined;
-      this[thenables] = []; //后续处理函数的数组 -> resolved
-      this[catchables] = []; //后续处理函数的数组 -> rejected
+      this[PromiseStatus] = PENDING
+      this[PromiseValue] = undefined
+      this[thenables] = [] //后续处理函数的数组 -> resolved
+      this[catchables] = [] //后续处理函数的数组 -> rejected
 
-      const resolve = (data) => {
-        this[changeStatus](RESOLVED, data, this[thenables]);
-      };
+      const resolve = data => {
+        this[changeStatus](RESOLVED, data, this[thenables])
+      }
 
-      const reject = (reason) => {
-        this[changeStatus](REJECTED, reason, this[catchables]);
-      };
+      const reject = reason => {
+        this[changeStatus](REJECTED, reason, this[catchables])
+      }
       try {
-        executor(resolve, reject);
+        executor(resolve, reject)
       } catch (err) {
-        reject(err);
+        reject(err)
       }
     }
 
@@ -65,124 +65,124 @@ const MyOwnPromise = (() => {
      * @param {*} queue 作业队列
      */
     [settleHandle](handler, immediatelyStatus, queue) {
-      if (typeof handler !== "function") {
-        return;
+      if (typeof handler !== 'function') {
+        return
       }
       if (this[PromiseStatus] === immediatelyStatus) {
         //直接运行
         setTimeout(() => {
-          handler(this[PromiseValue]);
-        }, 0);
+          handler(this[PromiseValue])
+        }, 0)
       } else {
-        queue.push(handler);
+        queue.push(handler)
       }
     }
 
     [linkPromise](thenalbe, catchable) {
       function exec(data, handler, resolve, reject) {
         try {
-          const result = handler(data); //得到当前Promise的处理结果
-          if (result instanceof MyPromise) {
+          const result = handler(data) //得到当前Promise的处理结果
+          if (result instanceof _MyPromise) {
             result.then(
-              (d) => {
-                resolve(d);
+              d => {
+                resolve(d)
               },
-              (err) => {
-                reject(err);
+              err => {
+                reject(err)
               }
-            );
+            )
           } else {
-            resolve(result);
+            resolve(result)
           }
         } catch (err) {
-          reject(err);
+          reject(err)
         }
       }
 
-      return new MyPromise((resolve, reject) => {
+      return new _MyPromise((resolve, reject) => {
         this[settleHandle](
-          (data) => {
-            exec(data, thenalbe, resolve, reject);
+          data => {
+            exec(data, thenalbe, resolve, reject)
           },
           RESOLVED,
           this[thenables]
-        );
+        )
 
         this[settleHandle](
-          (reason) => {
-            exec(reason, catchable, resolve, reject);
+          reason => {
+            exec(reason, catchable, resolve, reject)
           },
           REJECTED,
           this[catchables]
-        );
-      });
+        )
+      })
     }
 
     then(thenable, catchable) {
-      return this[linkPromise](thenable, catchable);
+      return this[linkPromise](thenable, catchable)
     }
 
     catch(catchable) {
-      return this[linkPromise](undefined, catchable);
+      return this[linkPromise](undefined, catchable)
     }
 
     static all(proms) {
-      return new MyPromise((resolve, reject) => {
-        const results = proms.map((p) => {
+      return new _MyPromise((resolve, reject) => {
+        const results = proms.map(p => {
           const obj = {
             result: undefined,
-            isResolved: false,
-          };
+            isResolved: false
+          }
           p.then(
-            (data) => {
-              obj.result = data;
-              obj.isResolved = true;
+            data => {
+              obj.result = data
+              obj.isResolved = true
               //判断是否所有的全部完成
-              const unResolved = results.filter((r) => !r.isResolved);
+              const unResolved = results.filter(r => !r.isResolved)
               if (unResolved.length === 0) {
                 //全部完成
-                resolve(results.map((r) => r.result));
+                resolve(results.map(r => r.result))
               }
             },
-            (reason) => {
-              reject(reason);
+            reason => {
+              reject(reason)
             }
-          );
-          return obj;
-        });
-      });
+          )
+          return obj
+        })
+      })
     }
 
     static race(proms) {
-      return new MyPromise((resolve, reject) => {
-        proms.forEach((p) => {
+      return new _MyPromise((resolve, reject) => {
+        proms.forEach(p => {
           p.then(
-            (data) => {
-              resolve(data);
+            data => {
+              resolve(data)
             },
-            (err) => {
-              reject(err);
+            err => {
+              reject(err)
             }
-          );
-        });
-      });
+          )
+        })
+      })
     }
 
     static resolve(data) {
-      if (data instanceof MyPromise) {
-        return data;
+      if (data instanceof _MyPromise) {
+        return data
       } else {
-        return new MyPromise((resolve) => {
-          resolve(data);
-        });
+        return new _MyPromise(resolve => {
+          resolve(data)
+        })
       }
     }
 
     static reject(reason) {
-      return new MyPromise((resolve, reject) => {
-        reject(reason);
-      });
+      return new _MyPromise((resolve, reject) => {
+        reject(reason)
+      })
     }
-  };
-})();
+  }
+})()
 ```

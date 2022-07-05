@@ -24,7 +24,7 @@ OSI （`Open System Interconnect`）模型全称为开放式通信系统互连�
 
 `HTTP` (`HyperText Transfer Protocol`)，即超文本运输协议，是实现网络通信的一种规范
 
-它是一个传输协议，即将数据由 `A ➡️ B` 或将 `B ➡️ A`，并且 A 与 B 之间能够存放很多第三方。传输的数据并不是计算机底层中的二进制包，而是完整的、有意义的数据，如HTML 文件, 图片文件, 查询结果等超文本，能够被上层应用识别
+它是一个传输协议，即将数据由 `A 发送给 B` 或由 `B 发送给 A`，并且 A 与 B 之间能够存放很多第三方。传输的数据并不是计算机底层中的二进制包，而是完整的、有意义的数据（如 `HTML 文件`、`图片文件` 等）
 
 在实际应用中，HTTP 常被用于在浏览器和服务器之间传递信息，以 `明文` 方式发送内容，不提供任何方式的数据加密
 
@@ -64,10 +64,12 @@ OSI （`Open System Interconnect`）模型全称为开放式通信系统互连�
 **客户端** 发送一个 `HTTP` 请求到服务器的请求消息包括以下格式：`请求行（request line）`、`请求头部（header）`、`空行` 和 `请求数据` 四个部分组成
 
 ```js
-GET /hello.txt HTTP/1.1
+POST /hello HTTP/1.1
 User-Agent: curl/7.16.3 libcurl/7.16.3 OpenSSL/0.9.7l zlib/1.2.3
 Host: www.example.com
 Accept-Language: en, mi
+
+/* 请求数据 */
 ```
 
 **服务器** 响应消息也由四个部分组成，分别是：`状态行`、`消息报头`、`空行` 和 `响应正文`
@@ -82,6 +84,8 @@ Accept-Ranges: bytes
 Content-Length: 51
 Vary: Accept-Encoding
 Content-Type: text/plain
+
+/* 响应正文 */
 ```
 
 HTTP1.0 定义了三种请求方法：`GET`, `POST` 和 `HEAD` 方法<br>
@@ -101,25 +105,7 @@ HTTP1.1 新增了六种请求方法：`OPTIONS`、`PUT`、`PATCH`、`DELETE`、`
 
 ### 简单请求与非简单请求
 
-cors（跨域资源共享） 将请求分为两种：
-
-- `简单请求（simple request）`
-- `非简单请求（preflight request）`，会首先发送一个 `OPTIONS` 预检请求
-
-**简单请求** 需要满足以下条件：
-
-- 请求的方法只能是 `GET`, `POST`, `HEAD` 的一种
-- 请求的 `header` 的只能是 `Accept`，`Accept-Language`, `Content-Language`，`Content-Type` 这些字段，不能超出这些字段
-- `Content-Type` 字段，只能是以下值：
-    - `text/plain`
-    - `multipart/form-data`
-    - `application/x-www-form-urlencoded`
-
-除此之外，均是非简单请求
-
-非简单请求，先发出预检请求，检查当前请求是否符合服务器的 cors 配置，如果符合，则再发出真正的请求；不符合则直接返回跨域
-
-> 如果预检请求通过了，在一定时间内重复请求是不用再次发起预检请求
+[见 `cors-跨站脚本攻击防范？` 🔗](/interview/summary/strands.html#_6-说说-cors-跨站脚本攻击防范？)
 
 ### GET 和 POST 的区别
 

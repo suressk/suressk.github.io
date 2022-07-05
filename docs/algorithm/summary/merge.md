@@ -13,96 +13,87 @@ title: 归并排序
 ```ts
 // 递归版
 function mergeSort(arr: number[]) {
-    const len = arr?.length
-    if (!arr || !Array.isArray(arr) || len < 2) {
-        return
-    }
-    sort(arr, 0, len - 1)
+  const len = arr?.length
+  if (!arr || !Array.isArray(arr) || len < 2) {
+    return
+  }
+  sort(arr, 0, len - 1)
 }
 
-function sort(
-    arr: number[],
-    l: number,
-    r: number
-) {
-    if (l === r) {
-        return
-    }
-    const midIdx = l + ((r - l) >> 1)
-    sort(arr, l, midIdx)
-    sort(arr, midIdx + 1, r)
-    merge(arr, l, midIdx, r)
+function sort(arr: number[], l: number, r: number) {
+  if (l === r) {
+    return
+  }
+  const midIdx = l + ((r - l) >> 1)
+  sort(arr, l, midIdx)
+  sort(arr, midIdx + 1, r)
+  merge(arr, l, midIdx, r)
 }
 
-function merge(
-    arr: number[],
-    l: number,
-    mid: number,
-    r: number
-) {
-    const resArr = new Array(r - l + 1)
-    let i = 0,
-        p1 = l,
-        p2 = mid + 1
+function merge(arr: number[], l: number, mid: number, r: number) {
+  const len = r - l + 1
+  const resArr = new Array(len)
+  let i = 0,
+    p1 = l,
+    p2 = mid + 1
 
-    while (p1 <= mid && p2 <= r) {
-        resArr[i++] = arr[p1] <= arr[p2] ? arr[p1++] : arr[p2++]
-        // 看下面这块儿注释部分，方便理解上面这句的逻辑
-        // 左侧当前值小于等于右侧值，取左侧值；否则取右侧值
-        // if (arr[p1] <= arr[p2]) {
-        //     resArr[i] = arr[p1]
-        //     p1++
-        // } else {
-        //     resArr[i] = arr[p2]
-        //     p2++
-        // }
-        // i++
-    }
-    // 右侧下标越界，左侧剩余数扔进 resArr
-    while (p1 <= mid) {
-        resArr[i++] = arr[p1++]
-    }
-    // 左侧下标越界，右侧剩余数扔进 resArr
-    while (p2 <= r) {
-        resArr[i++] = arr[p2++]
-    }
-    const len = resArr.length
-    // 更新 arr
-    for (i = 0; i < len; i++) {
-        arr[l + i] = resArr[i]
-    }
+  while (p1 <= mid && p2 <= r) {
+    resArr[i++] = arr[p1] <= arr[p2] ? arr[p1++] : arr[p2++]
+    // 看下面这块儿注释部分，方便理解上面这句的逻辑
+    // 左侧当前值小于等于右侧值，取左侧值；否则取右侧值
+    // if (arr[p1] <= arr[p2]) {
+    //     resArr[i] = arr[p1]
+    //     p1++
+    // } else {
+    //     resArr[i] = arr[p2]
+    //     p2++
+    // }
+    // i++
+  }
+  // 右侧下标越界，左侧剩余数扔进 resArr
+  while (p1 <= mid) {
+    resArr[i++] = arr[p1++]
+  }
+  // 左侧下标越界，右侧剩余数扔进 resArr
+  while (p2 <= r) {
+    resArr[i++] = arr[p2++]
+  }
+  // 更新 arr
+  for (i = 0; i < len; i++) {
+    arr[l + i] = resArr[i]
+  }
 }
 ```
 
 ```ts
 // 采用自上而下的递归方法
 function mergeSort(arr: number[]) {
-    const len = arr.length;
-    if (len < 2) {
-        return arr;
-    }
-    const middle = len >> 1,
-        leftArr = arr.slice(0, middle),
-        rightArr = arr.slice(middle);
-    return merge(mergeSort(leftArr), mergeSort(rightArr));
+  const len = arr.length
+  if (len < 2) {
+    return arr
+  }
+  const middle = len >> 1,
+    leftArr = arr.slice(0, middle),
+    rightArr = arr.slice(middle)
+  return merge(mergeSort(leftArr), mergeSort(rightArr))
 }
 
 function merge(leftArr: number[], rightArr: number[]) {
-    const result = [];
-    while (leftArr.length && rightArr.length) {
-        if (leftArr[0] <= rightArr[0]) {
-            result.push(leftArr.shift());
-        } else {
-            result.push(rightArr.shift());
-        }
+  const result = []
+  while (leftArr.length && rightArr.length) {
+    if (leftArr[0] <= rightArr[0]) {
+      result.push(leftArr.shift())
+    } else {
+      result.push(rightArr.shift())
     }
-    while (leftArr.length) {
-        result.push(leftArr.shift());
-    }
-    while (rightArr.length) {
-        result.push(rightArr.shift());
-    }
-    return result;
+  }
+  while (leftArr.length) {
+    result.push(leftArr.shift())
+  }
+  while (rightArr.length) {
+    result.push(rightArr.shift())
+  }
+  return result
 }
 ```
 
@@ -110,7 +101,7 @@ function merge(leftArr: number[], rightArr: number[]) {
 
 ## 面试题
 
-### 题目1：小和问题
+### 题目 1：小和问题
 
 > 在一个数组中，每一个数左边比当前数小的数累加起来，叫做这个数组的小和<br/>
 > 示例：数组为 `[1, 3, 4, 2, 5]`，其小和为：`0 + 1 + (1+3) + 1 + (1+3+4+2) = 16`<br/>
@@ -123,85 +114,75 @@ function merge(leftArr: number[], rightArr: number[]) {
 ```ts
 // 实现
 function smallSum(arr: number[]) {
-    if (!arr || !Array.isArray(arr) || arr?.length < 2) {
-        return 0
-    }
-    return sort(arr, 0, arr.length - 1)
+  if (!arr || !Array.isArray(arr) || arr?.length < 2) {
+    return 0
+  }
+  return sort(arr, 0, arr.length - 1)
 }
 
 // 既要排序，也要求小和
-function sort(
-    arr: number[],
-    l: number,
-    r: number
-) {
-    if (l === r) {
-        return 0
-    }
-    const mid = l + ((r - l) >> 1)
-    return sort(arr, l, mid)
-        + sort(arr, mid + 1, r)
-        + merge(arr, l, mid, r)
+function sort(arr: number[], l: number, r: number) {
+  if (l === r) {
+    return 0
+  }
+  const mid = l + ((r - l) >> 1)
+  return sort(arr, l, mid) + sort(arr, mid + 1, r) + merge(arr, l, mid, r)
 }
 
-function merge(
-    arr: number[],
-    l: number,
-    mid: number,
-    r: number
-) {
-    const resArr = new Array(r - l + 1)
-    let i = 0,
-        p1 = l,
-        p2 = mid + 1,
-        res = 0
-    while (p1 <= mid && p2 <= r) {
-        // (r - p2 + 1) * arr[p1] 右组有几个数大于左组当前值
-        res += arr[p1] < arr[p2] ? (r - p2 + 1) * arr[p1] : 0
-        // 仅当左侧数小于右侧数时，先扔左侧数
-        resArr[i++] = arr[p1] < arr[p2] ? arr[p1++] : arr[p2++]
-    }
-    while (p1 <= mid) {
-        resArr[i++] = arr[p1++]
-    }
-    while (p2 <= r) {
-        resArr[i++] = arr[p2++]
-    }
-    const len = resArr.length
-    for (i = 0; i < len; i++) {
-        arr[l + i] = resArr[i]
-    }
-    return res
+function merge(arr: number[], l: number, mid: number, r: number) {
+  const resArr = new Array(r - l + 1)
+  let i = 0,
+    p1 = l,
+    p2 = mid + 1,
+    res = 0
+  while (p1 <= mid && p2 <= r) {
+    // (r - p2 + 1) * arr[p1] 右组有几个数大于左组当前值
+    res += arr[p1] < arr[p2] ? (r - p2 + 1) * arr[p1] : 0
+    // 仅当左侧数小于右侧数时，先扔左侧数
+    resArr[i++] = arr[p1] < arr[p2] ? arr[p1++] : arr[p2++]
+  }
+  while (p1 <= mid) {
+    resArr[i++] = arr[p1++]
+  }
+  while (p2 <= r) {
+    resArr[i++] = arr[p2++]
+  }
+  const len = resArr.length
+  for (i = 0; i < len; i++) {
+    arr[l + i] = resArr[i]
+  }
+  return res
 }
 ```
 
-### 题目2：逆序对问题
+### 题目 2：逆序对问题
 
 > 在一个数组中，左边的数如果比右边的数大，则这两个数构成一个逆序对，打印所有逆序对<br/>
 > 示例：数组为 `[1, 3, 4, 2, 5, 0]`，打印：`[4, 2]`、`[5, 0]`<br/>
+
 <!-- > 要求时间复杂度为 `O(N·logN)` -->
 
 ```ts
 function getInverseArr(arr: number[]) {
-    const len = arr?.length
-    if (!arr || !Array.isArray(arr) || len < 2) {
-        return []
+  const len = arr?.length
+  if (!arr || !Array.isArray(arr) || len < 2) {
+    return []
+  }
+  const res = []
+  for (let i = 1; i < len; i++) {
+    const cur = arr[i]
+    const pre = arr[i - 1]
+    if (pre > cur) {
+      res.push([pre, cur])
     }
-    const res = []
-    for (let i = 1; i < len; i++) {
-        const cur = arr[i]
-        const pre = arr[i - 1]
-        if (pre > cur) {
-            res.push([pre, cur])
-        }
-    }
-    return res
+  }
+  return res
 }
 ```
 
-### 题目3：荷兰国旗问题（荷兰国旗三种颜色）
+### 题目 3：荷兰国旗问题（荷兰国旗三种颜色）
 
-问题1：
+问题 1：
 
 > 给定一个数组和一个数 `num`，请把 `小于等于 num` 的数放在数组的左边，`大于 num` 的数放在数组的右边<br/>
 > 要求：额外空间复杂度为 `O(1)`，时间复杂度为 `O(N)`
@@ -210,22 +191,21 @@ function getInverseArr(arr: number[]) {
 // 先用索引（idx）记录 <=num 区域（从 0 开始）
 // 遍历数组，遇到满足条件的数，将 arr[i] 与 arr[idx] 交换，idx++
 function getResult(arr: number[], num: number) {
-    const len = arr?.length
-    if (!arr || !Array.isArray(arr) || len < 2) {
-        return
+  const len = arr?.length
+  if (!arr || !Array.isArray(arr) || len < 2) {
+    return
+  }
+  let idx = 0
+  for (let i = 0; i < len; i++) {
+    if (arr[i] <= num) {
+      ;[arr[i], arr[idx]] = [arr[idx], arr[i]]
+      idx++
     }
-    let idx = 0
-    for (let i = 0; i < len; i++) {
-        if (arr[i] <= num) {
-            [arr[i], arr[idx]] = [arr[idx], arr[i]]
-            idx++
-        }
-    }
+  }
 }
 ```
 
-
-问题2：
+问题 2：
 
 > 给定一个数组和一个数 `num`，请把 `小于 num` 的数放在数组的左边，`等于 num` 的数放在数组的中间，`大于 num` 的数放在数组的右边<br/>
 > 要求：额外空间复杂度为 `O(1)`，时间复杂度为 `O(N)`
@@ -237,24 +217,25 @@ function getResult(arr: number[], num: number) {
 // rIdx（>num 区域，从 arr.length - 1 开始）
 // 右区边界与第 i 位交换后，当前第 i 位还需判断
 function getResult(arr: number[], num: number) {
-    const len = arr?.length
-    if (!arr || !Array.isArray(arr) || len < 2) {
-        return
+  const len = arr?.length
+  if (!arr || !Array.isArray(arr) || len < 2) {
+    return
+  }
+  let lIdx = 0,
+    rIdx = len - 1
+  for (let i = 0; i <= rIdx; ) {
+    if (arr[i] > num) {
+      ;[arr[i], arr[rIdx]] = [arr[rIdx], arr[i]]
+      rIdx--
+      // arr[i] 还需要判断，保持 i 不变
+      continue
     }
-    let lIdx = 0, rIdx = len - 1
-    for (let i = 0; i <= rIdx;) {
-        if (arr[i] > num) {
-            [arr[i], arr[rIdx]] = [arr[rIdx], arr[i]]
-            rIdx--
-            // arr[i] 还需要判断，保持 i 不变
-            continue
-        }
-        if (arr[i] < num) {
-            [arr[i], arr[lIdx]] = [arr[lIdx], arr[i]]
-            lIdx++
-        }
-        i++
+    if (arr[i] < num) {
+      ;[arr[i], arr[lIdx]] = [arr[lIdx], arr[i]]
+      lIdx++
     }
+    i++
+  }
 }
 ```
 
@@ -266,7 +247,7 @@ function getResult(arr: number[], num: number) {
 
 ### 2.0 版
 
-> 利用 `荷兰国旗问题` 的解决思想，依然取区间数组中的最后一个数作为 `num`，划分为 `<num 区`、 `=num 区` 和  `>num 区`，一次就将 **一批** `=num` 的数进行固定，左右两侧再按此方式去递归
+> 利用 `荷兰国旗问题` 的解决思想，依然取区间数组中的最后一个数作为 `num`，划分为 `<num 区`、 `=num 区` 和 `>num 区`，一次就将 **一批** `=num` 的数进行固定，左右两侧再按此方式去递归
 
 上面两版时间复杂度都是 `O(N^2)`（极端情况，当区间数组最后一个每次都是偏左或偏右的情况）
 
@@ -276,57 +257,45 @@ function getResult(arr: number[], num: number) {
 
 ```ts
 function quickSort(arr: number[]) {
-    const len = arr?.length
-    if (!arr || !Array.isArray(arr) || len < 2) {
-        return
-    }
-    sort(arr, 0, len - 1)
+  const len = arr?.length
+  if (!arr || !Array.isArray(arr) || len < 2) {
+    return
+  }
+  sort(arr, 0, len - 1)
 }
 
-function sort(
-    arr: number[],
-    l: number,
-    r: number
-) {
-    if (l < r) {
-        // 随机选择一个数，并放到数组的末尾
-        swap(arr, ~~(Math.random() * (r - l + 1)), r)
-        const par = partation(arr, l, r) // 返回 =区 的左右下标
-        sort(arr, l, par[0] - 1) // <区 右边界：p[0] - 1
-        sort(arr, par[1] + 1, r) // >区 左边界：p[1] + 1
-    }
+function sort(arr: number[], l: number, r: number) {
+  if (l < r) {
+    // 随机选择一个数，并放到数组的末尾
+    swap(arr, ~~(Math.random() * (r - l + 1)), r)
+    const par = partation(arr, l, r) // 返回 =区 的左右下标
+    sort(arr, l, par[0] - 1) // <区 右边界：p[0] - 1
+    sort(arr, par[1] + 1, r) // >区 左边界：p[1] + 1
+  }
 }
 
-function partation(
-    arr: number[],
-    l: number,
-    r: number
-) {
-    let less = l - 1 // <区 右边界
-    let more = r // >区 左边界
-    while (l < more) {
-        // l 表示当前数的位置
-        if (arr[l] < arr[r]) {
-            // 当前值 < 划分值
-            swap(arr, ++less,l++)
-        } else if (arr[l] > arr[r]) {
-            // 当前值 > 划分值
-            swap(arr, --more, l)
-        } else {
-            l++
-        }
+function partation(arr: number[], l: number, r: number) {
+  let less = l - 1 // <区 右边界
+  let more = r // >区 左边界
+  while (l < more) {
+    // l 表示当前数的位置
+    if (arr[l] < arr[r]) {
+      // 当前值 < 划分值
+      swap(arr, ++less, l++)
+    } else if (arr[l] > arr[r]) {
+      // 当前值 > 划分值
+      swap(arr, --more, l)
+    } else {
+      l++
     }
-    swap(arr, more, r)
-    // 返回 =区 的左右索引
-    return [less + 1, more]
+  }
+  swap(arr, more, r)
+  // 返回 =区 的左右索引
+  return [less + 1, more]
 }
 
 // 数组两数交换
-function swap(
-    arr: number[],
-    l: number,
-    r: number
-) {
-    [arr[l], arr[r]] = [arr[r], arr[l]]
+function swap(arr: number[], l: number, r: number) {
+  ;[arr[l], arr[r]] = [arr[r], arr[l]]
 }
 ```

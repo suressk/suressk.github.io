@@ -13,3 +13,5 @@ dist
 /docs/.vitepress/dist/*
 
 .vscode
+
+index.js

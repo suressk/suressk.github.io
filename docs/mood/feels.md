@@ -34,4 +34,4 @@ title: 感 与 叹
 
 其实，我真想去一个没有人的地方，只有我自己，安安静静的待着，生活中焦虑，不安，恐惧，迷茫一切负面的自己都能随风而逝，洗净铅华。
 
-> BGM：[《Always-with-me (口琴)》](http://94.191.88.231/mp3/2021/05/Always-with-me.m4a)
+> BGM：[《Always-with-me》](https://music.163.com/#/playlist?id=1994682587)
