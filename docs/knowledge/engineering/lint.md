@@ -8,13 +8,35 @@ title: 代码规范
 
 ## 最终方案
 
-## Eslint
+## 🏴‍☠️ Eslint
 
-`eslint` 与 `prettier` 有些是存在冲突的，到时候使用一个 `eslint` 就可以了，但目前没有细致去了解，后面再去看吧 [🏴‍☠️]
+使用 `eslint` 进行格式化，且禁用 `prettier` 的格式化，否则两者会存在冲突
 
-暂时使用的是上面链接的方案
+- Install
 
-<!-- ## Prettier -->
+```bash
+pnpm i eslint-config-suressk -D
+```
+
+- Config `.eslintrc`
+
+```json
+{
+  "extends": "suressk"
+}
+```
+
+- `vscode config`，创建 `.vscode/settings.json` 文件：
+
+```json
+{
+  /* 禁用 prettier */
+  "prettier.enable": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
+}
+```
 
 ## Husky 添加 git-hooks
 
@@ -70,11 +92,13 @@ title: 代码规范
     "husky": {
       "hooks": {
         "pre-commit": "lint-staged",
-        "commit-msg": "ts-node scripts/verifyCommits.ts $1"
+        "commit-msg": "ts-node scripts/verify-commit.ts"
       }
     },
     "lint-staged": {
-      "*.(js|ts)?(x)": ["eslint"]
+      "*": [
+        "eslint . --fix"
+      ]
     }
   }
   ```
