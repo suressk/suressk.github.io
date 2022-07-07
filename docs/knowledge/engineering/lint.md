@@ -38,6 +38,65 @@ pnpm i eslint-config-suressk -D
 }
 ```
 
+## Git Flow
+
+代码编写需要规范，代码分支管理同样也需要拥有流程和规范
+
+> [A successful Git branching model 🔗：](https://nvie.com/posts/a-successful-git-branching-model/)
+
+<img src="https://nvie.com/img/git-model@2x.png" width="50%" />
+
+<!-- ![gitFlow](https://images.xiaozhuanlan.com/photo/2019/5718781e0e21be857d884d33b421995e.) -->
+
+据上图描述，我们一般分为 5 条常用分支方便统一管理：
+
+- `Production` 分支
+
+  > 也就是默认的 `master` 分支（或重命名的主分支名，如 `main`），这个分支用于发布到最新的生产环境的代码,<br/>
+  > 包含 `release` 分支发布的版本<br/>
+  > 这个分支的代码只能从其他分支 `合并` 过来，而不在此分支上直接修改
+
+- `Release` 分支
+
+  > 它是用于每次发布代码的分支，发版时就按规范标准创建一个 `release` 分支，并打上 `tag` 发布<br/>
+  > 再将发布完成的代码合入 `主分支`，它一般是由 `Develop` 分支测试通过之后创建而来
+
+- `Develop` 分支
+
+  > 它是我们的主开发分支，包含所有要发布到下一个 `Release` 的代码，这个主要合并于其他分支，比如 `Feature` 分支
+
+- `Feature` 分支
+
+  > 它是用来开发一个新的功能，一旦开发完成，我们合并回 `Develop` 分支，并进入下一个 `Release`
+
+- `Hotfix` 分支
+
+  > 当生产环境的代码出现 `bug` 需要紧急修复时，我们会从 `主分支` 切一个 `hotfix` 分支出来进行修复<br/>
+  > 测试完毕之后合入 `主分支` 和 `Develop` 分支，并进入下一个 `Release`（合并完毕后通常会删掉此分支）
+
+综上，示例分支名大致如下：
+
+```bash
+# master branch
+[main]
+
+# release branch with version-number
+[release/v1.0.5]
+
+# new features of Iteration-version-number
+[feat/v3.9]
+# new feature of achieving reactivity
+[feat/reactivity]
+
+# hotfix branch of issues-number
+[fix/issues-31]
+# Often occurs when multiple people collaborate
+# hotfix branch of someone to fix the issue-number
+[fix/saul-issues-31]
+# hotfix branch of bug-name and issue-number
+[fix/saul-type-call-31]
+```
+
 ## Husky 添加 git-hooks
 
 - 安装相关的 `package`
