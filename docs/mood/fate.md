@@ -2,7 +2,7 @@
 title: 来去聚散，皆是缘分
 ---
 
-::: tip Left
+::: tip 💔
 来去聚散，皆是缘分。缘分到了，也就该走了
 
 <p style="text-align: right;"><code>2022-06-02 01:35</code></p>
