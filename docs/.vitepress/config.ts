@@ -113,6 +113,10 @@ function getMoodSidebar() {
           text: "Fate",
           link: "/mood/fate",
         },
+        {
+          text: "Met & Lost",
+          link: "/mood/metAndLost",
+        },
       ]
     }
   ]
