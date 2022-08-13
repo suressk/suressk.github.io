@@ -36,4 +36,4 @@ title: 典籍里的中国
 
 嗯，就单纯地推荐大家去看看吧~
 
-> BGM: [《灯火里的中国 (钢琴独奏)》](https://webfs.yun.kugou.com/202106170130/902bd55debf26c8f84b80bd7463b414d/KGTX/CLTX001/8aacfa8cc17f8a75c7df1fc38bdfc45b.mp3)
+<!-- > BGM: [《灯火里的中国 (钢琴独奏)》](https://webfs.yun.kugou.com/202106170130/902bd55debf26c8f84b80bd7463b414d/KGTX/CLTX001/8aacfa8cc17f8a75c7df1fc38bdfc45b.mp3) -->

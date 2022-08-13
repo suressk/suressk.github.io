@@ -38,4 +38,5 @@ title: 感 与 叹
 其实，我真想去一个没有人的地方，只有我自己，安安静静的待着，生活中焦虑，不安，恐惧，迷茫一切负面的自己都能随风而逝，洗净铅华。
 :::
 
-> BGM：[《Always-with-me》—— 千与千寻](https://music.163.com/#/playlist?id=1994682587)
+> BGM：[《Always-with-me》—— 千与千寻](https://www.kuwo.cn/play_detail/966332)<br><br>
+> <audio src="https://other-web-nf01-sycdn.kuwo.cn/47a6996e91ab8c2474d7fda3d3e9a8e5/62f81a6d/resource/n3/75/30/4084665696.mp3" controls autoplay preload="auto" />

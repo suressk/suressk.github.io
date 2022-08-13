@@ -41,4 +41,5 @@ title: 新年快乐
 
 行程刚结束就想着计划下次（啥时候呢？）的 `自驾318` 了... 愿在有生之年能去到自己想去的地方，至少 `活得精彩`
 
-> BGM：[蓝莲花 🎵](https://www.kugou.com/song/#hash=EDCDC42FEE3A4BC8F2ADBAF96ADE9D77&album_id=15247919)
+> BGM：[《蓝莲花 3D 环绕》 —— 许巍 🎵](https://www.kuwo.cn/play_detail/140663528)<br><br>
+> <audio src="https://es-sycdn.kuwo.cn/38351df4fcd2e0ac237e17ecb31bc729/62f81773/resource/n2/2/95/3318051999.mp3" controls autoplay preload="auto"/>
