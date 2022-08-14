@@ -31,4 +31,4 @@ title: Dragon Boat Festival
 最后，今天五月初五辣，告诉自己端午快乐吼！
 
 > BGM: [《森と水の幻想曲》 —— 神山純一](https://www.kuwo.cn/play_detail/207140691)<br><br>
-> <audio src="https://cx-sycdn.kuwo.cn/06a8f33d9dd6654109b82dba211aa0eb/62f81966/resource/n1/16/4/3098981465.mp3" controls autoplay preload="auto" />
+> <audio src="https://cx-sycdn.kuwo.cn/d816291171ddc7088fbb64d3970aed31/62f9021b/resource/n1/16/4/3098981465.mp3" controls autoplay preload="auto" />
