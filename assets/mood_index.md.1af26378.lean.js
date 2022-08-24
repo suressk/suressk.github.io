@@ -1,0 +1,1 @@
+import{_ as o,c as t,o as e,b as s}from"./app.6fdcbe56.js";const k=JSON.parse('{"title":"Mood","description":"","frontmatter":{"title":"Mood"},"headers":[],"relativePath":"mood/index.md"}'),c={name:"mood/index.md"},p=s("",3),a=[p];function d(i,_,l,n,r,m){return e(),t("div",null,a)}const v=o(c,[["render",d]]);export{k as __pageData,v as default};
