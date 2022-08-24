@@ -18,5 +18,5 @@ But everything else just keep on going.
 
 但时间并不会因此而停止
 
-> BGM：[《Autumn Leaf》🎵](http://www.kuwo.cn/play_detail/159606734)<br><br>
-> <audio src="https://gm-sycdn.kuwo.cn/c81f6a8a12fa0f40a2b3fd555667b064/62f8f695/resource/n2/7/25/3263965507.mp3" type="audio/mp3" controls autoplay preload="auto" />
+> BGM：[《Autumn Leaf》🎵](https://www.kugou.com/song/#hash=E91517035F7B86D85D00FEACC184B1BE&album_id=563635)<br><br>
+> <audio src="https://webfs.ali.kugou.com/202208242320/b3c06a5c026ef9a6ba10b0fdbf21fb01/KGTX/CLTX001/e91517035f7b86d85d00feacc184b1be.mp3" type="audio/mp3" controls autoplay preload="auto" />

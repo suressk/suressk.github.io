@@ -36,4 +36,4 @@ title: 来去聚散，皆是缘分
 :::
 
 > BGM：[《嘉宾》 —— 张远 🎵](https://www.kugou.com/song/1ectjue9.html#hash=0E18C0E1405168FA54738BC2397BBD98&album_id=39699796)<br><br>
-> <audio src="https://webfs.ali.kugou.com/202208140513/1cf001f445c0b52d77b4c6d68e64176a/v2/0e18c0e1405168fa54738bc2397bbd98/G246/M01/19/10/locBAF-UPleAEhebAFF4KtUEjHo932.mp3" controls autoplay preload="auto" />
+> <audio src="https://webfs.ali.kugou.com/202208242320/503a83ddb0ab4e2dfb9a7c4f68ab4b0f/v2/0e18c0e1405168fa54738bc2397bbd98/G246/M01/19/10/locBAF-UPleAEhebAFF4KtUEjHo932.mp3" controls autoplay preload="auto" />

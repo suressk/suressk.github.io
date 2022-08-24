@@ -83,5 +83,5 @@ title: 风过无痕
 如此，便好...
 :::
 
-> BGM：[《神话（笛子纯音乐）》](https://www.kuwo.cn/play_detail/51685874)<br><br>
-> <audio src="https://nx01-sycdn.kuwo.cn/c9aecbaaa72f080c0f755e1609468a5a/62f8185b/resource/n1/56/29/577715862.mp3" controls autoplay preload="auto" />
+> BGM：[《神话（笛子纯音乐）》](https://www.kugou.com/song/#hash=A6EF5D3D86966B955507334FB21BD0F5&album_id=35896338)<br><br>
+> <audio src="https://webfs.ali.kugou.com/202208242324/8a6e8aabf71388fb9a929f65ed093130/v2/a6ef5d3d86966b955507334fb21bd0f5/G188/M00/1D/11/XIcBAF4gHC6ALbl7ADl7f4kt6T8070.mp3" controls autoplay preload="auto" />
