@@ -1,5 +1,5 @@
 {
-  "name": "vitepress-island",
+  "name": "K.island",
   "version": "1.0.0",
   "description": "K.'s static site",
   "main": "index.js",
@@ -7,7 +7,10 @@
   "bugs": {
     "url": "https://github.com/suressk/suressk.github.io/issues"
   },
-  "author": "suressk",
+  "author": {
+    "name": "suressk",
+    "email": "sure_ssk@outlook.com"
+  },
   "scripts": {
     "dev": "vitepress dev docs",
     "build": "vitepress build docs",
