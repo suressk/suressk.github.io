@@ -115,7 +115,7 @@ function getMoodSidebar() {
         },
         {
           text: "Met & Lost",
-          link: "/mood/metAndLost",
+          link: "/mood/metLost",
         },
       ]
     }
