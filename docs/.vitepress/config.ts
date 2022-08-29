@@ -117,6 +117,10 @@ function getMoodSidebar() {
           text: "Met & Lost",
           link: "/mood/metLost",
         },
+        {
+          text: "Mid-Year",
+          link: "/mood/midYear",
+        }
       ]
     }
   ]
