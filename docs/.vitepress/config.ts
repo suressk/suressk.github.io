@@ -91,11 +91,11 @@ function getMoodSidebar() {
         },
         {
           text: "典籍里的中国",
-          link: "/mood/chinaInTheClassics",
+          link: "/mood/classics",
         },
         {
           text: "端午",
-          link: "/mood/dragonBoatFestival",
+          link: "/mood/dragonBoat",
         },
         {
           text: "Year-End",
