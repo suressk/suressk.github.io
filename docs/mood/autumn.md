@@ -49,5 +49,4 @@ title: 入秋
 
 有人说天使与恶魔仅一线之差，我相信浊与清也是如此，也在你的一念之间；不与世俗同流合污虽坎坷不平，也可能有非常多个一线之差，做一个有原则的人，活得 “心累一点” 也没关系
 
-> BGM：[下雨了](https://image.raindays.cn/Mood/music/1627822306824.mp3)<br><br>
-> <audio src="https://image.raindays.cn/Mood/music/1627822306824.mp3" controls autoplay preload="auto" />
+> BGM：[下雨了](https://image.raindays.cn/Mood/music/1627822306824.mp3)
