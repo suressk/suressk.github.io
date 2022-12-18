@@ -12,6 +12,8 @@ dist
 **/dist/**
 /docs/.vitepress/dist/*
 
+**/cache/**
+
 .vscode
 
 index.js
