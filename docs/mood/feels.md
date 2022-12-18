@@ -44,5 +44,4 @@ title: 感 与 叹
 其实，我真想去一个没有人的地方，只有我自己，安安静静的待着，生活中焦虑，不安，恐惧，迷茫一切负面的自己都能随风而逝，洗净铅华。
 :::
 
-> BGM：[《Always-with-me》—— 千与千寻](https://www.kugou.com/song/#hash=8441A73B3226EC4CDFDAC7956A268E18&album_id=15148240)<br><br>
-> <audio src="https://webfs.ali.kugou.com/202208242327/408ecd09ad6a9f7eab9e169bc682cfc0/v2/8441a73b3226ec4cdfdac7956a268e18/G088/M0A/1E/15/mA0DAFtZ-w-AUgxoACv5UKyFUug123.mp3" controls autoplay preload="auto" />
+> BGM：[《Always-with-me》—— 千与千寻](https://www.kugou.com/song/#hash=8441A73B3226EC4CDFDAC7956A268E18&album_id=15148240)
