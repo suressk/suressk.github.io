@@ -143,6 +143,7 @@ function getKnowledgeSidebar() {
         { text: "Promise", link: "/knowledge/study/promise" },
         { text: "Vue NextTick", link: "/knowledge/study/vueNextTick" },
         { text: "Algorithm", link: "/knowledge/study/algorithm" },
+        { text: "ParseExcel", link: "/knowledge/study/parseExcel" },
       ],
     },
     {
