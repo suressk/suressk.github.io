@@ -11,7 +11,7 @@ export default {
 }
 </script>
 
-<Tip type="success" title="" content="一曲高歌一樽酒，一人独钓一江秋" />
+<Tip type="tip" content="一曲高歌一樽酒，一人独钓一江秋" />
 
 《淮南子》有言：“见一叶落而知岁之将暮。”
 
