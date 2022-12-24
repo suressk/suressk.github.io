@@ -1,6 +1,6 @@
 <template>
   <div class="custom-block" :class="[cls]">
-    <p class="custom-block-title">{{ props.title }}</p>
+    <p v-if="props.title" class="custom-block-title">{{ props.title }}</p>
     <p>{{ props.content }}</p>
     <slot />
   </div>
@@ -10,9 +10,10 @@
 import { computed } from 'vue';
 
 const typeMap = {
-  success: 'tip',
+  tip: 'tip',
   danger: 'danger',
-  info: 'info'
+  info: 'info',
+  warning: 'warning'
 }
 const props = defineProps({
   type: String,

@@ -2,15 +2,20 @@
 title: 典籍里的中国
 ---
 
-<!-- # 典籍里的中国 -->
+<script>
+import Tip from '../components/Tip.vue'
+
+export default {
+  props: ['slot-key'],
+  components: { Tip },
+}
+</script>
 
 ## § 引
 
-::: tip 📖
-惟殷先人，有册有典
-
-<p style="text-align: right;"> ——《尚书 · 多士》</p>
-:::
+<Tip type="tip" title="📖" content="惟殷先人，有册有典">
+  <p style="text-align: right;"> ——《尚书 · 多士》</p>
+</Tip>
 
 几千年来，祖先一直在记录我们的历史，讲述我们的故事。这里的每一部典籍，都凝聚着前人的心血和智慧，人们世代守护，薪火相传。让精神的血脉延绵至今。打开典籍，对话先贤，知道我们的生命缘起何处，知道我们的脚步迈向何方。以新的方式读懂典籍，让书写在古籍里的文字活起来，一起品读~《典籍里的中国》。
 
