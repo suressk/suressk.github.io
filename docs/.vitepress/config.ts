@@ -29,6 +29,9 @@ module.exports = {
     editLinks: true,
     editLinkText: "Edit this page on GitHub",
     lastUpdated: "Last Updated",
+    socialLinks: [
+      { icon: "github", link: "https://github.com/suressk/suressk.github.io" },
+    ],
 
     footer: {
       message: 'MIT',
