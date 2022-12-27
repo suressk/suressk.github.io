@@ -123,6 +123,10 @@ function getMoodSidebar() {
         {
           text: "Mid-Year",
           link: "/mood/midYear",
+        },
+        {
+          text: "又一年",
+          link: "/mood/anotherYear"
         }
       ]
     }
