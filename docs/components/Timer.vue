@@ -103,7 +103,7 @@ onBeforeUnmount(() => {
 
 .txt {
   margin-top: 16px;
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 
 .item,
@@ -114,14 +114,13 @@ onBeforeUnmount(() => {
 
 .item {
   padding: 8px;
-  width: 60px;
-  height: 60px;
+  width: 55px;
+  height: 55px;
   color: var(--vp-custom-block-warning-text);
 }
 
 .over-txt {
   padding: 8px 16px;
-  font-size: 1.5rem;
 }
 
 .colon {

@@ -18,7 +18,7 @@ const typeMap = {
 const props = defineProps({
   type: String,
   title: String,
-  content: String,
+  content: String
 })
 
 const cls = computed(() => typeMap[props.type] || 'info')
