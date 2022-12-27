@@ -12,7 +12,9 @@ export default {
 }
 </script>
 
-先来看个球吧
+<img src="/images/lastYear.png" alt="2022">
+
+## 2022 也快结束了
 
 <Bubble />
 
