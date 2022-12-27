@@ -27,14 +27,3 @@ hero:
       text: ✨ Come In →
       link: /mood/
 ---
-
-<script>
-import Bubble from './components/Bubble.vue'
-
-export default {
-  props: ['slot-key'],
-  components: { Bubble },
-}
-</script>
-
-<Bubble />
