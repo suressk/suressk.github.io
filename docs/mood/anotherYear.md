@@ -3,21 +3,47 @@ title: 又一年
 ---
 
 <script>
-import Bubble from '../components/Bubble.vue'
 import Timer from '../components/Timer.vue'
+import Tip from '../components/Tip.vue'
 
 export default {
   props: ['slot-key'],
-  components: { Bubble, Timer },
+  components: { Timer, Tip },
 }
 </script>
-
-<img src="/images/lastYear.png" alt="2022">
-
-## 2022 也快结束了
-
-<Bubble />
 
 <Timer festival="元旦" date="2023-01-01 00:00:00" />
 
 <Timer festival="新年" date="2023-01-22 00:00:00" />
+
+元旦就快结束了，在这里一起看一场代码实现的烟花秀吧～ 
+
+<iframe src="/pages/fireworks/index.html" width="100%" height="400" style="border: none;" />
+
+## 2022 马上就结束了
+
+最近断断续续地看了看 `《请回答 1988》`，目前也只看到第 12 集 - `所谓爱一个人`
+
+善宇发现 👩 去澡堂打工刷池子的事，跟宝拉抱怨。宝拉只是拍拍他的肩膀说：`喂，行了。回去揉揉妈妈的肩膀吧`
+
+<Tip type="warning" title="❤️">
+  <p>
+    你不高兴让妈妈受苦是吧，那样你才能更加安心<br>
+    但妈妈是不高兴，买不起给你的耐克运动鞋，你只为自己着想吗，不为妈妈着想吗？你这个不懂事的家伙<br>
+    所谓爱一个人是：<code>不是宽裕了想要给予，而是恳切地必须给予</code>
+  </p>
+</Tip>
+
+不管是 小时候的吃穿用度、苛责批评或是如今微信里的一句 “你放假了”、“你吃饭了吗” ...... 有着他们的不善言辞，有着他们不知如何跟长大的你沟通地拘谨，害怕打扰到你，只能小心翼翼地关心你的一些日常琐事
+
+2022 年，不知道怎么总结吧，反正就疫情反反复复，躺玩半年干半年也就这么过去了，年底放开疫情防控，大家也都陆陆续续地 🐑 了，不过有了之前疫苗的作用以及 奥密克戎 毒性地降低，也没有疫情初期那么地让人闻阳色变了
+
+年底了，我算是入了决赛圈了，还没 🐑 的我好像让人家很惊讶。不过也反映出社交人缘差吧，不过我自己并不觉得这是个问题。只是在大家看来从不合群罢了......
+
+## 2023 也马上到了
+
+疫情放开后，村里面不少人都或多或少因为感染加上本身的其他疾病而离世，家里都在感叹疫情导致的死亡率在近两个月里增大了很多倍，虽然新冠肺炎可能并不是直接致死
+
+2023 可能还是那样吧，我觉得只要家里人身体健康就好，其他的好像都不咋重要
+
+> BGM: [《你不要担心》—— BiliBili](https://www.bilibili.com/video/BV1x44y1m75b/?spm_id_from=333.337.search-card.all.click&vd_source=ad0a5fa78eaa129494f810ae16d79b25)
