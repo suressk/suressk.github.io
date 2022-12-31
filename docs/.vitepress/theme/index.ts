@@ -1,6 +1,6 @@
 import { h } from "vue";
 import Theme from "vitepress/theme";
-// import "./styles/vars.css";
+import "./styles/var.css";
 
 // @ts-ignore
 import My from './components/My.vue'
