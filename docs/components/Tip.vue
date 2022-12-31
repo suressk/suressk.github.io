@@ -1,7 +1,7 @@
 <template>
   <div class="custom-block" :class="[cls]">
     <p v-if="props.title" class="custom-block-title">{{ props.title }}</p>
-    <p>{{ props.content }}</p>
+    <p v-if="props.content">{{ props.content }}</p>
     <slot />
   </div>
 </template>
