@@ -16,7 +16,7 @@ export default {
 
 <Timer festival="新年" date="2023-01-22 00:00:00" />
 
-元旦就快结束了，在这里一起看一场代码实现的烟花秀吧～ 
+元旦就快到了，在这里一起看一场代码实现的烟花秀吧～ 
 
 <iframe src="/pages/fireworks/index.html" width="100%" height="400" style="border: none;" />
 
