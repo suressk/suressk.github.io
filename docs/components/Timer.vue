@@ -50,6 +50,10 @@ const isOver = computed(() => (time.days + time.hours + time.minutes + time.seco
 
 const clearTimer = () => {
   clearInterval(timer)
+  time.days = 0
+  time.hours = 0
+  time.minutes = 0
+  time.seconds = 0
   timer = null
 }
 
