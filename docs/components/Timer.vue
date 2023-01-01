@@ -16,47 +16,55 @@
       </template>
 
       <template v-else>
-        <div class="item flex-center">{{ days }}</div>
+        <div class="item flex-center">{{ time.days }}</div>
         <div class="colon flex-center">天</div>
-        <div class="item flex-center">{{ hours }}</div>
+        <div class="item flex-center">{{ time.hours }}</div>
         <div class="colon flex-center">:</div>
-        <div class="item flex-center">{{ minutes < 10 ? `0${minutes}` : minutes }}</div>
-        <div class="colon flex-center">:</div>
-        <div class="item flex-center">{{ seconds < 10 ? `0${seconds}` : seconds }}</div>
+        <div class="item flex-center">{{ time.minutes < 10 ? `0${time.minutes}` : time.minutes }}</div>
+            <div class="colon flex-center">:</div>
+            <div class="item flex-center">{{ time.seconds < 10 ? `0${time.seconds}` : time.seconds }}</div>
       </template>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { reactive, computed, onMounted, onBeforeUnmount } from 'vue'
 import { computeTime } from './utils'
 
 let timer = null
 
-const days = ref(0)
-const hours = ref(0)
-const minutes = ref(0)
-const seconds = ref(0)
+const time = reactive({
+  days: 0,
+  hours: 0,
+  minutes: 0,
+  seconds: 0
+})
 
 const props = defineProps({
   festival: String,
   date: String
 })
 
-const isOver = computed(() => {
-  return days.value === 0 && hours.value === 0 && minutes.value === 0 && seconds.value === 0
-})
+const isOver = computed(() => (time.days + time.hours + time.minutes + time.seconds) === 0)
 
-const updateTime = (festivalDate) => {
-  const now = Date.now()
-  if (festivalDate <= now) return
+const clearTimer = () => {
+  clearInterval(timer)
+  timer = null
+}
 
-  const leftTime = computeTime(festivalDate - now)
-  days.value = leftTime.days
-  hours.value = leftTime.hours
-  minutes.value = leftTime.minutes
-  seconds.value = leftTime.seconds
+const updateTime = (festivalDateTime) => {
+  const leftTime = festivalDateTime - Date.now()
+  if (leftTime <= 0) {
+    clearTimer()
+    return
+  }
+
+  const { days, hours, minutes, seconds } = computeTime(leftTime)
+  time.days = days
+  time.hours = hours
+  time.minutes = minutes
+  time.seconds = seconds
 }
 
 const startTimer = () => {
@@ -67,11 +75,6 @@ const startTimer = () => {
   timer = setInterval(() => {
     updateTime(date)
   }, 1000)
-}
-
-const clearTimer = () => {
-  clearInterval(timer)
-  timer = null
 }
 
 onMounted(() => {
