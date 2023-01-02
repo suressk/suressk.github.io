@@ -1,5 +1,5 @@
 <template>
-  <VPTeamMembers size="small" :members="members" />
+  <VPTeamMembers class="my-intro" size="small" :members="members" />
 </template>
 
 <script setup>
@@ -19,3 +19,12 @@ const members = [
   },
 ];
 </script>
+
+<style>
+.my-intro .item {
+  padding: 0;
+  width: auto;
+  height: auto;
+  color: var(--vp-c-text-1);
+}
+</style>
