@@ -128,6 +128,7 @@ onBeforeUnmount(() => {
 
 .over-txt {
   padding: 8px 16px;
+  font-size: 1.2rem;
 }
 
 .colon {
