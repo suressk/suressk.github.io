@@ -1,3 +1,70 @@
+<script setup>
+import { computed, onBeforeUnmount, onMounted, reactive } from 'vue'
+import { computeTime } from './utils'
+
+const props = defineProps({
+  festival: String,
+  date: String
+})
+
+let timer = null
+
+const time = reactive({
+  days: 0,
+  hours: 0,
+  minutes: 0,
+  seconds: 0,
+  leftTime: 0
+})
+
+const isOver = computed(() => (time.days + time.hours + time.minutes + time.seconds) === 0)
+
+const clearTimer = () => {
+  clearInterval(timer)
+  time.days = 0
+  time.hours = 0
+  time.minutes = 0
+  time.seconds = 0
+  timer = null
+}
+
+const updateTime = (festivalDateTime) => {
+  const leftTime = festivalDateTime - Date.now()
+  time.leftTime = leftTime
+  if (leftTime <= 0) {
+    clearTimer()
+    return
+  }
+
+  const { days, hours, minutes, seconds } = computeTime(leftTime)
+  time.days = days
+  time.hours = hours
+  time.minutes = minutes
+  time.seconds = seconds
+}
+
+const startTimer = () => {
+  if (!props.date) {
+    return
+  }
+  /**
+   * In iOS, new Date() with divider of `-` will to be `NaN`
+   */
+  const date = (new Date(props.date.replace(/-/g, '/'))).getTime()
+  timer = setInterval(() => {
+    updateTime(date)
+  }, 1000)
+}
+
+onMounted(() => {
+  startTimer()
+})
+
+onBeforeUnmount(() => {
+  clearTimer()
+})
+</script>
+
 <template>
   <div class="timer-wrap">
     <div>
@@ -16,79 +83,31 @@
       </template>
 
       <template v-else>
-        <div class="item flex-center">{{ time.days }}</div>
-        <div class="colon flex-center">天</div>
-        <div class="item flex-center">{{ time.hours }}</div>
-        <div class="colon flex-center">:</div>
-        <div class="item flex-center">{{ time.minutes < 10 ? `0${time.minutes}` : time.minutes }}</div>
-            <div class="colon flex-center">:</div>
-            <div class="item flex-center">{{ time.seconds < 10 ? `0${time.seconds}` : time.seconds }}</div>
+        <div class="item flex-center">
+          {{ time.days }}
+        </div>
+        <div class="colon flex-center">
+          天
+        </div>
+        <div class="item flex-center">
+          {{ time.hours }}
+        </div>
+        <div class="colon flex-center">
+          :
+        </div>
+        <div class="item flex-center">
+          {{ time.minutes < 10 ? `0${time.minutes}` : time.minutes }}
+        </div>
+        <div class="colon flex-center">
+          :
+        </div>
+        <div class="item flex-center">
+          {{ time.seconds < 10 ? `0${time.seconds}` : time.seconds }}
+        </div>
       </template>
     </div>
   </div>
 </template>
-
-<script setup>
-import { reactive, computed, onMounted, onBeforeUnmount } from 'vue'
-import { computeTime } from './utils'
-
-let timer = null
-
-const time = reactive({
-  days: 0,
-  hours: 0,
-  minutes: 0,
-  seconds: 0
-})
-
-const props = defineProps({
-  festival: String,
-  date: String
-})
-
-const isOver = computed(() => (time.days + time.hours + time.minutes + time.seconds) === 0)
-
-const clearTimer = () => {
-  clearInterval(timer)
-  time.days = 0
-  time.hours = 0
-  time.minutes = 0
-  time.seconds = 0
-  timer = null
-}
-
-const updateTime = (festivalDateTime) => {
-  const leftTime = festivalDateTime - Date.now()
-  if (leftTime <= 0) {
-    clearTimer()
-    return
-  }
-
-  const { days, hours, minutes, seconds } = computeTime(leftTime)
-  time.days = days
-  time.hours = hours
-  time.minutes = minutes
-  time.seconds = seconds
-}
-
-const startTimer = () => {
-  if (!props.date) {
-    return;
-  }
-  const date = (new Date(props.date)).getTime()
-  timer = setInterval(() => {
-    updateTime(date)
-  }, 1000)
-}
-
-onMounted(() => {
-  startTimer();
-})
-
-onBeforeUnmount(() => {
-  clearTimer()
-})
-</script>
 
 <style>
 .timer-wrap {
