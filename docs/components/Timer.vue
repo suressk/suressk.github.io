@@ -48,7 +48,7 @@ const startTimer = () => {
     return
   }
   /**
-   * In iOS, new Date() with divider of `-` will to be `NaN`
+   * In iOS, new Date() with separator of `-` will be `NaN`
    */
   const date = (new Date(props.date.replace(/-/g, '/'))).getTime()
   timer = setInterval(() => {

@@ -46,7 +46,7 @@ title: 实战面试题分享
     ]
     */
     function solution(arr) {
-        // achieve it
+      // achieve it
     }
     ```
 
@@ -62,7 +62,7 @@ title: 实战面试题分享
     ]
     */
     function solution(str) {
-        // achieve it
+      // achieve it
     }
     ```
 
@@ -71,18 +71,18 @@ title: 实战面试题分享
     ```js
     // 支持添加任务，启动任务队列，停止任务队列，按顺序执行任务
     // 任务都是函数，支持异步函数，支持设置每个任务的执行等待时间
-    class TaskQueue{
-       add(fn:Function,time:number):TaskQueue
+    class TaskQueue {
+      add(fn: Function, time: number): TaskQueue
     }
 
     // 调用示例：
-    const task = new TaskQueue();
-    task.start();
-    task.add(() => console.log(1), 0);
-    task.add(() => console.log(2), 1000);
-    task.add(() => console.log(3), 2000);
-    task.stop();
-
+    const task = new TaskQueue()
+    task.start()
+    task.add(() => console.log(1), 0)
+    task.add(() => console.log(2), 1000)
+    task.add(() => console.log(3), 2000)
+    task.stop()
+    
     // 输出：
     1
     // 等待1000ms
@@ -91,35 +91,38 @@ title: 实战面试题分享
     3
 
     // 实现
-    class TaskQueue{
-        constructor() {
-            this.tasks = []
+    class TaskQueue {
+      constructor() {
+        this.tasks = []
+      }
+    
+      add(fn, time) {
+        this.tasks.push(() => {
+          return new Promise((resolve) => {
+            setTimeout(() => {
+              fn()
+              resolve()
+            }, time)
+          })
+        })
+        return this
+      }
+    
+      start() {
+        this.tasks.length = 0
+      }
+    
+      stop() {
+        // 开启任务
+        if (this.tasks.length > 0) {
+          // 每次拿一个
+          const task = this.tasks.splice(0, 1)[0]
+          task().then(() => {
+            // 递归
+            this.stop()
+          })
         }
-        add(fn, time) {
-            this.tasks.push(function() {
-                return new Promise(resolve => {
-                    setTimeout(function() {
-                        fn()
-                        resolve()
-                    }, time)
-                })
-            })
-            return this
-        }
-        start() {
-            this.tasks.length = 0
-        }
-        stop() {
-            // 开启任务
-            if (this.tasks.length > 0) {
-                // 每次拿一个
-                const task = this.tasks.splice(0, 1)[0]
-                task().then(() => {
-                    // 递归
-                    this.stop()
-                })
-            }
-        }
+      }
     }
     ```
 
@@ -128,10 +131,10 @@ title: 实战面试题分享
     ```js
     // 原数据格式
     const data = [
-        ['a1', 'b1', 'c1'],
-        ['a1', 'b1', 'c2'],
-        ['a1', 'b2', 'c1'],
-        ['a1', 'b2', 'c2'],
+      ['a1', 'b1', 'c1'],
+      ['a1', 'b1', 'c2'],
+      ['a1', 'b2', 'c1'],
+      ['a1', 'b2', 'c2'],
     ]
     // 转换后数据格式为：
     // [
@@ -151,7 +154,7 @@ title: 实战面试题分享
     // ]
 
     function convertTree(data) {
-        // you need to achieve it here...
+      // you need to achieve it here...
     }
     ```
 
@@ -161,17 +164,17 @@ title: 实战面试题分享
     // 我们协商第一个参数传递我们需要生成实例的构造函数，
     // 构造函数需要的参数，后面依次传入即可
     function newFunc(Fn, ...args) {
-        if (typeof Fn !== 'function') {
-            throw new Error('The params of Fn is not a function')
-        }
-        if (!Fn.prototype) {
-            throw new Error('The function doesnot have the prototype property')
-        }
-        // 创建一个对象，并将它的隐式原型指向 构造函数 Fn 的原型
-        const obj = Object.create(Fn.prototype)
-        const res = Fn.call(obj, ...args)
-        // const res = Fn.apply(obj, [...args])
-        return (typeof res === 'object') ? res : obj
+      if (typeof Fn !== 'function') {
+        throw new TypeError('The params of Fn is not a function')
+      }
+      if (!Fn.prototype) {
+        throw new Error('The function doesnot have the prototype property')
+      }
+      // 创建一个对象，并将它的隐式原型指向 构造函数 Fn 的原型
+      const obj = Object.create(Fn.prototype)
+      const res = Fn.call(obj, ...args)
+      // const res = Fn.apply(obj, [...args])
+      return (typeof res === 'object') ? res : obj
     }
     ```
 
@@ -182,38 +185,141 @@ title: 实战面试题分享
     * 有货船需要运输一批货物，给定一个正整数数组 weights 和一个正整数 D，
     * 其中 weights 代表一系列货物，即 weights[i] 的值代表第 i 件物品的重量，
     * 货物是不可分割且必须按顺序运输，请计算货船能够在 D 天内运完所有货物的最低运载能力
-    * 函数签名： int shipWithinDays(int[] weights, int D) 
+    * 函数签名： int shipWithinDays(int[] weights, int D)
     * 示例：weights = [1,2,3,4,5,6,7,8,9,10]  D = 5，则函数返回 15
     */
     // 实现如下：
-    const weights = [1,2,3,4,5,6,7,8,9,10], D = 5
+    const weights = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; const D = 5
 
     function getShipWithinDays(weights, days) {
-        const len = weights.length
-        // 货物不可分割，则船🚢至少要能装下最大货物
-        const minWeight = Math.max(...weights) // 最小载货
-        // 最少一天运完，则船最大只需要装下所有货物总和即可
-        const maxWeight = weights.reduce((pre, next) => (pre + next), 0) // 最大载货
-        
-        // 最小载货 => 最大载货
-        for (let weight = minWeight; weight <= maxWeight; weight++) {
-            let dayCount = 1 // 天数
-            let curWeight = 0 // 当前统计质量
-            // 遍历所有货物
-            for (const item of weights) {
-                curWeight += item
-                if (curWeight === weight) {
-                    dayCount++
-                    curWeight = 0
-                } else if (curWeight > weight) {
-                    dayCount++
-                    curWeight = item
-                }
-            }
-            if (dayCount === days) {
-                return weight
-            }
+      const len = weights.length
+      // 货物不可分割，则船🚢至少要能装下最大货物
+      const minWeight = Math.max(...weights) // 最小载货
+      // 最少一天运完，则船最大只需要装下所有货物总和即可
+      const maxWeight = weights.reduce((pre, next) => (pre + next), 0) // 最大载货
+    
+      // 最小载货 => 最大载货
+      for (let weight = minWeight; weight <= maxWeight; weight++) {
+        let dayCount = 1 // 天数
+        let curWeight = 0 // 当前统计质量
+        // 遍历所有货物
+        for (const item of weights) {
+          curWeight += item
+          if (curWeight === weight) {
+            dayCount++
+            curWeight = 0
+          } else if (curWeight > weight) {
+            dayCount++
+            curWeight = item
+          }
         }
+        if (dayCount === days) {
+          return weight
+        }
+      }
     }
     getShipWithinDays(weights, D)
+    ```
+
+- 消除 `异步函数的传染性`，以下面的例子为例，去除 `async`、`await`、`then` 等异步操作
+
+    ```ts
+    /**
+     * 比如，我们有一个 getUsers 的方法获取 users 数据
+     * 在后续一系列函数中，相互依赖的情况下，每个函数都需要
+     * await 来保证顺利拿到对应的数据
+     */
+    function getUsers() {
+      // 乱编的 url
+      return fetch('https://suressk.com/get/users?id=xxx')
+        .then(resp => resp.json())
+    }
+    async function func1() {
+      // do something
+      return await getUsers()
+    }
+    async function func2() {
+      // do something
+      return await func1()
+    }
+    async function func3() {
+      // do something
+      return await func2()
+    }
+    async function main() {
+      const users = await func3()
+      console.log(users)
+    }
+    ```
+
+    要消除异步，我们只能在 `fetch` 方法那步去处理，但 `fetch` 方法是个异步函数，发起网络请求没法立即结束，所以我们只能通过手动 **`抛错`** 来立即结束它，但同时我们等到请求数据结束时缓存请求拿到的数据，再重新执行这个方法，交付缓存的 数据，所以我们就可以这样处理：
+
+    ```ts
+    function getUsers() {
+      // 乱编的 url
+      return fetch('https://suressk.com/get/users?id=xxx')
+    }
+    function func1() {
+      // do something
+      return getUsers()
+    }
+    function func2() {
+      // do something
+      return func1()
+    }
+    function func3() {
+      // do something
+      return func2()
+    }
+    function main() {
+      const users = func3()
+      console.log(users)
+    }
+
+    // 主逻辑实现
+    function run(func) {
+      const cache = []
+      let idx = 0
+      const _originFetch = window.fetch
+      window.fetch = (...args) => {
+        // 命中缓存，交付数据
+        if (cache[idx].status === 'fulfilled') {
+          return cache[idx].data
+        } else if (cache[idx].status === 'rejected') {
+          throw cache[idx].err
+        }
+        // 缓存数据
+        const result = {
+          status: 'pending',
+          data: null,
+          err: null
+        }
+        cache[idx++] = result
+        // 发送请求
+        const prom = _originFetch(...args).then(resp => resp.json())
+          .then((data) => {
+            result.data = data
+            result.status = 'fulfilled'
+          })
+          .catch((err) => {
+            result.err = err
+            result.status = 'rejected'
+          })
+        // 抛错
+        throw prom
+      }
+      try {
+        func()
+      } catch (e) {
+        if (e instanceof Promise) {
+          const reRun = () => {
+            idx = 0
+            func()
+          }
+          e.then(reRun, reRun)
+        }
+      }
+    }
+
+    run(main) // 调用上面的 main 方法
     ```
