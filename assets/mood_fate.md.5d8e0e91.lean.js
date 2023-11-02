@@ -1,0 +1,1 @@
+import{_ as t,o as e,c as o,b as c}from"./app.85987840.js";const u=JSON.parse('{"title":"来去聚散，皆是缘分","description":"","frontmatter":{"title":"来去聚散，皆是缘分"},"headers":[],"relativePath":"mood/fate.md"}'),s={name:"mood/fate.md"},a=c("",5),r=[a];function l(p,i,_,d,b,n){return e(),o("div",null,r)}const k=t(s,[["render",l]]);export{u as __pageData,k as default};
