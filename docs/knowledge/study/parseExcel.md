@@ -45,10 +45,10 @@ Emmmmm......
     // 读取 excel 文件内容
     const readExcel = (file: File) => {
       return new Promise((resolve, reject) => {
-        const fileReader = new FileReader()
         if (!file) {
           return
         }
+        const fileReader = new FileReader()
         // 读为二进制流
         fileReader.readAsBinaryString(file);
         // 读取完毕会触发此方法 (any 大法)
