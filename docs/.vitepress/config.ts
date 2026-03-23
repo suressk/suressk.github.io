@@ -35,7 +35,7 @@ module.exports = {
 
     footer: {
       message: 'MIT',
-      copyright: 'Copyright © 2022 suressk (K.)'
+      copyright: 'Copyright © 2026 suressk (K.)'
     },
     nav: [
       { text: "Home", link: "/", activeMatch: "^/$|^/home/" },
