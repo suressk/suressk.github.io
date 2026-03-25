@@ -46,7 +46,7 @@ jobs:
         # uses: peaceiris/actions-gh-pages@v3˜
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }} # 生成的 secret
+          ACCESS_TOKEN: ${{ secrets.ACTIONS_TOKEN }} # 生成的 secret
           BRANCH: master # 部署到 master 分支
           FOLDER: docs/.vitepress/dist # vitepress 生成的静态文件存放的地方
           # publish_branch: master
