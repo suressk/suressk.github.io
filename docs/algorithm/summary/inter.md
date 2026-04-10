@@ -17,37 +17,37 @@ title: Summary of Interview Algorithm
 // '())([]()' // false
 
 // 实现方案如下：
-const isMatch = str => {
-  if (typeof str !== 'string' || str.length % 2 === 1) {
-    return false
+const isMatch = (str) => {
+  if (typeof str !== "string" || str.length % 2 === 1) {
+    return false;
   }
   // 直接用普通 对象 也可以
   const brackets = new Map([
-    ['(', 1],
-    ['[', 1],
-    ['{', 1],
-    [')', '('],
-    [']', '['],
-    ['}', '{']
-  ])
-  const stack = []
+    ["(", 1],
+    ["[", 1],
+    ["{", 1],
+    [")", "("],
+    ["]", "["],
+    ["}", "{"],
+  ]);
+  const stack = [];
   for (const item of str) {
-    const matchedItem = brackets.get(item)
+    const matchedItem = brackets.get(item);
     // 左半括号 => 入栈
     if (matchedItem === 1) {
-      stack.unshift(item)
-      continue
+      stack.unshift(item);
+      continue;
     }
-    const top = stack[0] // 栈顶项 ['(', '[']
+    const top = stack[0]; // 栈顶项 ['(', '[']
     // 右半括号 => 栈内无左括号 || 栈顶项与右括号不匹配
     if (top === undefined || matchedItem !== top) {
-      return false
+      return false;
     }
     // 否则，左括号出栈
-    stack.shift()
+    stack.shift();
   }
-  return stack.length === 0
-}
+  return stack.length === 0;
+};
 ```
 
 ## 2. 数字对称判定
@@ -132,13 +132,13 @@ const compileStr = (str: string) => {
 }
 
 const str1 = 'a[2]bc[3](def)[4]((g[2]h)[1]i)[2]' // √
-console.log('a[2]bc[3](def)[4]((g[2]h)[1]i)[2]: ', compileStr(str1))
+console.log(`${str1}: `, compileStr(str1))
 const str2 = 'a[2]bc[3]' // √
-console.log('a[2]bc[3]: ', compileStr(str2))
-const str3 = 'a[2]bc[3](def)[4]' // aabcccdefdefdefdef // √
-console.log('a[2]bc[3](def)[4]: ', compileStr(str3))
+console.log(`${str2}: `, compileStr(str2))
+const str3 = 'a[2]bc[3](def)[4]' // √
+console.log(`${str3}: `, compileStr(str3))
 const str4 = '(a[2]bc[3])[3](def)[4]' // aabcccaabcccaabcccdefdefdefdef // ×
-console.log('(a[2]bc[3])[3](def)[4]: ', compileStr(str4)) // 此结果尚还不对，待做......
+console.log(`${str4}: `, compileStr(str4)) // 此结果尚还不对，待做......
 ```
 
 ## 4. 斐波那契数列
@@ -229,10 +229,10 @@ interface TreeNode {
 // 递归方案
 function pathToLeaves(root: TreeNode | null): number[][] {
   const result: number[][] = [];
-  
+
   function dfs(node: TreeNode | null, path: number[]) {
     if (!node) return;
-    
+
     // 添加当前节点值
     path.push(node.value);
 
@@ -244,11 +244,11 @@ function pathToLeaves(root: TreeNode | null): number[][] {
       dfs(node.left, path);
       dfs(node.right, path);
     }
-    
+
     // 回溯
     path.pop();
   }
-  
+
   dfs(root, []);
   return result;
 }
@@ -256,13 +256,13 @@ function pathToLeaves(root: TreeNode | null): number[][] {
 // 迭代方案（使用栈）
 function pathToLeaves(root: TreeNode | null): number[][] {
   if (!root) return [];
-  
+
   const result: number[][] = [];
   const stack: [TreeNode, number[]][] = [[root, [root.value]]];
-  
+
   while (stack.length > 0) {
     const [node, path] = stack.pop()!;
-    
+
     // 叶子节点
     if (!node.left && !node.right) {
       result.push(path);
@@ -276,7 +276,7 @@ function pathToLeaves(root: TreeNode | null): number[][] {
       stack.push([node.left, [...path, node.left.value]]);
     }
   }
-  
+
   return result;
 }
 ```
@@ -293,20 +293,20 @@ function pathToLeaves(root: TreeNode | null): number[][] {
  *   第2大的数是4，出现2次，第4大的是2，出现1次，所以结果为10
  * */
 function findTopSum(arr, k, m) {
-  const temp = Array.from(new Set(arr)) // 数组去重
-  temp.sort((a, b) => b - a) // 去重之后的数组从大到小进行排序
-  const len = temp.length
-  if (m > len || k > len) return
-  const max = temp[k - 1] // 第 k 大 = 1 => temp[0]
-  const min = temp[m - 1] // 第 m 大 = 3 => temp[2]
-  let num = 0
+  const temp = Array.from(new Set(arr)); // 数组去重
+  temp.sort((a, b) => b - a); // 去重之后的数组从大到小进行排序
+  const len = temp.length;
+  if (m > len || k > len) return;
+  const max = temp[k - 1]; // 第 k 大 = 1 => temp[0]
+  const min = temp[m - 1]; // 第 m 大 = 3 => temp[2]
+  let num = 0;
   // 遍历原数组
-  arr.forEach(item => {
+  arr.forEach((item) => {
     if (item === max || item === min) {
-      num += item
+      num += item;
     }
-  })
-  return num
+  });
+  return num;
 }
 ```
 
@@ -323,28 +323,28 @@ function findTopSum(arr, k, m) {
  *   addJoin(arr, item => item < 3); // [[1, 2], 3, 4, 5]
  * */
 function addJoin(arr, condition) {
-  const len = arr.length
-  if (len === 0) return []
-  arr.sort((a, b) => a - b) // 升序排序
-  const res = []
-  const tempArr = []
+  const len = arr.length;
+  if (len === 0) return [];
+  arr.sort((a, b) => a - b); // 升序排序
+  const res = [];
+  const tempArr = [];
   for (let i = 0; i < len; i++) {
-    const item = arr[i]
+    const item = arr[i];
     if (condition(item)) {
-      tempArr.push(item)
-      continue
+      tempArr.push(item);
+      continue;
     }
     if (tempArr.length > 0) {
-      res.push([...tempArr])
-      tempArr.length = 0
+      res.push([...tempArr]);
+      tempArr.length = 0;
     }
-    res.push(item)
+    res.push(item);
   }
   if (tempArr.length > 0) {
-    res.push([...tempArr])
-    tempArr.length = 0
+    res.push([...tempArr]);
+    tempArr.length = 0;
   }
-  return res
+  return res;
 }
 ```
 
@@ -369,49 +369,49 @@ function addJoin(arr, condition) {
 //     Eat dinner~
 
 function EatMan(name) {
-  return new _EatMan(name) // 返回一个实例
+  return new _EatMan(name); // 返回一个实例
 }
 
 class _EatMan {
   constructor(name) {
-    this.tasks = []
+    this.tasks = [];
     this.tasks.push({
-      type: 'EatMan',
-      name
-    })
-    this.next()
+      type: "EatMan",
+      name,
+    });
+    this.next();
   }
   eat(thing) {
     this.tasks.push({
-      type: 'eat',
-      name: thing
-    })
-    return this // 要实现链式调用的效果，则必须返回当前实例
+      type: "eat",
+      name: thing,
+    });
+    return this; // 要实现链式调用的效果，则必须返回当前实例
   }
   eatFirst(thing) {
     this.tasks.unshift({
-      type: 'eatFirst',
-      name: thing
-    })
-    return this
+      type: "eatFirst",
+      name: thing,
+    });
+    return this;
   }
   next() {
-    if (this.timer) clearTimeout(this.timer)
+    if (this.timer) clearTimeout(this.timer);
     this.timer = setTimeout(() => {
-      this.runTask()
-    }, 0)
+      this.runTask();
+    }, 0);
   }
   runTask() {
-    this.tasks.forEach(task => {
+    this.tasks.forEach((task) => {
       switch (task.type) {
-        case 'EatMan':
-          console.log(`Hi! This is ${task.name}!`)
-          break
+        case "EatMan":
+          console.log(`Hi! This is ${task.name}!`);
+          break;
         default:
-          console.log(`Eat ${task.name}~`)
-          break
+          console.log(`Eat ${task.name}~`);
+          break;
       }
-    })
+    });
   }
 }
 ```
@@ -419,7 +419,7 @@ class _EatMan {
 ## 9. 找出趋近 limit 的值
 
 ```ts
-/* 
+/*
   给定一个数组 arr，里面只含 0~9 不重复的数字
   给定一个 limit 值
   实现一个方法，返回用数组中数字可以组成的小于 limit 值的最大值

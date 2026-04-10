@@ -109,7 +109,7 @@ onBeforeUnmount(() => {
   </div>
 </template>
 
-<style>
+<style scoped>
 .timer-wrap {
   border: 1px solid var(--vp-custom-block-warning-border);
   border-radius: 8px;

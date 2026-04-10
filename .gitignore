@@ -1,10 +1,6 @@
 # dependencies
 node_modules
 
-# lock files
-*.lock
-package-lock.json
-
 *.log
 
 dist
@@ -15,5 +11,3 @@ dist
 **/cache/**
 
 .vscode
-
-index.js

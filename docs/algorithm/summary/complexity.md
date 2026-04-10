@@ -1,7 +1,5 @@
 ---
 title: 认识复杂度与简单排序
-layout: cover
-background: https://sli.dev/demo-cover.png
 ---
 
 ## 认识时间复杂度
@@ -16,7 +14,7 @@ background: https://sli.dev/demo-cover.png
 
 ```ts
 // 最终化简结果为
-aN^2 + bN + c
+(aN ^ 2) + bN + c;
 
 // a, b, c 都是常数
 ```
@@ -43,14 +41,14 @@ aN^2 + bN + c
 - `>>`：各二进位全部右移若干位，对无符号数，高位补 0，有符号数，各编译器处理方法不一样，有的补符号位（算术右移），有的补 0（逻辑右移）
 
 ```ts
-10 << 1
+10 << 1;
 
 // 10 转换为二进制数为：1010，<< 1 表示左移一位
 // 即变为：10100，转换为十进制即为：20
 // 同样可以把左移看作以下公式：a * (2 ^ b)
 // 10 << 1 = 10 * (2 ^ 1) = 20
 
-11 >> 1 // 10 >> 1 的结果同样是 5
+11 >> 1; // 10 >> 1 的结果同样是 5
 
 // 11 转换为二进制数为：1011，>> 1 表示右移一位，
 // 并去除多余的右边，即变为：101，转换为十进制即为：5
@@ -67,17 +65,15 @@ aN^2 + bN + c
 // 有上面的铺垫，我们可以知道问题1很简单，
 // 直接将数组中的数全部一起进行 异或运算，最后的结果就是这个数
 function resolveOne(arr: number[]) {
-  if (!arr || !Array.isArray(arr) || arr?.length = 0) {
+  if (!arr || !Array.isArray(arr) || arr?.length === 0) {
     throw new Error(`The array is of the wrong type or
-      the array is empty!`)
+      the array is empty!`);
   }
-  let eor = 0
-  arr.forEach(item => {
-    eor ^= item
-    // 上面是下面的简写语法（应该都看得懂）
-    // eor = eor ^ item
-  })
-  return eor
+  let eor = 0;
+  arr.forEach((item) => {
+    eor ^= item; // 等效于: eor = eor ^ item
+  });
+  return eor;
 }
 ```
 
@@ -87,38 +83,37 @@ function resolveOne(arr: number[]) {
 // 这一位上出现奇数个 1，最后结果这位上就是 1，否则为 0
 function resolveTwo(arr: number[]) {
   if (!arr || !Array.isArray(arr) || arr?.length === 0) {
-    throw new Error(`The array is of the wrong type or the array is empty!`)
+    throw new Error(`The array is of the wrong type or the array is empty!`);
   }
   let eor = 0,
-    onlyOne = 0
+    onlyOne = 0;
   // 首先，还是得像问题1一样全部进行异或运算
   // 得到这两个出现奇数次的数（假设为 a, b）的异或结果
-  arr.forEach(cur => {
-    eor ^= cur
-  })
-  // 此时得到的 eor = a ^ b
-  // 且 eor !== 0
+  arr.forEach((cur) => {
+    eor ^= cur;
+  });
+  // 此时得到的 eor = a ^ b; 且 eor !== 0
   // 那么在转换为二进制时，eor 必然有一个位置上的值为 1
 
   // 那么 a, b 两数在这一位上必然是不同的，我们就能得到其中一个
 
   // 提取出 eor 二进制数最右的 1
-  let rightOne = eor & (~eor + 1)
+  let rightOne = eor & (~eor + 1);
   // 我们不妨假设 eor 为：100101100
   // 那 rightOne 为：100101100 & (011010011 + 1) = 0000000100
-  arr.forEach(cur => {
+  arr.forEach((cur) => {
     // 括号别丢，否则运算顺序错误会导致结果异常
     // rightOne 仅为最右侧数为 1（二进制）
     // 两个奇数次的数在这一位上：一个为 0，另一个数一定为 1
     // 由 & 操作特性我们得到结果为 0 的数一定是其中一个出现奇数次的数
     if ((cur & rightOne) === 0) {
       // 得到 a 或者 b 其中一个
-      onlyOne ^= cur
+      onlyOne ^= cur;
     }
-  })
+  });
   // 得到 a 或者 b 的另一个
-  eor ^= onlyOne
-  return [eor, onlyOne]
+  eor ^= onlyOne;
+  return [eor, onlyOne];
 }
 ```
 
@@ -147,9 +142,9 @@ j: 从 i 的下一位开始依次往后扫到数组结束，找到
 
 ```ts
 function selectSort(arr: number[]) {
-  if (!arr || arr?.length < 2) return
+  if (!arr || arr?.length < 2) return;
 
-  const len = arr.length
+  const len = arr.length;
   // i 从 0 → N-1
   for (let i = 0; i < len - 1; i++) {
     // j 从 i+1 → N
@@ -157,18 +152,18 @@ function selectSort(arr: number[]) {
       // j 位置上的小
       if (arr[j] < arr[i]) {
         // 两数交换
-        swap(arr, i, j)
+        swap(arr, i, j);
       }
     }
   }
-  console.log('after sort: ', arr)
+  console.log("after sort: ", arr);
 }
 
 // 交换 arr 数组中 i，j 位置上的数
 function swap(arr: number[], i: number, j: number) {
-  const temp = arr[i]
-  arr[i] = arr[j]
-  arr[j] = temp
+  const temp = arr[i];
+  arr[i] = arr[j];
+  arr[j] = temp;
 }
 ```
 
@@ -180,7 +175,7 @@ function swap(arr: number[], i: number, j: number) {
 
 ```ts
 // 还是上面的示例无序数组，依旧升序排
-[4, 2, 6, 3, 8, 9, 0, 1, 5, 7]
+[4, 2, 6, 3, 8, 9, 0, 1, 5, 7];
 
 // 依次比较索引位置上的数
 // 1. 0 与 1 位置上的数比较，大的往后移
@@ -194,27 +189,27 @@ function swap(arr: number[], i: number, j: number) {
 
 ```ts
 function bubbleSort(arr: number[]) {
-  if (!arr || arr?.length < 2) return
+  if (!arr || arr?.length < 2) return;
 
-  const len = arr.length
+  const len = arr.length;
   // i 从 N → 1
   for (let i = len - 1; i > 0; i--) {
     // j 从 0 → i
     for (let j = 0; j < i; j++) {
       // j 位置与 j+1 位置上的值比较，大的后移
       if (arr[j] > arr[j + 1]) {
-        swap(arr, j, j + 1)
+        swap(arr, j, j + 1);
       }
     }
   }
-  console.log('after sort: ', arr)
+  console.log("after sort: ", arr);
 }
 
 // 交换 arr 数组中 i，j 位置上的数
 function swap(arr: number[], i: number, j: number) {
-  arr[i] = arr[i] ^ arr[j]
-  arr[j] = arr[i] ^ arr[j]
-  arr[i] = arr[i] ^ arr[j]
+  arr[i] = arr[i] ^ arr[j];
+  arr[j] = arr[i] ^ arr[j];
+  arr[i] = arr[i] ^ arr[j];
   // 解构语法
   // [arr[i], arr[j]] = [arr[j], arr[i]]
 }
@@ -251,14 +246,14 @@ function swap(arr: number[], i: number, j: number) {
 
 ```ts
 // 我们假设
-let a = 甲
-let b = 乙
+let a = 甲;
+let b = 乙;
 
 // 跑这三行代码，a, b 的值互换
 // 这里我们带入值并运用上面的性质就一目了然了
-a = a ^ b // a = 甲 ^ 乙
-b = a ^ b // b = (甲 ^ 乙) ^ 乙 → b = 甲
-a = a ^ b // a = (甲 ^ 乙) ^ (甲 ^ 乙 ^ 乙) → a = 乙
+a = a ^ b; // a = 甲 ^ 乙
+b = a ^ b; // b = (甲 ^ 乙) ^ 乙 → b = 甲
+a = a ^ b; // a = (甲 ^ 乙) ^ (甲 ^ 乙 ^ 乙) → a = 乙
 ```
 
 **注意：** 上面的 `a`，`b` 必须得是内存中两块不同的区域（值可以相同，但内存不能是同一块，否则会把它抹为 0）
@@ -277,16 +272,16 @@ a = a ^ b // a = (甲 ^ 乙) ^ (甲 ^ 乙 ^ 乙) → a = 乙
 
 ```ts
 // 实现
-const arr = [4, 2, 6, 3, 8, 9, 0, 1, 5, 7]
+const arr = [4, 2, 6, 3, 8, 9, 0, 1, 5, 7];
 
 function insertSort(arr: number[]) {
   if (!arr || !Array.isArray(arr) || arr?.length === 0) {
-    throw new Error(`The array is of the wrong type or the array is empty!`)
+    throw new Error(`The array is of the wrong type or the array is empty!`);
   }
-  const len = arr.length
+  const len = arr.length;
   for (let i = 0; i < len; i++) {
     for (let j = i - 1; j >= 0 && arr[j] > arr[j + 1]; j--) {
-      swap(arr, j, j + 1) // 此方法见上面的实现
+      swap(arr, j, j + 1); // 此方法见上面的实现
     }
     // 或者这样：
     // for (let j = i - 1; j >= 0; j--) {
@@ -295,7 +290,7 @@ function insertSort(arr: number[]) {
     //   }
     // }
   }
-  console.log('after sort: ', arr)
+  console.log("after sort: ", arr);
 }
 ```
 
@@ -349,42 +344,42 @@ function insertSort(arr: number[]) {
 
 // 得到 [min, max] 区间上的随机整数
 function getRamdomInteger(min: number = 0, max: number = 10) {
-  return Math.floor(Math.random() * (max - min + 1) + min)
+  return Math.floor(Math.random() * (max - min + 1) + min);
 }
 // 得到随机长度的随机数
 function generateRandomArr(maxLength = 0, minValue = 0, maxValue = 10) {
-  const arr = new Array(maxLength)
+  const arr = new Array(maxLength);
   for (let i = 0; i < maxLength; i++) {
-    arr[i] = getRamdomInteger(minValue, maxValue)
+    arr[i] = getRamdomInteger(minValue, maxValue);
   }
 }
 
 function testFn() {
-  const testTimes = 500000
-  const maxLength = 100
-  const minValue = -100
-  const maxValue = 100
-  let succeed = true
+  const testTimes = 500000;
+  const maxLength = 100;
+  const minValue = -100;
+  const maxValue = 100;
+  let succeed = true;
   for (let i = 0; i < testTimes; i++) {
-    const arr1 = generateRandomArr(maxLength, minValue, maxValue)
+    const arr1 = generateRandomArr(maxLength, minValue, maxValue);
     // 这里直接用扩展运算符复制一份（这里只是一维数组）
-    const arr2 = [...arr1]
-    insertSort(arr1) // 插入排序 arr1，假设是升序排序
-    arr2.sort((a, b) => a - b) // 升序
+    const arr2 = [...arr1];
+    insertSort(arr1); // 插入排序 arr1，假设是升序排序
+    arr2.sort((a, b) => a - b); // 升序
     if (!isEqual(arr1, arr2)) {
-      succeed = false
-      break
+      succeed = false;
+      break;
     }
   }
-  console.log(succeed ? 'Good job!' : 'Looks like something wrong~~')
+  console.log(succeed ? "Good job!" : "Looks like something wrong~~");
 }
 
 function isEqual(originArr: number[], targetArr: number[]) {
   // 简便比较两个数组排序结果是否一致，直接转成字符串比较就好
-  return originArr.join(',') === targetArr.join(',')
+  return originArr.join(",") === targetArr.join(",");
 }
 
-testFn() // 执行看结果如何
+testFn(); // 执行看结果如何
 ```
 
 ## 递归行为与其时间复杂度估算
@@ -393,19 +388,19 @@ testFn() // 执行看结果如何
 
 ```ts
 function getMaxNum(arr: number[]) {
-  return process(arr, 0, arr.length - 1)
+  return process(arr, 0, arr.length - 1);
 }
 
 function process(arr: number[], l: number, r: number) {
   // 就一个数
   if (l === r) {
-    return arr[l]
+    return arr[l];
   }
-  const midIdx = l + ((r - l) >> 1) // 看上面二分法
+  const midIdx = l + ((r - l) >> 1); // 看上面二分法
   // 还是会遍历到每个数，这个数组并不一定是有序的
-  const leftMax = process(arr, l, midIdx)
-  const rightMax = process(arr, midIdx + 1, r)
-  return Math.max(leftMax, rightMax)
+  const leftMax = process(arr, l, midIdx);
+  const rightMax = process(arr, midIdx + 1, r);
+  return Math.max(leftMax, rightMax);
 }
 ```
 

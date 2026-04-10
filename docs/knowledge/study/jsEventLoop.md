@@ -40,8 +40,8 @@ title: JS EventLoop
 ```js
 console.log(0);
 async function func1() {
-  await func2(); // 若此句是 await 999
-  // 最终打印结果为：0, 5, 8, 1, 3, 6, '1 end', 7, 4
+  await func2();
+  // 若上面这句是 await 999; 最终打印结果为：0, 5, 8, 1, 3, 6, '1 end', 7, 4
   console.log(1);
   await func3();
   console.log("1 end");

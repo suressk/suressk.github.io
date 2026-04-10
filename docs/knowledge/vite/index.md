@@ -42,10 +42,6 @@ title: Vite 源码解读
 > | + `types`<br>
 > | + ... // other files<br>
 
-<!-- [vite-dev Map XMind](profiles/vite-dev.xmind) -->
-
-<!-- <a :href="$withBase('/profiles/vite-dev.xmind')" target="_blank">vite-dev Map XMind</a> -->
-
 ## 原理梗概
 
 > - 基于浏览器原生 `ES Module` 的开发服务器，利用浏览器去解析 `imports`<br/>
@@ -78,13 +74,13 @@ vite 的实现离不开现代浏览器原生 `ES` 模块化的支持，当声明
 
   ```jsx
   // 比如这样： /@modules/ 为任意你想命名的文件夹（当然你得去创建）
-  import React from 'react' /* 浏览器无法识别的路径 */
-  import React from '/@modules/react' /* 浏览器可以识别的路径 */
+  import React from "react"; /* 浏览器无法识别的路径 */
+  import React from "/@modules/react"; /* 浏览器可以识别的路径 */
 
   // ------------=+=------------
 
-  import { createApp } from 'vue' /* 浏览器无法识别的路径 */
-  import { createApp } from '/@modules/vue' /* 浏览器可以识别的路径 */
+  import { createApp } from "vue"; /* 浏览器无法识别的路径 */
+  import { createApp } from "/@modules/vue"; /* 浏览器可以识别的路径 */
   ```
 
 - 上面那步我们重写为 `/@modules/` 路径（本身是不存在 `@modules` 目录的），但要么去创建这个文件夹（否则请求就会由于找不到路径而返回 404），将打包后的结果放到这个目录下；或者拦截这个路径开头的请求，将它重定向到 `node_modules` 目录下的真实模块路径（我这里是方案二：重定向）
