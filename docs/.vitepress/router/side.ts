@@ -46,6 +46,13 @@ const knowledgeSidebar = [
       { text: "tsconfig 配置一览", link: "/knowledge/engineering/tsconfig" },
     ],
   },
+  {
+    text: "Optimization",
+    items: [
+      { text: "H5 性能优化", link: "/knowledge/optimization/h5Opt" },
+      { text: "前端缓存", link: "/knowledge/optimization/feCache" },
+    ],
+  },
 ];
 
 /**
@@ -54,14 +61,13 @@ const knowledgeSidebar = [
  */
 const interviewSidebar = [
   {
-    text: "Knowledge Summary",
+    text: "Interview Summary",
     items: [
       { text: "JavaScript 基础", link: "/interview/summary/basis" },
       { text: "网络基础", link: "/interview/summary/internet" },
       { text: "实战面试题", link: "/interview/summary/actual" },
-      { text: "八股文（一）", link: "/interview/summary/index" },
-      { text: "八股文（二）", link: "/interview/summary/strands" },
-      { text: "八股文（三）", link: "/interview/summary/optimization" },
+      { text: "面试题简记", link: "/interview/summary/strands" },
+      { text: "性能优化", link: "/interview/summary/optimization" },
     ],
   },
 ];
@@ -72,11 +78,11 @@ const interviewSidebar = [
  */
 const algorithmSidebar = [
   {
-    text: "Knowledge Summary",
+    text: "Algorithm Summary",
     items: [
-      { text: "面试-算法题", link: "/algorithm/summary/inter" },
+      { text: "面试 - 算法题", link: "/algorithm/summary/inter" },
       { text: "复杂度与简单排序", link: "/algorithm/summary/complexity" },
-      { text: "N·log(N) 的排序", link: "/algorithm/summary/merge" },
+      { text: "排序 - N·log(N)", link: "/algorithm/summary/merge" },
       { text: "堆 & 栈", link: "/algorithm/summary/stack" },
     ],
   },

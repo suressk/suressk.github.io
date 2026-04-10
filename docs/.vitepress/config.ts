@@ -1,4 +1,4 @@
-import { generateNav, generateSidebar } from "./route";
+import { generateNav, generateSidebar } from "./router";
 
 export default {
   lang: "en-US",
