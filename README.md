@@ -1,3 +1,3 @@
-**[suressk.com](https://suressk.com)**
+# <div align="center">K.island</div>
 
-my personal website
+A static note site of `K.`: **[suressk.com](https://suressk.github.io)**
