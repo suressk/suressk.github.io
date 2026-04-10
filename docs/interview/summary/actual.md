@@ -6,7 +6,7 @@ title: 实战面试题分享
 
 <!-- bytedance first-interview -->
 
-- 浏览器输入 URL 到页面展示的整个过程 [参见](/interview/summary/index.html#_2-%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BE%93%E5%85%A5url%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%9F)
+- 浏览器输入 URL 到页面展示的整个过程 [参见](/interview/summary/strands.html#_2-%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BE%93%E5%85%A5url%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%9F)
 - 讲一下小程序双线程（多线程）
   - [微信官方文档 ➡️](https://developers.weixin.qq.com/miniprogram/dev/framework/workers.html) /// [另一个说明文档 ➡️](https://qunarcorp.github.io/anu/documents/two-threaded.html)
   - 与 Web 网站相比，以微信为宿主的小程序更需要考虑 **安全**、**性能** 等因素，保障小程序不会对微信App本身产生安全隐患，同时要尽量达到接近原生应用的性能和用户体验。故而小程序采用自己实现的双线程模型，而不直接使用浏览器的线程模型
