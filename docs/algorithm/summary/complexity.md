@@ -404,7 +404,7 @@ function process(arr: number[], l: number, r: number) {
 }
 ```
 
-但是递归操作十分容易导致调用栈溢出的问题，所以得想办法避免使用递归，或者使用 `ES6 尾调用优化方案`（比如：[斐波那契数列 方案四 🔗](/knowledge/study/algorithm.html#_4-斐波那契数列))
+但是递归操作十分容易导致调用栈溢出的问题，所以得想办法避免使用递归，或者使用 `ES6 尾调用优化方案`（比如：[斐波那契数列 方案四 🔗](/algorithm/summary/inter.html#_4-斐波那契数列))
 
 尾调用优化需要满足下列条件：
 
