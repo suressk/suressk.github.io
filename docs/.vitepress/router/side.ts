@@ -22,7 +22,7 @@ const knowledgeSidebar = [
   {
     text: "Vite",
     items: [
-      { text: "Vite 原理简介", link: "/knowledge/vite/index" },
+      { text: "Vite 原理简介", link: "/knowledge/vite/intro" },
       { text: "vite → createServer", link: "/knowledge/vite/vitejs" },
       { text: "resolveConfig", link: "/knowledge/vite/resolveConfig" },
       { text: "依赖预构建", link: "/knowledge/vite/esbuild" },
@@ -40,7 +40,7 @@ const knowledgeSidebar = [
       },
       { text: "webpack Tapable", link: "/knowledge/engineering/tapable" },
       { text: "webpack 热更新", link: "/knowledge/engineering/hotUpdate" },
-      { text: "webpack 打包优化", link: "/knowledge/engineering/wpOptimize" },
+      { text: "webpack 打包优化", link: "/knowledge/engineering/wpOpt" },
       { text: "代码规范", link: "/knowledge/engineering/lint" },
       { text: "打包工具对比", link: "/knowledge/engineering/compare" },
       { text: "tsconfig 配置一览", link: "/knowledge/engineering/tsconfig" },
