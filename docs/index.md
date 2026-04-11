@@ -25,5 +25,17 @@ hero:
   actions:
     - theme: brand
       text: ✨ Come In →
-      link: /mood/
+      link: /knowledge/
 ---
+
+<script>
+import Bubble from './components/Bubble.vue'
+
+export default {
+  components: { Bubble },
+}
+</script>
+
+<div style="position: fixed;left: 50vw;bottom: 110px;transform: translateX(-50%);z-index: 999;">
+  <Bubble />
+</div>

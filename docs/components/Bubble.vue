@@ -5,7 +5,7 @@
   </div>
 </template>
 
-<style>
+<style scoped>
 .bubble-wrap {
   position: relative;
   margin-top: 50px;
@@ -14,9 +14,16 @@
 .bubble {
   width: 100px;
   height: 100px;
-  background-image: radial-gradient(circle at 75% 30%, #fff 5px, #ff21c0 8%, #5b5b5b 60%, #ff21c0 100%);
+  background-image: radial-gradient(
+    circle at 75% 30%,
+    #fff 5px,
+    #ff21c0 8%,
+    #5b5b5b 60%,
+    #ff21c0 100%
+  );
   border-radius: 50%;
-  box-shadow: inset 0 0 10px #fff,
+  box-shadow:
+    inset 0 0 10px #fff,
     inset 5px 0 23px #eaf5fc,
     inset 40px 0 30px #efcde6,
     inset -10px -30px 50px #f9f6de,
@@ -38,7 +45,8 @@
 }
 
 @keyframes bubble {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
@@ -47,7 +55,8 @@
 }
 
 @keyframes scale {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
   }
   50% {
