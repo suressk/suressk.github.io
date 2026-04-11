@@ -12,14 +12,14 @@ title: 认识 Tapable
 
 ```js
 const {
-    SyncHook,
-	SyncBailHook,
-	SyncWaterfallHook,
-	SyncLoopHook,
-	AsyncParallelHook,
-	AsyncParallelBailHook,
-	AsyncSeriesHook,
-	AsyncSeriesBailHook,
-	AsyncSeriesWaterfallHook
-} = require('tapable')
+  SyncHook,
+  SyncBailHook,
+  SyncWaterfallHook,
+  SyncLoopHook,
+  AsyncParallelHook,
+  AsyncParallelBailHook,
+  AsyncSeriesHook,
+  AsyncSeriesBailHook,
+  AsyncSeriesWaterfallHook,
+} = require('tapable');
 ```
