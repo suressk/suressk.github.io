@@ -1,3 +1,7 @@
+/**
+ * 来源于 unocss
+ * https://github.com/unocss/unocss/blob/f3bf5218294928f48f5745cd8686261334a7c78d/docs/.vitepress/theme/rainbow.css
+ */
 @keyframes rainbow {
   0% {
     --vp-c-brand-1: #00a98e;
