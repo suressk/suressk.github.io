@@ -11,3 +11,6 @@ dist
 **/cache/**
 
 .vscode
+
+*/.DS_store
+.DS_Store

@@ -1,15 +1,16 @@
-import { h } from "vue";
-import Theme from "vitepress/theme";
-import "./styles/var.css";
+import { h } from 'vue';
+import Theme from 'vitepress/theme';
+// @ts-ignore
+import './styles/var.css';
 
 // @ts-ignore
-import My from './components/My.vue'
+import My from './components/My.vue';
 
 export default {
   ...Theme,
   Layout() {
     return h(Theme.Layout, null, {
-      "aside-ads-after": () => h(My),
+      'aside-ads-after': () => h(My),
     });
-  }
+  },
 };

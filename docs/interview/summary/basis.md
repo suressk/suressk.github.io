@@ -10,7 +10,7 @@ title: JavaScript 基础
 
    ```js
    typeof 1; // ===> 'number'
-   typeof "1"; // ===> 'string'
+   typeof '1'; // ===> 'string'
    typeof true; // ===> 'boolean'
    const symbolVal = Symbol(1);
    typeof symbolVal; // ===> 'symbol'
@@ -54,7 +54,7 @@ title: JavaScript 基础
    - **`toString`**
 
      ```js
-     Object.prototype.toString.call(arr) === "[object Array]"; // true
+     Object.prototype.toString.call(arr) === '[object Array]'; // true
      ```
 
    - **`isPrototypeOf()`**
@@ -96,19 +96,19 @@ title: JavaScript 基础
    // 我们协商第一个参数传递我们需要生成实例的构造函数，
    // 构造函数需要的参数，后面依次传入即可
    function newFunc(Fn, ...args) {
-     if (typeof Fn !== "function") {
-       throw new Error("The first param is not a function");
+     if (typeof Fn !== 'function') {
+       throw new Error('The first param is not a function');
      }
      if (!Fn.prototype) {
        // 假如 Fn 是个箭头函数
-       throw new Error("The function doesnot have the prototype property");
+       throw new Error("The function doesn't have the prototype property");
      }
      // 创建一个对象，并将它的隐式原型指向 构造函数 Fn 的原型
      const obj = Object.create(Fn.prototype);
      const res = Fn.call(obj, ...args);
      // const res = Fn.apply(obj, [...args])
      // 存在 Fn 函数自己返回一个对象（原型指向 Object.prototype)
-     return typeof res === "object" ? res : obj;
+     return typeof res === 'object' ? res : obj;
    }
    ```
 
@@ -138,8 +138,8 @@ title: JavaScript 基础
   // 可以得到：
   // Person.prototype.constructor === Person 为 true
   // Man.prototype.constructor === Man 为 true
-  const p = new Person("Saul");
-  const m = new Man("Saul");
+  const p = new Person('Saul');
+  const m = new Man('Saul');
   ```
 
   引申问题：下面的代码，变量 `p` 的构造函数是什么？
@@ -191,7 +191,7 @@ title: JavaScript 基础
 
 关系图如下：
 
-![原型链关系图示](/images/proto_chain.png)
+![原型链关系图示](/images/proto-chain.png)
 
 面试题：
 
@@ -202,8 +202,8 @@ function User(name) {
 User.prototype.sayHello = function () {
   console.log(`Hello ${this.name}`);
 };
-const u1 = new User("Saul");
-const u2 = new User("K.");
+const u1 = new User('Saul');
+const u2 = new User('K.');
 
 console.log(u1.sayHello === u2.sayHello); // true
 console.log(User.prototype.constructor); // User Function
@@ -226,7 +226,7 @@ W3C 不推荐直接使用系统成员属性 `__proto__`
 - 获取对象的隐式原型：**`Object.getPrototypeOf(对象)`** （Object 对象的静态方法）
 
   ```js
-  const person = new Person("Saul");
+  const person = new Person('Saul');
 
   // 获取 person 对象的 __proto__ 属性值
   // 得到的结果等价于： person.__proto__
@@ -236,7 +236,7 @@ W3C 不推荐直接使用系统成员属性 `__proto__`
 - 判断当前对象是否在指定对象的原型链上：**`Object.prototype.isPrototypeOf(当前对象)`**
 
   ```js
-  const person = new Person("Saul");
+  const person = new Person('Saul');
   const obj = {};
   const arr = [];
 
@@ -263,7 +263,7 @@ W3C 不推荐直接使用系统成员属性 `__proto__`
 - 从指定原型去创建一个新对象：**`Object.create(原型)`**
 
   ```js
-  const person = new Person("Saul");
+  const person = new Person('Saul');
   const obj = Object.create(person);
 
   // 则 person 实例是对象 obj 的原型
@@ -275,14 +275,14 @@ W3C 不推荐直接使用系统成员属性 `__proto__`
 - 判断对象是否具有自身的属性：**`Object.prototype.hasOwnProperty(属性名)`**
 
   ```js
-  const person = new Person("Saul");
+  const person = new Person('Saul');
   const o = Object.create(person);
-  person.hasOwnProperty("name"); //true
-  o.hasOwnProperty("name"); // false
+  person.hasOwnProperty('name'); //true
+  o.hasOwnProperty('name'); // false
 
   // 我们在遍历对象时，也会循环出原型链上的属性
   o.age = 20;
-  o.city = "Shenzhen";
+  o.city = 'Shenzhen';
   for (const prop in o) {
     // console.log(prop)
     // 这会打印出：
@@ -304,8 +304,8 @@ W3C 不推荐直接使用系统成员属性 `__proto__`
   我们知道 `vue2` 的响应式原理就是基于 `Object.defineProperty()` 来进行数据劫持的
 
   ```js
-  Object.defineProperty(o, "x", {
-    value: "x的值", // 与 get & set 不能同时存在
+  Object.defineProperty(o, 'x', {
+    value: 'x的值', // 与 get & set 不能同时存在
     writable: false, // 当前属性是否可以被重写覆盖
     configurable: false, // 当前属性是否可以重新配置，是否能被删除
     enumerable: false, // 当前属性是否可被枚举（也就是能否被遍历出来）
@@ -321,7 +321,7 @@ W3C 不推荐直接使用系统成员属性 `__proto__`
 - 类数组转换为真数组：**`Array.prototype.slice.call(类数组)`**，ES6 新增 **`Array.from()`** 也可以实现
 
   ```js
-  const nodeList = document.getElementsByTagName("*");
+  const nodeList = document.getElementsByTagName('*');
   const nodeArr = Array.prototype.slice.call(nodeList);
   Array.isArray(nodeList); // false
   Array.isArray(nodeArr); // true
@@ -361,7 +361,7 @@ W3C 不推荐直接使用系统成员属性 `__proto__`
     this.firstName = firstName;
     this.lastName = lastName;
     this.age = age;
-    this.fullName = this.firstName + " " + this.lastName;
+    this.fullName = this.firstName + ' ' + this.lastName;
   }
   User.prototype.sayHello = function () {
     console.log(`Hello! 我是${this.fullName}, 今年${this.age}岁`);
@@ -381,10 +381,10 @@ W3C 不推荐直接使用系统成员属性 `__proto__`
 
   VipUser.prototype.upgrade = function () {
     this.money -= 10;
-    console.log("已升级，消耗 ¥10");
+    console.log('已升级，消耗 ¥10');
   };
-  const u = new User("S", "K", 20);
-  const vUser = new VipUser("Saul", "K", 20, 100);
+  const u = new User('S', 'K', 20);
+  const vUser = new VipUser('Saul', 'K', 20, 100);
   u.sayHello(); // ...
   u.upgrade(); // ... is not a function
   vUser.sayHello(); // ...

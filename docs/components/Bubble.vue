@@ -12,8 +12,8 @@
 }
 
 .bubble {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   background-image: radial-gradient(
     circle at 75% 30%,
     #fff 5px,
@@ -27,14 +27,14 @@
     inset 5px 0 23px #eaf5fc,
     inset 40px 0 30px #efcde6,
     inset -10px -30px 50px #f9f6de,
-    inset 0 25px 70px #f9f6de,
-    0 0 90px #fff;
+    inset 0 25px 60px #f9f6de,
+    0 0 70px #fff;
   animation: bubble 3s ease-in-out infinite;
   margin: 0 auto;
 }
 
 .shadow {
-  width: 100px;
+  width: 80px;
   height: 20px;
   border-radius: 50%;
   background-color: rgba(0, 0, 0, 0.15);

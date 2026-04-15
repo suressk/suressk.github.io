@@ -156,7 +156,7 @@ function selectSort(arr: number[]) {
       }
     }
   }
-  console.log("after sort: ", arr);
+  console.log('after sort: ', arr);
 }
 
 // 交换 arr 数组中 i，j 位置上的数
@@ -202,7 +202,7 @@ function bubbleSort(arr: number[]) {
       }
     }
   }
-  console.log("after sort: ", arr);
+  console.log('after sort: ', arr);
 }
 
 // 交换 arr 数组中 i，j 位置上的数
@@ -290,7 +290,7 @@ function insertSort(arr: number[]) {
     //   }
     // }
   }
-  console.log("after sort: ", arr);
+  console.log('after sort: ', arr);
 }
 ```
 
@@ -371,12 +371,12 @@ function testFn() {
       break;
     }
   }
-  console.log(succeed ? "Good job!" : "Looks like something wrong~~");
+  console.log(succeed ? 'Good job!' : 'Looks like something wrong~~');
 }
 
 function isEqual(originArr: number[], targetArr: number[]) {
   // 简便比较两个数组排序结果是否一致，直接转成字符串比较就好
-  return originArr.join(",") === targetArr.join(",");
+  return originArr.join(',') === targetArr.join(',');
 }
 
 testFn(); // 执行看结果如何
@@ -423,6 +423,6 @@ T(N) = a*T(N/b) + O(N^d)
 
 结论：
 
-![公式结论](/images/masterResult.png)
+![公式结论](/images/master-result.png)
 
 **注意 ⚠️：不管分成几部分，子问题规模必须等分**

@@ -19,8 +19,7 @@ hero:
   text: 要么孤独，要么庸俗
   tagline: Keep calm and carry on!
   image:
-    # src: /images/raining.gif
-    src: /images/k.icons.png
+    src: /images/avatar.png
     alt: K.island
   actions:
     - theme: brand
@@ -30,12 +29,24 @@ hero:
 
 <script>
 import Bubble from './components/Bubble.vue'
+// @ts-ignore
+import './.vitepress/theme/styles/rainbow.css';
 
 export default {
   components: { Bubble },
 }
 </script>
 
-<div style="position: fixed;left: 50vw;bottom: 110px;transform: translateX(-50%);z-index: 999;">
+<div class="fixed-wrap">
   <Bubble />
 </div>
+
+<style scoped>
+.fixed-wrap {
+  position: fixed;
+  left:50vw;
+  bottom: 110px;
+  transform: translateX(-50%);
+  z-index: 999;
+}
+</style>
