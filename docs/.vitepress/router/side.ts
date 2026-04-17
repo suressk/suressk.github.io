@@ -49,8 +49,10 @@ const knowledgeSidebar = [
   {
     text: 'Optimization',
     items: [
-      { text: 'H5 性能优化', link: '/knowledge/optimization/h5Opt' },
+      { text: '大文件分片上传', link: '/knowledge/optimization/chunkUpload' },
       { text: '前端缓存', link: '/knowledge/optimization/feCache' },
+      { text: 'H5 性能优化', link: '/knowledge/optimization/h5Opt' },
+      { text: '性能监控', link: '/knowledge/optimization/monitor' },
     ],
   },
 ];
