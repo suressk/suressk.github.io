@@ -20,7 +20,7 @@
 
   /* home override styles */
   --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: -webkit-linear-gradient(
+  --vp-home-hero-name-background: linear-gradient(
     120deg,
     var(--vp-c-brand-1) 30%,
     var(--vp-c-brand-next)
@@ -44,7 +44,7 @@
   }
 }
 
-/** docContent slide enter animation */
+/* docContent slide enter animation */
 .content .vp-doc > div > * {
   animation-name: slide-enter;
   animation-duration: 500ms;
@@ -52,6 +52,34 @@
   animation-delay: 150ms;
   animation-fill-mode: both;
   animation-iteration-count: 1;
+}
+
+/**
+ * to resolve the image-bg have a square half-opacity issue in iPad and iPhone
+ * use media query to set a fixed background-image in narrow screen devices
+ */
+@media (min-width: 1200px) {
+  .VPHero .image-bg {
+    z-index: 1;
+    opacity: 0.8;
+    transition: opacity 1s ease;
+  }
+  .VPHero .image-container:hover .image-bg {
+    opacity: 0.2;
+  }
+}
+
+@media (max-width: 1200px) {
+  .VPHero .image-container .image-bg {
+    background-image: linear-gradient(
+      135deg,
+      #2e5d8c,
+      #9e2f2e,
+      #2e7d32,
+      #d4af37
+    );
+    border-radius: 50%;
+  }
 }
 
 .VPImage {

@@ -44,8 +44,8 @@ export default {
 <style scoped>
 .fixed-wrap {
   position: fixed;
-  left:50vw;
-  bottom: 110px;
+  right:0;
+  bottom: 20px;
   transform: translateX(-50%);
   z-index: 999;
 }

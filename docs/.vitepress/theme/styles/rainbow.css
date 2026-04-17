@@ -653,9 +653,7 @@
   }
 }
 
-:root,
-html,
-body {
+:root {
   --vp-c-brand-1: #00a98e;
   --vp-c-brand-light: #4ad1b4;
   --vp-c-brand-lighter: #78fadc;
