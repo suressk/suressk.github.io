@@ -241,7 +241,7 @@ const uploadChunkWithRetry = async (
 
 记录已上传的分片状态，支持中断后继续上传
 
-示例代码此处不做展示，思路如下：
+大致思路如下：
 
 - 以 `fileName_fileHash` 为唯一标识 key 记录对应文件每个分片的上传状态
 - 通过本地查询到每个分片的上传状态（也可与服务端协商再开一个查询确认已上传分片记录的接口）
@@ -256,6 +256,6 @@ const uploadChunkWithRetry = async (
 
 ### 5. 多线程 web worker 运用
 
-通过将文件上传逻辑切到后台线程中运行，可以，解决 `JavaScript` 单线程模型的性能瓶颈，与主线程并行执行，从而不阻塞页面渲染和用户交互
+通过将文件上传逻辑切到后台线程中运行，可以解决 `JavaScript` 单线程模型的性能瓶颈，与主线程并行执行，从而不阻塞页面渲染和用户交互
 
-通过 `postMessage()` 和 `onmessage` 事件实现线程间通信（同时要避免频繁传递大量数据，必要时使用 `Transferable Objects` 如 `ArrayBuffer` 等），完成 `开始上传`、`错误监测、失败处理`、`进度显示` 等功能
+通过 `postMessage()` 和 `onmessage` 事件实现线程间通信（同时要避免频繁传递大量数据，必要时使用 `Transferable Objects` 如 `ArrayBuffer` 等），以实现 `开始上传`、`错误监测`、 `失败处理`、`进度显示` 等功能
