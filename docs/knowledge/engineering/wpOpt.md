@@ -1,5 +1,6 @@
 ---
 title: 基于构建策略优化应用打包
+outline: deep
 ---
 
 功能强大的 `webpack` 配置繁多，很多配置字段零零散散地分布，再加上 `Loader` 与 `Plugin` 的配置，要让 `webpack` 打包时间更短打包体积更小还是需要做一些事情的
@@ -19,7 +20,7 @@ title: 基于构建策略优化应用打包
 
 ## 减少打包时间方案
 
-## 1. ⏱ 缩减打包范围
+### 1. ⏱ 缩减打包范围
 
 配置 `include/exclude` 缩小 `Loader` 对文件的搜索范围，好处是避免不必要的转译（一般 `loader` 都会有这个配置项）
 
@@ -32,19 +33,19 @@ export default {
         exclude: /node_modules/ /* 忽略处理的目录 */,
         include: /src/ /* 包含处理的目录 */,
         test: /\.js$/,
-        use: "babel-loader",
+        use: 'babel-loader',
       },
     ],
   },
 };
 ```
 
-## 2. ⏱ 缓存副本
+### 2. ⏱ 缓存副本
 
 配置 `cache` 缓存 `loader` 对文件的编译副本，好处是 `再次编译时只编译变动的文件`。`Loader/Plugin` 可能会提供一个可用编译缓存的选项，通常包括 `cache` 字眼，以 `babel-loader` 与 `eslint-webpack-plugin` 为例
 
 ```js
-import EslintPlugin from "eslint-webpack-plugin";
+import EslintPlugin from 'eslint-webpack-plugin';
 
 export default {
   // ...
@@ -56,7 +57,7 @@ export default {
         test: /\.js$/,
         use: [
           {
-            loader: "babel-loader",
+            loader: 'babel-loader',
             options: { cacheDirectory: true },
           },
         ],
@@ -67,49 +68,49 @@ export default {
 };
 ```
 
-## 3. ⏱ 定向搜索
+### 3. ⏱ 定向搜索
 
 配置 `resolve` 提高文件的搜索效率，可以定向指定所需文件的路径。`alias` 表示映射路径，`extensions` 表示文件后缀，`noParse` 表示过滤无依赖文件；通常配置 `alias` 与 `extensions` 就足够了
 
 ```js
-import { resolve } from "path";
+import { resolve } from 'path';
 
 const resolvePath = (relativePath) => resolve(__dirname, relativePath);
 export default {
   // ...
   resolve: {
     alias: {
-      "@": resolvePath("src"),
+      '@': resolvePath('src'),
       // ... others
-      swiper: "swiper/js/swiper.min.js",
+      swiper: 'swiper/js/swiper.min.js',
     },
     /* 导入模块省略后缀 */
-    extensions: [".js", ".ts", ".jsx", ".tsx", ".json", ".vue"],
+    extensions: ['.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
   },
 };
 ```
 
-## 4. ⏱ 提前构建
+### 4. ⏱ 提前构建
 
 配置 `DllPlugin` 将第三方依赖提前打包，好处是 `将DLL与业务代码完全分离` 且每次 `只构建业务代码`（已不推荐使用，故不作说明）
 
-## 5. ⏱ 并行构建
+### 5. ⏱ 并行构建
 
 配置 `Thread` 将 `Loader` 单进程转换为多进程，`释放CPU多核并发的优势`。在使用 `webpack` 构建项目时会有大量文件需解析与处理，随着文件增多会使构建过程变得越慢
 
 在 `Node` 中运行的 `webpack` 是单线程的，简而言之，`webpack` 待处理的任务需一件件处理，不能同一时刻处理多件任务。但 `CPU` 是多核的，我们就可以借助 [`thread-loader 🔗`](https://github.com/webpack-contrib/thread-loader) 来根据 `CPU` 的核心数开启多个线程（当然要考虑是否有必要开启多个线程，毕竟开多个线程也有额外开销，若处理文件量并不大，则不推荐开启多线程）
 
 ```js
-import path from "path";
+import path from 'path';
 
 export default {
   module: {
     rules: [
       {
         test: /\.js$/,
-        include: path.resolve("src"),
+        include: path.resolve('src'),
         use: [
-          "thread-loader",
+          'thread-loader',
           // your expensive loader (e.g babel-loader)
         ],
       },
@@ -119,7 +120,7 @@ export default {
 ```
 
 ```js
-import Os from "os";
+import Os from 'os';
 
 export default {
   // ...
@@ -130,12 +131,12 @@ export default {
         test: /\.js$/,
         use: [
           {
-            loader: "thread-loader",
+            loader: 'thread-loader',
             /* 使用 os 模块获取 cpu 核心数 */
             options: { workers: Os.cpus().length },
           },
           {
-            loader: "babel-loader",
+            loader: 'babel-loader',
             options: { cacheDirectory: true },
           },
         ],
@@ -145,12 +146,12 @@ export default {
 };
 ```
 
-## 6. ⏱ 可视结构
+### 6. ⏱ 可视结构
 
 配置 `BundleAnalyzer` 分析打包文件结构，通过分析原因得出优化方案减少打包时间。`BundleAnalyzer`（[`webpack-bundle-analyzer 🔗`](https://github.com/webpack-contrib/webpack-bundle-analyzer)）是 `webpack` 官方插件，可直观分析打包文件的模块组成部分、模块体积占比、模块包括关系、模块依赖关系、文件是否重复、压缩体积对比等可视化数据
 
 ```js
-import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
 export default {
   // ... others
@@ -160,7 +161,7 @@ export default {
 
 ## 减小打包体积方案
 
-## 1. 📦 分割代码
+### 1. 📦 分割代码
 
 分割各个模块代码，提取相同部分代码，减少重复代码的出现频率。`webpack v4+` 使用 `splitChunks` 替代 `CommonsChunksPlugin` 实现代码分割（详情可见 [`optimizationsplitchunks 🔗`](https://webpack.docschina.org/configuration/optimization/#optimizationsplitchunks)
 
@@ -169,32 +170,32 @@ export default {
   // ...
   optimization: {
     /* 抽离WebpackRuntime函数 */
-    runtimeChunk: { name: "manifest" },
+    runtimeChunk: { name: 'manifest' },
     splitChunks: {
       /* 缓存 */
       cacheGroups: {
         common: {
           minChunks: 2 /* 代码块出现最少次数 */,
-          name: "common" /* 代码块名称 */,
+          name: 'common' /* 代码块名称 */,
           priority: 5 /* 优先级别 */,
           reuseExistingChunk: true /* 重用已存在代码块 */,
-          test: AbsPath("src"),
+          test: AbsPath('src'),
         },
         vendor: {
-          chunks: "initial" /* 代码分割类型 */,
-          name: "vendor",
+          chunks: 'initial' /* 代码分割类型 */,
+          name: 'vendor',
           priority: 10,
           test: /node_modules/,
         },
       },
       /* 代码分割类型：all全部模块，async异步模块，initial入口模块 */
-      chunks: "all",
+      chunks: 'all',
     },
   },
 };
 ```
 
-## 2. 📦 `Tree-shaking`
+### 2. 📦 `Tree-shaking`
 
 删除项目中未被引用代码及重复代码，由于 `Tree-shaking` 仅针对静态结构分析，故仅 `ESM` 模块化规范生效，其他规范（比如 `commonjs` 规范）并不会生效
 
@@ -207,10 +208,10 @@ export default {
       {
         test: /\.js$/,
         use: {
-          loader: "babel-loader",
+          loader: 'babel-loader',
           options: {
             /* set modules: false by default */
-            presets: ["env", { modules: false }],
+            presets: ['env', { modules: false }],
           },
         },
       },
@@ -219,7 +220,7 @@ export default {
 };
 ```
 
-## 3. 📦 动态垫片
+### 3. 📦 动态垫片
 
 参考文章可见 [`一文搞清楚前端 polyfill 🔗`](https://zhuanlan.zhihu.com/p/71640183)
 
@@ -230,7 +231,7 @@ export default {
 - 方案二：通过 `HtmlWebpackPlugin` 插件，在打包时自动加入 `polyfill.js` 文件链接
 
 ```js
-import HtmlTagsPlugin from "html-webpack-tags-plugin";
+import HtmlTagsPlugin from 'html-webpack-tags-plugin';
 
 export default {
   // ...
@@ -240,13 +241,13 @@ export default {
       append: false /* 在生成资源后加入 */,
       publicPath: false /* 使用公共路径 */,
       /* polyfill 资源路径，如 polyfill.io，alicdn 等资源 */
-      tags: ["https://[xxx]/polyfill.min.js"],
+      tags: ['https://[xxx]/polyfill.min.js'],
     }),
   ],
 };
 ```
 
-## 4. 📦 按需加载
+### 4. 📦 按需加载
 
 将路由页面/触发性功能单独打包为一个文件，使用时才加载，减轻首屏渲染的负担。首屏渲染时只需加载首页的 JS 代码，`webpack v4+` 提供模块按需切割加载功能，配合 `import() 方法` 可做到首屏渲染减包的效果，以加快首屏渲染速度。只有当触发某些功能时才会加载当前功能的 JS 代码
 
@@ -254,7 +255,7 @@ export default {
 
 ```js
 // v4 示例：
-const Login = () => import(/* webpackChunkName: "login" */ "../views/login");
+const Login = () => import(/* webpackChunkName: "login" */ '../views/login');
 ```
 
 可能需要配合 [`@babel/plugin-syntax-dynamic-import 🔗`](https://babeljs.io/docs/en/babel-plugin-syntax-dynamic-import.html) 插件使用
@@ -268,7 +269,7 @@ const Login = () => import(/* webpackChunkName: "login" */ "../views/login");
 }
 ```
 
-## 5. 📦 作用提升
+### 5. 📦 作用提升
 
 分析模块间依赖关系，把打包好的模块合并到一个函数中，可以 `减少函数声明与内存花销`（`webpack` 借鉴自 `rollup`）
 
@@ -291,14 +292,14 @@ export default {
 }
 ```
 
-## 6. 📦 压缩资源
+### 6. 📦 压缩资源
 
 压缩 `HTML/CSS/JS` 代码，压缩 `字体/图像/音频/视频`，更有效地减少打包体积。极致地优化代码都有可能不及优化一个资源文件的体积更有效
 
 针对 `HTML`，使用 [`html-webpack-plugin 🔗`](https://github.com/jantimon/html-webpack-plugin)
 
 ```js
-import HtmlWebpackPlugin from "html-webpack-plugin";
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 export default {
   // ...
@@ -321,7 +322,3 @@ export default {
 - [`css-minimizer-webpack-plugin 🔗`](https://github.com/webpack-contrib/css-minimizer-webpack-plugin)： `webpack v5` 用于压缩 `CSS` 代码
 - ~~[`uglifyjs-webpack-plugin 🔗`](https://github.com/webpack-contrib/uglifyjs-webpack-plugin)：压缩 `ES5版本` 的 `JS` 代码~~
 - [`terser-webpack-plugin 🔗`](https://github.com/webpack-contrib/terser-webpack-plugin)：压缩 `ES6版本` 的 `JS` 代码（`webpack v5` 已内置此插件，且均可压缩 `ES5` & `ES6` `JS` 代码；`v5` 若需要自定义配置，依旧需要安装此插件进行配置，`v4` 则为必须安装）
-
-```js
-
-```
