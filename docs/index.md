@@ -29,8 +29,6 @@ hero:
 
 <script>
 import Bubble from './components/Bubble.vue'
-// @ts-ignore
-import './.vitepress/theme/styles/rainbow.css';
 
 export default {
   components: { Bubble },
