@@ -11,7 +11,7 @@ import { nextTick, provide } from 'vue';
 import { useData } from 'vitepress';
 import DefaultTheme from 'vitepress/theme';
 // @ts-ignore
-import Intro from './components/Intro.vue';
+import Intro from './Intro.vue';
 
 const { Layout } = DefaultTheme;
 const { isDark } = useData();

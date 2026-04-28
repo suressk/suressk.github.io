@@ -1,5 +1,5 @@
 import Theme from 'vitepress/theme';
-import Layout from './Layout.vue';
+import Layout from './components/Layout.vue';
 
 // @ts-ignore
 import './styles/var.css';
