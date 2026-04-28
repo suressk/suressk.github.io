@@ -5,6 +5,7 @@
 const knowledgeSidebar = [
   {
     text: 'Study Note',
+    collapsed: true,
     items: [
       { text: 'JS EventLoop', link: '/knowledge/study/jsEventLoop' },
       { text: 'Promise', link: '/knowledge/study/promise' },
@@ -14,6 +15,7 @@ const knowledgeSidebar = [
   },
   {
     text: 'React',
+    collapsed: true,
     items: [
       { text: 'React 笔记 - 掘金', link: '/knowledge/react/index' },
       { text: 'React Fiber', link: '/knowledge/react/fiber' },
@@ -21,6 +23,7 @@ const knowledgeSidebar = [
   },
   {
     text: 'Vite',
+    collapsed: true,
     items: [
       { text: 'Vite 原理简介', link: '/knowledge/vite/intro' },
       { text: 'vite → createServer', link: '/knowledge/vite/vitejs' },
@@ -32,6 +35,7 @@ const knowledgeSidebar = [
   },
   {
     text: 'Engineering',
+    collapsed: true,
     items: [
       { text: 'webpack', link: '/knowledge/engineering/webpack' },
       {
@@ -48,6 +52,7 @@ const knowledgeSidebar = [
   },
   {
     text: 'Optimization',
+    collapsed: true,
     items: [
       { text: '大文件分片上传', link: '/knowledge/optimization/chunkUpload' },
       { text: '前端缓存', link: '/knowledge/optimization/feCache' },
@@ -64,6 +69,7 @@ const knowledgeSidebar = [
 const interviewSidebar = [
   {
     text: 'Interview Summary',
+    collapsed: true,
     items: [
       { text: 'JavaScript 基础', link: '/interview/summary/basis' },
       { text: '网络基础', link: '/interview/summary/internet' },
@@ -81,6 +87,7 @@ const interviewSidebar = [
 const algorithmSidebar = [
   {
     text: 'Algorithm Summary',
+    collapsed: true,
     items: [
       { text: '面试 - 算法题', link: '/algorithm/summary/inter' },
       { text: '复杂度与简单排序', link: '/algorithm/summary/complexity' },
