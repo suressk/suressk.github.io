@@ -37,10 +37,9 @@ const knowledgeSidebar = [
     text: 'Engineering',
     collapsed: true,
     items: [
-      { text: 'webpack', link: '/knowledge/engineering/webpack' },
       {
-        text: 'webpack Loader & plugin',
-        link: '/knowledge/engineering/loader',
+        text: 'webpack (loader/plugin)',
+        link: '/knowledge/engineering/webpack',
       },
       { text: 'webpack Tapable', link: '/knowledge/engineering/tapable' },
       { text: 'webpack 热更新', link: '/knowledge/engineering/hotUpdate' },
@@ -69,13 +68,12 @@ const knowledgeSidebar = [
 const interviewSidebar = [
   {
     text: 'Interview Summary',
-    collapsed: true,
+    // collapsed: true,
     items: [
       { text: 'JavaScript 基础', link: '/interview/summary/basis' },
       { text: '网络基础', link: '/interview/summary/internet' },
       { text: '实战面试题', link: '/interview/summary/actual' },
       { text: '面试题简记', link: '/interview/summary/strands' },
-      { text: '性能优化', link: '/interview/summary/optimization' },
     ],
   },
 ];
@@ -87,7 +85,7 @@ const interviewSidebar = [
 const algorithmSidebar = [
   {
     text: 'Algorithm Summary',
-    collapsed: true,
+    // collapsed: true,
     items: [
       { text: '面试 - 算法题', link: '/algorithm/summary/inter' },
       { text: '复杂度与简单排序', link: '/algorithm/summary/complexity' },
