@@ -23,9 +23,9 @@ title: resolveConfig 参数解析
 
 ```ts
 // /src/node/config.ts
-import { resolveConfig, InlineConfig, ResolvedConfig } from '../config'
+import { resolveConfig, InlineConfig, ResolvedConfig } from '../config';
 
-const config = await resolveConfig(inlineConfig, 'serve', 'development')
+const config = await resolveConfig(inlineConfig, 'serve', 'development');
 ```
 
 ## 2. 参数定义
@@ -34,25 +34,25 @@ const config = await resolveConfig(inlineConfig, 'serve', 'development')
 function resolveConfig(
   inlineConfig: InlineConfig,
   command: 'build' | 'serve',
-  defaultMode = 'development'
-): Promise<ResolvedConfig>
+  defaultMode = 'development',
+): Promise<ResolvedConfig>;
 ```
 
 ## 3. 设置 `config`，`mode`，`configFileDependencies`
 
 ```ts
-let config = inlineConfig // 存储配置
-let configFileDependencies: string[] = [] // 存储配置依赖
-let mode = inlineConfig.mode || defaultMode // 设置 mode
+let config = inlineConfig; // 存储配置
+let configFileDependencies: string[] = []; // 存储配置依赖
+let mode = inlineConfig.mode || defaultMode; // 设置 mode
 
 if (mode === 'production') {
-  process.env.NODE_ENV = 'production'
+  process.env.NODE_ENV = 'production';
 }
 
 const configEnv = {
   mode,
-  command
-}
+  command,
+};
 ```
 
 ## 4. 加载配置文件，重置配置 `mode`
@@ -60,58 +60,60 @@ const configEnv = {
 同时知道可以在命令行使用 **`--configFile false`** 配置来禁用读取配置文件
 
 ```ts
-let { configFile } = config
+let { configFile } = config;
 if (configFile !== false) {
   const loadResult = await loadConfigFromFile(
     configEnv,
     configFile,
     config.root,
-    config.logLevel
-  )
+    config.logLevel,
+  );
   if (loadResult) {
-    config = mergeConfig(loadResult.config, config)
-    configFile = loadResult.path
-    configFileDependencies = loadResult.dependencies
+    config = mergeConfig(loadResult.config, config);
+    configFile = loadResult.path;
+    configFileDependencies = loadResult.dependencies;
   }
 }
 
-mode = inlineConfig.mode || config.mode || mode
-configEnv.mode = mode
+mode = inlineConfig.mode || config.mode || mode;
+configEnv.mode = mode;
 ```
 
 `loadConfigFromFile` 就是根据项目目录，获取相关的配置文件，当使用配置文件类型是 `ts` 且使用 `ES Module` 时，会被 `esbuild` 转义读取，然后删除转义后的文件
+
+::: details code
 
 ```ts
 function loadConfigFromFile(
   configEnv: ConfigEnv,
   configFile?: string,
   configRoot: string = process.cwd(),
-  logLevel?: LogLevel
+  logLevel?: LogLevel,
 ): Promise<{
-  path: string
-  config: UserConfig
-  dependencies: string[]
+  path: string;
+  config: UserConfig;
+  dependencies: string[];
 } | null> {
-  let resolvedPath: string | undefined // 路径
-  let isTS = false // 是否是 ts
-  let isESM = false // 是否是 ES Module
-  let dependencies: string[] = [] // 依赖
+  let resolvedPath: string | undefined; // 路径
+  let isTS = false; // 是否是 ts
+  let isESM = false; // 是否是 ES Module
+  let dependencies: string[] = []; // 依赖
 
   // 检查 package.json 并检测类型，将 isESM 置为 true
   try {
-    const pkg = lookupFile(configRoot, ['package.json'])
+    const pkg = lookupFile(configRoot, ['package.json']);
     if (pkg && JSON.parse(pkg).type === 'module') {
-      isESM = true
+      isESM = true;
     }
   } catch (e) {}
 
   // 判定是否有 configFile 参数
   if (configFile) {
-    resolvedPath = path.resolve(configFile)
-    isTS = configFile.endsWith('.ts')
+    resolvedPath = path.resolve(configFile);
+    isTS = configFile.endsWith('.ts');
 
     if (configFile.endsWith('.mjs')) {
-      isESM = true
+      isESM = true;
     }
   } else {
     // 依次检测 configRoot 路径下是否有以下配置文件（fs.existsSync）：
@@ -120,30 +122,32 @@ function loadConfigFromFile(
     // vite.config.ts（存在则取其配置，并将 isESM = true）
     // vite.config.cjs（存在则取其配置，并将 isESM = false）
     // 按上面检测顺序优先级，取配置文件路径存储到 resolvedPath
-    resolvedPath = path.resolve(configRoot, 'vite.config.[xx]')
+    resolvedPath = path.resolve(configRoot, 'vite.config.[xx]');
     // 上面几个配置文件都没扫到，则直接返回 null
   }
 
   // 若均为取到配置文件的路径
   if (!resolvePath) {
-    debug('no config file found.')
-    return null
+    debug('no config file found.');
+    return null;
   }
 
-  let userConfig: UserConfigExport | undefined
+  let userConfig: UserConfigExport | undefined;
 
   if (isESM && isTS) {
-    const fileUrl = require('url').pathToFileURL(resolvedPath)
+    const fileUrl = require('url').pathToFileURL(resolvedPath);
     // esbuild 打包
-    const bundled = await bundleConfigFile(resolvedPath, true)
-    dependencies = bundled.dependencies
+    const bundled = await bundleConfigFile(resolvedPath, true);
+    dependencies = bundled.dependencies;
 
-    fs.writeFileSync(resolvedPath + '.js', bundled.code) // 暂存读取的配置
-    userConfig = (await dynamicImport(`${fileUrl}.js?t=${Date.now()}`)).default
-    fs.unlinkSync(resolvedPath + '.js') // 删除临时文件
+    fs.writeFileSync(resolvedPath + '.js', bundled.code); // 暂存读取的配置
+    userConfig = (await dynamicImport(`${fileUrl}.js?t=${Date.now()}`)).default;
+    fs.unlinkSync(resolvedPath + '.js'); // 删除临时文件
   }
 }
 ```
+
+:::
 
 ## 5. 解析应用插件
 
@@ -152,29 +156,30 @@ function loadConfigFromFile(
 ```ts
 // resolve plugins
 // 扁平数组，筛选应用在当前 command 下的插件
-const rawUserPlugins = (config.plugins || []).flat().filter(p => {
+const rawUserPlugins = (config.plugins || []).flat().filter((p) => {
   if (!p) {
-    return false
+    return false;
   } else if (!p.apply) {
-    return true
+    return true;
   } else if (typeof p.apply === 'function') {
-    return p.apply({ ...config, mode }, configEnv)
+    return p.apply({ ...config, mode }, configEnv);
   } else {
-    return p.apply === command
+    return p.apply === command;
   }
-}) as Plugin[]
+}) as Plugin[];
 // sortUserPlugins 方法根据插件的 enforce 参数进行排序：
 // pre： Vite 核心插件之【前】调用
 // 默认： Vite 核心插件之【后】调用
 // post： Vite 核心插件之【后】调用
-const [prePlugins, normalPlugins, postPlugins] = sortUserPlugins(rawUserPlugins)
+const [prePlugins, normalPlugins, postPlugins] =
+  sortUserPlugins(rawUserPlugins);
 // 执行 plugin.config 钩子函数，再次配置
-const userPlugins = [...prePlugins, ...normalPlugins, ...postPlugins]
+const userPlugins = [...prePlugins, ...normalPlugins, ...postPlugins];
 for (const p of userPlugins) {
   if (p.config) {
-    const res = await p.config(config, configEnv)
+    const res = await p.config(config, configEnv);
     if (res) {
-      config = mergeConfig(config, res)
+      config = mergeConfig(config, res);
     }
   }
 }
@@ -190,17 +195,17 @@ const clientAlias = [
   /* ENV_ENTRY 为 vite package 下的 `dist/client/env.mjs` 文件 */
   { find: /^[\/]?@vite\/env/, replacement: () => ENV_ENTRY },
   /* CLIENT_ENTRY 为 vite package 下的 `dist/client/client.mjs` 文件 */
-  { find: /^[\/]?@vite\/client/, replacement: () => CLIENT_ENTRY }
-]
+  { find: /^[\/]?@vite\/client/, replacement: () => CLIENT_ENTRY },
+];
 const resolvedAlias = mergeAlias(
   clientAlias,
-  config.resolve?.alias || config.alias || []
-)
+  config.resolve?.alias || config.alias || [],
+);
 const resolveOptions: ResolvedConfig['resolve'] = {
   dedupe: config.dedupe,
   ...config.resolve,
-  alias: resolvedAlias
-}
+  alias: resolvedAlias,
+};
 ```
 
 ## 7. 配置用户环境变量
@@ -215,21 +220,21 @@ const resolveOptions: ResolvedConfig['resolve'] = {
 
 ```ts
 const resolvedRoot = normalizePath(
-  config.root ? path.resolve(config.root) : process.cwd()
-)
+  config.root ? path.resolve(config.root) : process.cwd(),
+);
 
 const envDir = config.envDir
   ? normalizePath(path.resolve(resolvedRoot, config.envDir))
-  : resolvedRoot
+  : resolvedRoot;
 
 const userEnv =
   inlineConfig.envFile !== false &&
-  loadEnv(mode, envDir, resolveEnvPrefix(config))
+  loadEnv(mode, envDir, resolveEnvPrefix(config));
 
-const isProduction = (process.env.VITE_USER_NODE_ENV || mode) === 'production'
+const isProduction = (process.env.VITE_USER_NODE_ENV || mode) === 'production';
 if (isProduction) {
   // in case default mode was not production and is overwritten
-  process.env.NODE_ENV = 'production'
+  process.env.NODE_ENV = 'production';
 }
 ```
 
@@ -239,82 +244,82 @@ if (isProduction) {
 function loadEnv(
   mode: string,
   envDir: string,
-  prefixes: string | string[] = 'VITE_'
+  prefixes: string | string[] = 'VITE_',
 ): Record<string, string> {
-  prefixes = arraify(prefixes) // string => string[]
-  const env: Record<string, string> = {}
-  const envFiles = [`.env.${mode}.local`, `.env.${mode}`, `.env.local`, `.env`]
+  prefixes = arraify(prefixes); // string => string[]
+  const env: Record<string, string> = {};
+  const envFiles = [`.env.${mode}.local`, `.env.${mode}`, `.env.local`, `.env`];
 
   for (const key in process.env) {
     if (
-      prefixes.some(prefix => key.startsWith(prefix)) &&
+      prefixes.some((prefix) => key.startsWith(prefix)) &&
       env[key] === undefined
     ) {
-      env[key] = process.env[key] as string
+      env[key] = process.env[key] as string;
     }
   }
 
   for (const file of envFiles) {
-    const path = lookupFile(envDir, [file], true)
+    const path = lookupFile(envDir, [file], true);
     if (path) {
       const parsed = dotenv.parse(fs.readFileSync(path), {
-        debug: !!process.env.DEBUG || undefined
-      })
+        debug: !!process.env.DEBUG || undefined,
+      });
 
       // let environment variables use each other
       dotenvExpand({
         parsed,
         // prevent process.env mutation
-        ignoreProcessEnv: true
-      } as any)
+        ignoreProcessEnv: true,
+      } as any);
 
       // only keys that start with prefix are exposed to client
       for (const [key, value] of Object.entries(parsed)) {
         if (
-          prefixes.some(prefix => key.startsWith(prefix)) &&
+          prefixes.some((prefix) => key.startsWith(prefix)) &&
           env[key] === undefined
         ) {
-          env[key] = value
+          env[key] = value;
         } else if (key === 'NODE_ENV') {
           // NODE_ENV override in .env file
-          process.env.VITE_USER_NODE_ENV = value
+          process.env.VITE_USER_NODE_ENV = value;
         }
       }
     }
   }
-  return env
+  return env;
 }
 ```
 
 ## 8. 解析相关配置
 
-- [BASE_URL 🔗](https://cn.vitejs.dev/config/#base)
+- [BASE_URL 🔗](https://cn.vitejs.dev/config/)
 - [buildOptions 🔗](https://cn.vitejs.dev/config/#build-options)
-- [cacheDir 🔗](https://cn.vitejs.dev/config/#cachedir)
-- [assetsFilter 🔗](https://cn.vitejs.dev/config/#assetsinclude)
-- [publicDir 🔗](https://cn.vitejs.dev/config/#publicdir)
+- [cacheDir 🔗](https://cn.vitejs.dev/config/shared-options#cachedir)
+- [assetsFilter 🔗](https://cn.vitejs.dev/config/shared-options#assetsinclude)
+- [publicDir 🔗](https://cn.vitejs.dev/config/shared-options#publicdir)
 
 ```ts
-const BASE_URL = resolveBaseUrl(config.base, command === 'build', logger)
-const resolvedBuildOptions = resolveBuildOptions(resolvedRoot, config.build)
+const BASE_URL = resolveBaseUrl(config.base, command === 'build', logger);
+const resolvedBuildOptions = resolveBuildOptions(resolvedRoot, config.build);
 // resolve cache directory
-const pkgPath = lookupFile(resolvedRoot, [`package.json`], true /* pathOnly */)
+const pkgPath = lookupFile(resolvedRoot, [`package.json`], true /* pathOnly */);
 const cacheDir = config.cacheDir
   ? path.resolve(resolvedRoot, config.cacheDir)
-  : pkgPath && path.join(path.dirname(pkgPath), `node_modules/.vite`)
+  : pkgPath && path.join(path.dirname(pkgPath), `node_modules/.vite`);
 
 const assetsFilter = config.assetsInclude
   ? createFilter(config.assetsInclude)
-  : () => false
+  : () => false;
 
-const { publicDir } = config
+const { publicDir } = config;
 const resolvedPublicDir =
   publicDir !== false && publicDir !== ''
     ? path.resolve(
         resolvedRoot,
-        typeof publicDir === 'string' ? publicDir : 'public'
+        typeof publicDir === 'string' ? publicDir : 'public',
       )
-    : ''
+    : '';
 ```
 
 ## 9. 添加内置插件
@@ -322,31 +327,31 @@ const resolvedPublicDir =
 如 css 解析，ts 解析等，并对所有插件 [排序](https://cn.vitejs.dev/guide/api-plugin.html#handlehotupdate)
 
 ```ts
-;(resolved.plugins as Plugin[]) = await resolvePlugins(
+(resolved.plugins as Plugin[]) = await resolvePlugins(
   resolved,
   prePlugins,
   normalPlugins,
-  postPlugins
-)
+  postPlugins,
+);
 // call configResolved hooks
-await Promise.all(userPlugins.map(p => p.configResolved?.(resolved)))
+await Promise.all(userPlugins.map((p) => p.configResolved?.(resolved)));
 
 async function resolvePlugins(
   config: ResolvedConfig,
   prePlugins: Plugin[],
   normalPlugins: Plugin[],
-  postPlugins: Plugin[]
+  postPlugins: Plugin[],
 ): Promise<Plugin[]> {
-  const isBuild = config.command === 'build'
+  const isBuild = config.command === 'build';
 
   const buildPlugins = isBuild
     ? (await import('../build')).resolveBuildPlugins(config)
-    : { pre: [], post: [] }
+    : { pre: [], post: [] };
 
   return [
     /* 插件排序 */
     /* 详情可见下面的 【插件机制】 一文 */
-  ].filter(Boolean) as Plugin[]
+  ].filter(Boolean) as Plugin[];
 }
 ```
 
@@ -355,15 +360,15 @@ async function resolvePlugins(
 ```ts
 // create an internal resolver to be used in special scenarios, e.g.
 // optimizer & handling css @imports
-const createResolver: ResolvedConfig['createResolver'] = options => {
-  let aliasContainer: PluginContainer | undefined
-  let resolverContainer: PluginContainer | undefined
+const createResolver: ResolvedConfig['createResolver'] = (options) => {
+  let aliasContainer: PluginContainer | undefined;
+  let resolverContainer: PluginContainer | undefined;
   return async (id, importer, aliasOnly, ssr) => {
-    let container: PluginContainer
+    let container: PluginContainer;
     // 创建 container
-    return (await container.resolveId(id, importer, { ssr }))?.id
-  }
-}
+    return (await container.resolveId(id, importer, { ssr }))?.id;
+  };
+};
 ```
 
 ## 11. 执行 Hook 函数
@@ -371,12 +376,12 @@ const createResolver: ResolvedConfig['createResolver'] = options => {
 [plugin.configResolved](https://cn.vitejs.dev/guide/api-plugin.html#configresolved)
 
 ```ts
-await Promise.all(userPlugins.map(p => p.configResolved?.(resolved)))
+await Promise.all(userPlugins.map((p) => p.configResolved?.(resolved)));
 ```
 
 ## 12. 汇总 `resolved`
 
-这里有 [用户 env 中额外的数据](https://cn.vitejs.dev/guide/env-and-mode.html#env-variables)
+这里有 [用户 env 中额外的变量数据](https://cn.vitejs.dev/guide/env-and-mode.html#env-variables)
 
 ```ts
 const resolved: ResolvedConfig = {
@@ -401,10 +406,10 @@ const resolved: ResolvedConfig = {
     BASE_URL,
     MODE: mode,
     DEV: !isProduction,
-    PROD: isProduction
+    PROD: isProduction,
   },
   assetsInclude(file: string) {
-    return DEFAULT_ASSETS_RE.test(file) || assetsFilter(file)
+    return DEFAULT_ASSETS_RE.test(file) || assetsFilter(file);
   },
   logger,
   packageCache: new Map(),
@@ -414,8 +419,8 @@ const resolved: ResolvedConfig = {
     esbuildOptions: {
       keepNames: config.optimizeDeps?.keepNames,
       preserveSymlinks: config.resolve?.preserveSymlinks,
-      ...config.optimizeDeps?.esbuildOptions
-    }
-  }
-}
+      ...config.optimizeDeps?.esbuildOptions,
+    },
+  },
+};
 ```

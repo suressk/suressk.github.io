@@ -2,9 +2,11 @@
 title: Vite 源码解读
 ---
 
+## 目录结构
+
 > 版本： `3.0.0-alpha.1` (部分内容是基于 `2.7.0-bate.9` 版看的)
 
-## 目录结构
+::: details Dir
 
 > `vite`<br>
 > | 📁 `bin`<br>
@@ -41,6 +43,8 @@ title: Vite 源码解读
 > | — | — | — utils.ts<br>
 > | 📁 `types`<br>
 > | 📁 ... // other files<br>
+
+:::
 
 ## 原理梗概
 

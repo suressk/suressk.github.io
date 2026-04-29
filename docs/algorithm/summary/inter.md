@@ -6,7 +6,7 @@ title: Summary of Interview Algorithm
 
 ## 1. 括号字符串匹配：
 
-```js
+```ts
 // 对应 LeetCode 第 20 题
 // 实现一个 isMatch 函数，输入字符只有 '()[]{}' 三种括号字符之中的若干项，
 // 要求括号成对匹配且左右顺序不可颠倒
@@ -15,20 +15,24 @@ title: Summary of Interview Algorithm
 // '(([]))' // true
 // '()[]{}(())' // true
 // '())([]()' // false
+```
 
+:::details code
+
+```ts
 // 实现方案如下：
 const isMatch = (str) => {
-  if (typeof str !== "string" || str.length % 2 === 1) {
+  if (typeof str !== 'string' || str.length % 2 === 1) {
     return false;
   }
   // 直接用普通 对象 也可以
   const brackets = new Map([
-    ["(", 1],
-    ["[", 1],
-    ["{", 1],
-    [")", "("],
-    ["]", "["],
-    ["}", "{"],
+    ['(', 1],
+    ['[', 1],
+    ['{', 1],
+    [')', '('],
+    [']', '['],
+    ['}', '{'],
   ]);
   const stack = [];
   for (const item of str) {
@@ -50,176 +54,227 @@ const isMatch = (str) => {
 };
 ```
 
+:::
+
 ## 2. 数字对称判定
 
-```js
+```ts
 // 如数字 3，121，12321 成左右对称（在不转换类型的情况下，实现数字的对称判定）
 // 初始拿到这几个举例数字时，就直接想的是个位数单独判定，
 // 另外的开方再判定结果是不是整数不就行了吗？
 // 但比如 11, 123321 这种就不适用了
+```
+
+:::details code
+
+```ts
 // 回文数，实现如下（TypeScript）：
 const isPalindrome = (n: number) => {
   // 负数或个位为 0 的数字不可能对称
-  if (n < 0 || (n % 10 === 0 && n !== 0)) return false
-  let revertedNumber: number = 0
+  if (n < 0 || (n % 10 === 0 && n !== 0)) return false;
+  let revertedNumber: number = 0;
   while (n > revertedNumber) {
-    revertedNumber = revertedNumber * 10 + (n % 10)
-    n = ~~(n / 10) // 取整
+    revertedNumber = revertedNumber * 10 + (n % 10);
+    n = ~~(n / 10); // 取整
   }
-  return n === revertedNumber || n === ~~(revertedNumber / 10)
-}
+  return n === revertedNumber || n === ~~(revertedNumber / 10);
+};
 ```
+
+:::
 
 ## 3. 字符串解析编译
 
-```js
+```ts
 // 描述：给定字符串如：'a[2]bc[3](def)[4]((g[2]h)[1]i)[2]'
 // 通过函数实现编译解析，输出：'aabcccdefdefdefdefgghigghi'，不可使用正则表达式
 // 即：[] 中数字表示其重复次数，小括号表示一个整体，存在多层嵌套的情况
 // 提升：[] 中的数字可以是计算表达式，如：'a[1+2*10]'
-
-// 初步实现方案如下 (部分实现)：
-const compileStr = (str: string) => {
-  // TODO ...
-  if (typeof str !== 'string' || str.length === 0) return ''
-  const stack = []
-  let res = '' /* 最终结果字符串 */,
-    cache = '' /* 中间缓存字串 */,
-    num = 0 /* 重复次数 */,
-    level = 0 /* 记录成组数 */
-  for (const char of str) {
-    if (char === '(') {
-      cache = ''
-      level++
-    } else if (char === ')') {
-      // 一个组结束
-      level--
-    } else if (char === '[') {
-      // 后续是重复次数
-      stack.push(cache)
-      cache = ''
-    } else if (char === ']') {
-      // 一个组的重复次数结束
-      if (level === 0) {
-        res += stack.join('').repeat(num)
-      } else {
-        cache += stack.join('').repeat(num)
-      }
-      stack.length = 0
-      num = 0 // 计数置0
-    } else if (!isNaN(char)) {
-      // 是数字字符
-      num = num * 10 + Number(char) // 数字可能不只是个位数重复
-    } else {
-      // 普通字符
-      if (cache !== '') {
-        // 前一个是普通字符
-        if (level === 0) {
-          // 没有分组
-          res += cache
-          cache = char
-        } else {
-          // 已有分组
-          cache += char
-        }
-      } else {
-        cache = char
-      }
-      // 有成组的字符
-    }
-  }
-  return res
-}
-
-const str1 = 'a[2]bc[3](def)[4]((g[2]h)[1]i)[2]' // √
-console.log(`${str1}: `, compileStr(str1))
-const str2 = 'a[2]bc[3]' // √
-console.log(`${str2}: `, compileStr(str2))
-const str3 = 'a[2]bc[3](def)[4]' // √
-console.log(`${str3}: `, compileStr(str3))
-const str4 = '(a[2]bc[3])[3](def)[4]' // aabcccaabcccaabcccdefdefdefdef // ×
-console.log(`${str4}: `, compileStr(str4)) // 此结果尚还不对，待做......
 ```
+
+:::details code
+
+```ts
+// 递归+栈实现，支持嵌套和表达式
+const compileStr = (str: string): string => {
+  if (typeof str !== 'string' || str.length === 0) return '';
+
+  // 解析表达式（安全起见仅允许数字和+ - * / 空格）
+  function safeEval(expr: string): number {
+    if (!/^[-+*/\d\s]+$/.test(expr)) throw new Error('Invalid expression');
+    // eslint-disable-next-line no-eval
+    return Function('return ' + expr)();
+  }
+
+  function parse(s: string, i: { value: number }): string {
+    let res = '';
+    while (i.value < s.length) {
+      const char = s[i.value];
+      if (char === '(') {
+        i.value++;
+        const group = parse(s, i);
+        // 处理 group 后面可能跟 [num]
+        if (s[i.value] === '[') {
+          i.value++;
+          let expr = '';
+          while (i.value < s.length && s[i.value] !== ']') {
+            expr += s[i.value++];
+          }
+          i.value++; // 跳过 ]
+          const repeat = safeEval(expr);
+          res += group.repeat(repeat);
+        } else {
+          res += group;
+        }
+      } else if (char === ')') {
+        i.value++;
+        return res;
+      } else if (char === '[') {
+        // 只重复最后一个字符或分组
+        let last = '';
+        if (res.length > 0) {
+          last = res[res.length - 1];
+          res = res.slice(0, -1);
+        }
+        i.value++;
+        let expr = '';
+        while (i.value < s.length && s[i.value] !== ']') {
+          expr += s[i.value++];
+        }
+        i.value++; // 跳过 ]
+        const repeat = safeEval(expr);
+        res += last.repeat(repeat);
+      } else {
+        res += char;
+        i.value++;
+      }
+    }
+    return res;
+  }
+
+  return parse(str, { value: 0 });
+};
+
+// 测试用例
+const str1 = 'a[2]bc[3](def)[4]((g[2]h)[1]i)[2]';
+console.log(`${str1}:`);
+console.log(`实际输出：${compileStr(str1)}`);
+console.log(`预期输出：aabcccdefdefdefdefgghigghi\n`);
+
+const str2 = 'a[2]bc[3]';
+console.log(`${str2}:`);
+console.log(`实际输出：${compileStr(str2)}`);
+console.log(`预期输出：aabccc\n`);
+
+const str3 = 'a[2]bc[3](def)[4]';
+console.log(`${str3}:`);
+console.log(`实际输出：${compileStr(str3)}`);
+console.log(`预期输出：aabcccdefdefdefdef\n`);
+
+const str4 = '(a[2]bc[3])[3](def)[4]';
+console.log(`${str4}:`);
+console.log(`实际输出：${compileStr(str4)}`);
+console.log(`预期输出：aabcccaabcccaabcccdefdefdefdef\n`);
+
+// 进阶测试（支持表达式）
+const str5 = 'a[1+2]b[2*3]c';
+console.log(`${str5}:`);
+console.log(`实际输出：${compileStr(str5)}`);
+console.log(`预期输出：aaabbbbbbc\n`);
+```
+
+:::
 
 ## 4. 斐波那契数列
 
-```js
+```ts
 // 传入一个非负整数，获取斐波那契数列该项的值，并优化
+```
+
+:::details code
+
+```ts
 // 方案一（简单递归实现，存在调用栈内存溢出问题）：
 const recursionFib = (n: number) => {
   if (n < 0) {
-    throw new Error('The required parameters must be non-negative integers.')
+    throw new Error('The required parameters must be non-negative integers.');
   }
-  if (n === 0 || n === 1) return n
-  return recursionFib(n - 1) + recursionFib(n - 2)
-}
+  if (n === 0 || n === 1) return n;
+  return recursionFib(n - 1) + recursionFib(n - 2);
+};
 
 // 方案二（缓存优化）：
 const cacheFib = (function () {
-  const cacheArr: number[] = [0, 1]
+  const cacheArr: number[] = [0, 1];
   return function (n: number) {
     if (n < 0) {
-      throw new Error('The required parameters must be non-negative integers.')
+      throw new Error('The required parameters must be non-negative integers.');
     }
     if (cacheArr[n] !== undefined) {
-      return cacheArr[n]
+      return cacheArr[n];
     }
     for (let i = 2; i <= n; i++) {
-      cacheArr[i] = cacheArr[i - 1] + cacheArr[i - 2]
+      cacheArr[i] = cacheArr[i - 1] + cacheArr[i - 2];
     }
-    return cacheArr[n]
-  }
-})()
+    return cacheArr[n];
+  };
+})();
 
 // 方案三（动态规划）：
 const dynamicFib = (n: number) => {
   if (n < 0) {
-    throw new Error('The required parameters must be non-negative integers.')
+    throw new Error('The required parameters must be non-negative integers.');
   }
-  let current = 0
-  let next = 1
+  let current = 0;
+  let next = 1;
   while (n-- > 0) {
-    ;[current, next] = [next, current + next]
+    [current, next] = [next, current + next];
   }
-  return current
-}
+  return current;
+};
 
 // 方案四（ES6尾调用优化）：
-;('use strict') // 必须开启严格模式
+('use strict'); // 必须开启严格模式
 const tailCallFib = (n: number, current = 0, next = 1) => {
   if (n < 0) {
-    throw new Error('The required parameters must be non-negative integers.')
+    throw new Error('The required parameters must be non-negative integers.');
   }
-  if (n === 0) return 0
-  if (n === 1) return next
-  return tailCallFib(n - 1, next, current + next)
-}
+  if (n === 0) return 0;
+  if (n === 1) return next;
+  return tailCallFib(n - 1, next, current + next);
+};
 ```
+
+:::
 
 ## 5. 遍历二叉树
 
-```js
+```ts
 // 例如，遍历二叉树，示例结构如下：
 const testData = {
   value: 1,
   left: {
     value: 2,
     right: {
-      value: 4
-    }
+      value: 4,
+    },
   },
   right: {
     value: 3,
     left: {
-      value: 5
+      value: 5,
     },
     right: {
-      value: 6
-    }
-  }
-}
+      value: 6,
+    },
+  },
+};
 // 输出根节点到叶子节点：[[1, 2, 4], [1, 3, 5], [1, 3, 6]]
+```
 
+:::details code
+
+```ts
 interface TreeNode {
   value: number;
   left?: TreeNode | null;
@@ -281,9 +336,11 @@ function pathToLeaves(root: TreeNode | null): number[][] {
 }
 ```
 
+:::
+
 ## 6. 找出数组中第 k 大的和第 m 大的数字相加之和
 
-```js
+```ts
 /* 描述：
  * 找出数组中第k大和第m大的数字相加之和
  * 说明：实现一个方法，找出数组中第k大的和第m大的数字相加之和
@@ -292,6 +349,11 @@ function pathToLeaves(root: TreeNode | null): number[][] {
  *   findTopSum(arr, k, m);
  *   第2大的数是4，出现2次，第4大的是2，出现1次，所以结果为10
  * */
+```
+
+:::details code
+
+```ts
 function findTopSum(arr, k, m) {
   const temp = Array.from(new Set(arr)); // 数组去重
   temp.sort((a, b) => b - a); // 去重之后的数组从大到小进行排序
@@ -310,9 +372,11 @@ function findTopSum(arr, k, m) {
 }
 ```
 
+:::
+
 ## 7. 实现一个方法 addJoin
 
-```js
+```ts
 /**
  * 描述：
  * 实现一个方法 addJoin(arr, condition)
@@ -322,6 +386,11 @@ function findTopSum(arr, k, m) {
  *   addJoin(arr, item => item !== 3); // [[1, 2], 3, [4, 5]]
  *   addJoin(arr, item => item < 3); // [[1, 2], 3, 4, 5]
  * */
+```
+
+:::details code
+
+```ts
 function addJoin(arr, condition) {
   const len = arr.length;
   if (len === 0) return [];
@@ -348,9 +417,11 @@ function addJoin(arr, condition) {
 }
 ```
 
+:::
+
 ## 8. 实现一个方法 EatMan
 
-```js
+```ts
 // 分别输出如下：
 // 1. EatMan('Hank')
 //     Hi! This is Hank!
@@ -367,7 +438,11 @@ function addJoin(arr, condition) {
 //     Eat lunch~
 //     Hi! This is Hank!
 //     Eat dinner~
+```
 
+:::details code
+
+```ts
 function EatMan(name) {
   return new _EatMan(name); // 返回一个实例
 }
@@ -376,21 +451,21 @@ class _EatMan {
   constructor(name) {
     this.tasks = [];
     this.tasks.push({
-      type: "EatMan",
+      type: 'EatMan',
       name,
     });
     this.next();
   }
   eat(thing) {
     this.tasks.push({
-      type: "eat",
+      type: 'eat',
       name: thing,
     });
     return this; // 要实现链式调用的效果，则必须返回当前实例
   }
   eatFirst(thing) {
     this.tasks.unshift({
-      type: "eatFirst",
+      type: 'eatFirst',
       name: thing,
     });
     return this;
@@ -404,7 +479,7 @@ class _EatMan {
   runTask() {
     this.tasks.forEach((task) => {
       switch (task.type) {
-        case "EatMan":
+        case 'EatMan':
           console.log(`Hi! This is ${task.name}!`);
           break;
         default:
@@ -415,6 +490,8 @@ class _EatMan {
   }
 }
 ```
+
+:::
 
 ## 9. 找出趋近 limit 的值
 
@@ -430,6 +507,12 @@ class _EatMan {
   limit = 59996 => 返回：59995
   limit = 25218 => 返回：24999
 */
+```
 
+:::details code
+
+```ts
 TODO～
 ```
+
+:::

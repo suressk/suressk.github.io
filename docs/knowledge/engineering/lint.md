@@ -78,23 +78,23 @@ pnpm i eslint-config-suressk -D
 
 ```bash
 # master branch
-[main]
+$ [main]
 
 # release branch with version-number
-[release/v1.0.5]
+$ [release/v1.0.5]
 
 # new features of Iteration-version-number
-[feat/v3.9]
+$ [feat/v3.9]
 # new feature of achieving reactivity
-[feat/reactivity]
+$ [feat/reactivity]
 
 # hotfix branch of issues-number
-[fix/issues-31]
+$ [fix/issues-31]
 # Often occurs when multiple people collaborate
 # hotfix branch of someone to fix the issue-number
-[fix/saul-issues-31]
+$ [fix/saul-issues-31]
 # hotfix branch of bug-name and issue-number
-[fix/saul-type-call-31]
+$ [fix/saul-type-call-31]
 ```
 
 ## Husky 添加 git-hooks
@@ -155,9 +155,7 @@ pnpm i eslint-config-suressk -D
       }
     },
     "lint-staged": {
-      "*": [
-        "eslint . --fix"
-      ]
+      "*": ["eslint . --fix"]
     }
   }
   ```
@@ -219,29 +217,29 @@ pnpm i eslint-config-suressk -D
   这里写几个示例的 `utils` 方法：
 
   ```ts
-  import minimist from 'minimist'
-  import execa from 'execa'
-  import fsExtra from 'fs-extra'
-  import type { Options as ExecaOptions } from 'execa'
+  import minimist from 'minimist';
+  import execa from 'execa';
+  import fsExtra from 'fs-extra';
+  import type { Options as ExecaOptions } from 'execa';
 
   // get shell command arguments
-  export const args = minimist(process.argv.slice(2))
+  export const args = minimist(process.argv.slice(2));
 
   // run shell command
   export async function run(
     bin: string,
     args: string[],
-    opts: ExecaOptions<string> = {}
+    opts: ExecaOptions<string> = {},
   ) {
     // such as: run('git', ['commit', '-m', commitMsg])
-    return execa(bin, args, { stdio: 'inherit', ...opts })
+    return execa(bin, args, { stdio: 'inherit', ...opts });
   }
 
   // update 'package.json' version
   export function updateVersion(pkgPath: string, version: string): void {
-    const pkg = fsExtra.readJSONSync(pkgPath)
-    pkg.version = version
-    writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n')
+    const pkg = fsExtra.readJSONSync(pkgPath);
+    pkg.version = version;
+    writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n');
   }
   ```
 

@@ -163,6 +163,8 @@ const uploadChunks = async (
 
 针对失败的分片，进行最多 `N` 次的重试
 
+::: details code
+
 ```ts
 import pLimit from 'p-limit';
 
@@ -236,6 +238,8 @@ const uploadChunkWithRetry = async (
   );
 };
 ```
+
+:::
 
 ### 3. 断点续传
 

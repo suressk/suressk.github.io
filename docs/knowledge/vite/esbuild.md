@@ -28,33 +28,33 @@ title: 依赖预构建功能分析
 ```ts
 // src/node/server/index.ts
 export async function createServer(
-  inlineConfig: InlineConfig = {}
+  inlineConfig: InlineConfig = {},
 ): Promise<ViteDevServer> {
   // ... other code
 
   if (!middlewareMode && httpServer) {
-    let isOptimized = false
+    let isOptimized = false;
     // overwrite listen to run optimizer before server start
-    const listen = httpServer.listen.bind(httpServer)
+    const listen = httpServer.listen.bind(httpServer);
     httpServer.listen = (async (port: number, ...args: any[]) => {
       if (!isOptimized) {
         try {
-          await container.buildStart({})
-          await runOptimize()
-          isOptimized = true
+          await container.buildStart({});
+          await runOptimize();
+          isOptimized = true;
         } catch (e) {
-          httpServer.emit('error', e)
-          return
+          httpServer.emit('error', e);
+          return;
         }
       }
-      return listen(port, ...args)
-    }) as any
+      return listen(port, ...args);
+    }) as any;
   } else {
-    await container.buildStart({})
-    await runOptimize()
+    await container.buildStart({});
+    await runOptimize();
   }
 
-  return server // 返回创建的 server 对象
+  return server; // 返回创建的 server 对象
 }
 ```
 
@@ -68,18 +68,18 @@ export async function createServer(
 // src/node/server/index.ts
 const runOptimize = async () => {
   if (config.cacheDir) {
-    server._isRunningOptimizer = true
+    server._isRunningOptimizer = true;
     try {
       server._optimizeDepsMetadata = await optimizeDeps(
         config,
-        config.server.force || server._forceOptimizeOnRestart
-      )
+        config.server.force || server._forceOptimizeOnRestart,
+      );
     } finally {
-      server._isRunningOptimizer = false
+      server._isRunningOptimizer = false;
     }
-    server._registerMissingImport = createMissingImporterRegisterFn(server)
+    server._registerMissingImport = createMissingImporterRegisterFn(server);
   }
-}
+};
 ```
 
 ## 3. `optimizeDeps` 函数
@@ -90,6 +90,8 @@ const runOptimize = async () => {
 - 解析 [开发者依赖优化配置](https://cn.vitejs.dev/config/#dep-optimization-options)，调用 `esbuild`，并存入 `cacheDir`
 - 存储构建的文件到 `cacheDir`
 
+::: details code
+
 ```ts
 async function optimizeDeps(
   config: ResolvedConfig,
@@ -97,12 +99,12 @@ async function optimizeDeps(
   asCommand = false,
   /* missing imports encountered after server has started */
   newDeps?: Record<string, string>,
-  ssr?: boolean
+  ssr?: boolean,
 ): Promise<DepOptimizationMetadata | null> {
   config = {
     ...config,
-    command: 'build'
-  }
+    command: 'build',
+  };
   // 构建模块映射关系 json 数据，包含每次构建的 hash 值与 browserHash
   /** 例如：
    * "optimized": {
@@ -113,71 +115,71 @@ async function optimizeDeps(
    *   }
    * }
    */
-  const dataPath = path.join(cacheDir, '_metadata.json')
+  const dataPath = path.join(cacheDir, '_metadata.json');
   // 生成此次构建 hash
-  const mainHash = getDepHash(root, config)
+  const mainHash = getDepHash(root, config);
   // .vite/_metadata.json 文件内容
   const data: DepOptimizationMetadata = {
     hash: mainHash,
     browserHash: mainHash,
-    optimized: {}
-  }
+    optimized: {},
+  };
   // 开发者的 force 参数决定是否每次都重新构建
   if (!force) {
-    let prevData: DepOptimizationMetadata | undefined
+    let prevData: DepOptimizationMetadata | undefined;
     try {
       // 加载上次构建的信息
-      prevData = JSON.parse(fs.readFileSync(dataPath, 'utf-8'))
+      prevData = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
     } catch (e) {}
     // hash is consistent, no need to re-bundle
     // 对比上次构建的 hash，相同则直接返回上次构建的结果
     if (prevData && prevData.hash === data.hash) {
-      log('Hash is consistent. Skipping. Use --force to override.')
-      return prevData
+      log('Hash is consistent. Skipping. Use --force to override.');
+      return prevData;
     }
   }
   // 判断缓存目录（node_modules/.vite）是否存在
   if (fs.existsSync(cacheDir)) {
     // 存在则清空缓存目录
-    emptyDir(cacheDir)
+    emptyDir(cacheDir);
   } else {
     // 否则创建缓存目录
-    fs.mkdirSync(cacheDir, { recursive: true })
+    fs.mkdirSync(cacheDir, { recursive: true });
   }
 
   // newDeps 参数是在服务启动后加入依赖时传入的依赖信息
-  let deps: Record<string, string>, missing: Record<string, string>
+  let deps: Record<string, string>, missing: Record<string, string>;
   if (!newDeps) {
     // 借助 esbuild 扫描源码，获取依赖
-    ;({ deps, missing } = await scanImports(config))
+    ({ deps, missing } = await scanImports(config));
   } else {
-    deps = newDeps
-    missing = {}
+    deps = newDeps;
+    missing = {};
   }
 
   // ...
 
-  const include = config.optimizeDeps?.include
+  const include = config.optimizeDeps?.include;
   if (include) {
     // 加入开发者指定的 include
   }
 
   // 加入开发者指定的 esbuildOptions
   const { plugins = [], ...esbuildOptions } =
-    config.optimizeDeps?.esbuildOptions ?? {}
+    config.optimizeDeps?.esbuildOptions ?? {};
 
   // use in CommonJS
-  await init // es-module-lexer exports.init
+  await init; // es-module-lexer exports.init
 
   // 扁平化依赖
   for (const id in deps) {
-    flatIdDeps[flattenId(id)] = deps[id]
+    flatIdDeps[flattenId(id)] = deps[id];
     // ...
     // 允许对 .js 文件使用 JSX parser 进行解析
     esbuildOptions.loader = {
       '.js': 'jsx',
-      ...esbuildOptions.loader
-    }
+      ...esbuildOptions.loader,
+    };
   }
 
   // 调用 esbuild.build 进行打包
@@ -197,14 +199,14 @@ async function optimizeDeps(
     define,
     plugins: [
       ...plugins,
-      esbuildDepPlugin(flatIdDeps, flatIdToExports, config, ssr)
+      esbuildDepPlugin(flatIdDeps, flatIdToExports, config, ssr),
     ],
-    ...esbuildOptions
-  })
+    ...esbuildOptions,
+  });
 
   // 重新写入 _metadata.json 文件
   for (const id of deps) {
-    const entry = deps[id]
+    const entry = deps[id];
     data.optimized[id] = {
       /* normalizePath 为 path.posix.normalize 格式化路径 */
       file: normalizePath(path.resolve(cacheDir, flattenId(id) + '.js')),
@@ -213,14 +215,16 @@ async function optimizeDeps(
         id,
         idToExports[id],
         meta.outputs,
-        cacheDirOutputPath
-      )
-    }
+        cacheDirOutputPath,
+      ),
+    };
   }
-  writeFile(dataPath, JSON.stringify(data, null, 2))
-  return data
+  writeFile(dataPath, JSON.stringify(data, null, 2));
+  return data;
 }
 ```
+
+:::
 
 ## 4. 获取依赖时，替换返回打包缓存的依赖包文件
 
@@ -232,57 +236,61 @@ async function optimizeDeps(
 `plugin.resolveId` 的作用是：如果返回一个值，则会替换源码中依赖，否则将名字传递给下一个插件处理，当匹配到依赖包名称后，通过 `tryOptimizedResolve` 函数修改依赖的路径
 通过浏览器的 devtool，可以看到文件里的 vue 路径变更为了 `node_modules/.vite/vue.js?v=3sf954g7`
 
+::: details code
+
 ```ts
-const bareImportRE = /^[\w@](?!.*:\/\/)/
+const bareImportRE = /^[\w@](?!.*:\/\/)/;
 function preAliasPlugin(): Plugin {
-  let server: ViteDevServer
+  let server: ViteDevServer;
   return {
     name: 'vite:pre-alias',
     configureServer(_server) {
-      server = _server
+      server = _server;
     },
     resolveId(id, importer, options) {
       if (!options?.ssr && bareImportRE.test(id)) {
-        return tryOptimizedResolve(id, server, importer)
+        return tryOptimizedResolve(id, server, importer);
       }
-    }
-  }
+    },
+  };
 }
 
 function tryOptimizedResolve(
   id: string,
   server: ViteDevServer,
-  importer?: string
+  importer?: string,
 ): string | undefined {
   // 构建结果缓存目录
-  const cacheDir = server.config.cacheDir
+  const cacheDir = server.config.cacheDir;
   // 预构建生成的构建信息
-  const depData = server._optimizeDepsMetadata
+  const depData = server._optimizeDepsMetadata;
 
-  if (!cacheDir || !depData) return
+  if (!cacheDir || !depData) return;
 
-  const getOptimizedUrl = (optimizedData: typeof depData.optimized[string]) => {
+  const getOptimizedUrl = (
+    optimizedData: (typeof depData.optimized)[string],
+  ) => {
     // 返回构建结果的依赖路径
     return (
       optimizedData.file +
       `?v=${depData.browserHash}${
         optimizedData.needsInterop ? `&es-interop` : ``
       }`
-    )
-  }
+    );
+  };
 
   // 检查依赖包是否被构建过，是则返回构建结果路径
-  const isOptimized = depData.optimized[id]
+  const isOptimized = depData.optimized[id];
   if (isOptimized) {
-    return getOptimizedUrl(isOptimized)
+    return getOptimizedUrl(isOptimized);
   }
 
-  if (!importer) return
-  let resolvedSrc: string | undefined
+  if (!importer) return;
+  let resolvedSrc: string | undefined;
   for (const [pkgPath, optimizedData] of Object.entries(depData.optimized)) {
     // 遍历 _metadata.json 的 optimized 内的依赖包映射
     // 依赖包名不存在则检测 _metadata.json 存储的下一个依赖包
-    if (!pkgPath.endsWith(id)) continue
+    if (!pkgPath.endsWith(id)) continue;
     // 匹配上，则比较导入源码路径与 _metadata.json 存的 src 路径是否匹配
 
     // == resolvedSrc 赋值
@@ -290,15 +298,19 @@ function tryOptimizedResolve(
     // 若匹配，则返回修改后的模块路径
     // 若不匹配，则不处理
     if (optimizedData.src === resolvedSrc) {
-      return getOptimizedUrl(optimizedData)
+      return getOptimizedUrl(optimizedData);
     }
   }
 }
 ```
 
+:::
+
 ## 5. 服务运行中检测依赖更新时重新构建
 
 大致流程是：请求新的依赖资源时，`preAliasPlugin` 的 `resolveId` 函数并未取到模块路径（`tryOptimizedResolve`），则将依赖包名称传递给 `resolvePlugin 插件`，判断引入依赖的文件是否也是依赖，是则重新构建
+
+::: details code
 
 ```ts
 function resolvePlugin(baseOptions: InternalResolveOptions): Plugin {
@@ -307,16 +319,16 @@ function resolvePlugin(baseOptions: InternalResolveOptions): Plugin {
     isProduction,
     asSrc,
     ssrConfig,
-    preferRelative = false
-  } = baseOptions
+    preferRelative = false,
+  } = baseOptions;
 
-  let server: ViteDevServer | undefined
-  const { target: ssrTarget, noExternal: ssrNoExternal } = ssrConfig ?? {}
+  let server: ViteDevServer | undefined;
+  const { target: ssrTarget, noExternal: ssrNoExternal } = ssrConfig ?? {};
 
   return {
     name: 'vite:resolve',
     configureServer(_server) {
-      server = _server
+      server = _server;
     },
     resolveId(id, importer, resolveOpts) {
       /*
@@ -324,12 +336,12 @@ function resolvePlugin(baseOptions: InternalResolveOptions): Plugin {
       2. 是则直接返回包名
       3. 检测依赖是否包含 commonjs 字段或是 commonjsHelrt.js 文件，不做处理，直接返回
       */
-      const browserExternalId = '__vite-browser-external'
+      const browserExternalId = '__vite-browser-external';
       if (id.startsWith(browserExternalId)) {
-        return id
+        return id;
       }
       if (/\?commonjs/.test(id) || id === 'commonjsHelpers.js') {
-        return
+        return;
       }
       // other code...
 
@@ -338,15 +350,15 @@ function resolvePlugin(baseOptions: InternalResolveOptions): Plugin {
       */
       // relative
       if (id.startsWith('.') || (preferRelative && /^\w/.test(id))) {
-        const basedir = importer ? path.dirname(importer) : process.cwd()
-        const fsPath = path.resolve(basedir, id)
+        const basedir = importer ? path.dirname(importer) : process.cwd();
+        const fsPath = path.resolve(basedir, id);
         // handle browser field mapping for relative imports
-        const normalizedFsPath = normalizePath(fsPath)
-        const pathFromBasedir = normalizedFsPath.slice(basedir.length)
+        const normalizedFsPath = normalizePath(fsPath);
+        const pathFromBasedir = normalizedFsPath.slice(basedir.length);
         if (pathFromBasedir.startsWith('/node_modules/')) {
           // normalize direct imports from node_modules to bare imports, so the
           // hashing logic is shared and we avoid duplicated modules #2503
-          const bareImport = pathFromBasedir.slice('/node_modules/'.length)
+          const bareImport = pathFromBasedir.slice('/node_modules/'.length);
           if (
             (res = tryNodeResolve(
               bareImport,
@@ -354,18 +366,20 @@ function resolvePlugin(baseOptions: InternalResolveOptions): Plugin {
               options,
               targetWeb,
               server,
-              ssr
+              ssr,
             )) &&
             res.id.startsWith(normalizedFsPath)
           ) {
-            return res
+            return res;
           }
         }
       }
 
       // other code...
       // 这里太多太杂了...
-    }
-  }
+    },
+  };
 }
 ```
+
+:::

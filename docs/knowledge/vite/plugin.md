@@ -26,6 +26,8 @@ plugin 是 vite 的核心功能，通过 plugin 实现预构建资源路径替�
 
 插件本质上就是一个实现了各个 hook 的对象，按 hook 的使用顺序如下排列：
 
+::: details code
+
 ```ts
 const vitePlugin = {
   name: 'vite-plugin-sure' /* [必须] 插件名称，用于错误消息和警告 */,
@@ -42,14 +44,14 @@ const vitePlugin = {
   buildStart(ctx, pluginOptions) {},
 
   /**
-   * srouce 为资源路径，importer 为引入此资源的文件
+   * source 为资源路径，importer 为引入此资源的文件
    * 如果有返回值，则将替换掉importer中引入的路径，
    * 同时将返回值传递给其他hook
    * 类型: [async, first]
    */
-  resolveId(ctx, srouce, importer, pluginOptions) {
+  resolveId(ctx, source, importer, pluginOptions) {
     // ...
-    return srouceId
+    return sourceId;
   },
 
   /**
@@ -59,7 +61,7 @@ const vitePlugin = {
    */
   load(ctx, id, srr) {
     // ...
-    return code
+    return code;
   },
 
   /**
@@ -69,7 +71,7 @@ const vitePlugin = {
    */
   transform(ctx, code, id, ssr) {
     // ...
-    return transformCode
+    return transformCode;
   },
 
   /**
@@ -91,7 +93,7 @@ const vitePlugin = {
    */
   config(config, env) {
     // ...
-    return mergeConfig
+    return mergeConfig;
   },
 
   /**
@@ -116,13 +118,17 @@ const vitePlugin = {
   /**
    * 触发热更新时的 hook，可以更加精确的控制 hmr
    */
-  handleHotUpdate(HmrContext) {}
-}
+  handleHotUpdate(HmrContext) {},
+};
 ```
+
+:::
 
 ## 解析插件
 
 插件的解析步骤发生在 `resolveConfig` 过程中，这里关注于插件 (`plugin`) 的解析
+
+::: details code
 
 ```ts
 async function resolveConfig(
@@ -225,22 +231,26 @@ async function resolveConfig(
 }
 ```
 
+:::
+
 ## `resolvePlugins`
+
+::: details code
 
 ```ts
 async function resolvePlugins(
   config: ResolvedConfig,
   prePlugins: Plugin[],
   normalPlugins: Plugin[],
-  postPlugins: Plugin[]
+  postPlugins: Plugin[],
 ): Promise<Plugin[]> {
   // build 模式 or dev 模式
-  const isBuild = config.command === 'build'
-  const isWatch = isBuild && !!config.build.watch
+  const isBuild = config.command === 'build';
+  const isWatch = isBuild && !!config.build.watch;
 
   const buildPlugins = isBuild
     ? (await import('../build')).resolveBuildPlugins(config)
-    : { pre: [], post: [] }
+    : { pre: [], post: [] };
 
   return [
     isWatch ? ensureWatchPlugin() : null,
@@ -262,7 +272,7 @@ async function resolvePlugins(
       isBuild,
       packageCache: config.packageCache,
       ssrConfig: config.ssr,
-      asSrc: true
+      asSrc: true,
     }),
     /* 'vite:optimized-deps' vite 内置优化依赖插件 */
     isBuild ? null : optimizedDepsPlugin(),
@@ -274,9 +284,9 @@ async function resolvePlugins(
     jsonPlugin(
       {
         namedExports: true,
-        ...config.json
+        ...config.json,
       },
-      isBuild
+      isBuild,
     ),
     /* 解析 webassembly */
     wasmHelperPlugin(config),
@@ -303,35 +313,39 @@ async function resolvePlugins(
     // applied after everything else
     ...(isBuild
       ? []
-      : [clientInjectionsPlugin(config), importAnalysisPlugin(config)])
-  ].filter(Boolean) as Plugin[]
+      : [clientInjectionsPlugin(config), importAnalysisPlugin(config)]),
+  ].filter(Boolean) as Plugin[];
 }
 ```
+
+:::
 
 ## `createPluginContainer`
 
 集中处理 `hook` 函数的执行，并确定各 `hook` 函数的返回值
 
+::: details code
+
 ```ts
 async function createPluginContainer(
   { plugins, logger, root, build: { rollupOptions } }: ResolvedConfig,
   moduleGraph?: ModuleGraph,
-  watcher?: FSWatcher
+  watcher?: FSWatcher,
 ): Promise<PluginContainer> {
-  const isDebug = process.env.DEBUG
+  const isDebug = process.env.DEBUG;
   // debugResolve, debugPluginResolve, debugPluginTransform
 
   const minimalContext: MinimalPluginContext = {
     meta: {
       rollupVersion: JSON.parse(fs.readFileSync(rollupPkgPath, 'utf-8'))
         .version,
-      watchMode: true
-    }
-  }
+      watchMode: true,
+    },
+  };
   function getModuleInfo(id: string) {
-    const module = moduleGraph?.getModuleById(id)
+    const module = moduleGraph?.getModuleById(id);
     // new Proxy 代理 module.info
-    return module.info
+    return module.info;
   }
 
   // 为每个异步 hook 创建的上下文
@@ -343,17 +357,17 @@ async function createPluginContainer(
   const container: PluginContainer = {
     /* 调用插件 options hook 函数 */
     options: await (async () => {
-      let options = rollupOptions
+      let options = rollupOptions;
       for (const plugin of plugins) {
-        if (!plugin.options) continue
+        if (!plugin.options) continue;
         options =
-          (await plugin.options.call(minimalContext, options)) || options
+          (await plugin.options.call(minimalContext, options)) || options;
       }
       return {
         acorn, // 'acorn': a javascript parser
         acornInjectPlugins: [],
-        ...options
-      }
+        ...options,
+      };
     })(),
 
     /* 上面 Proxy 代理的 module.info */
@@ -362,73 +376,75 @@ async function createPluginContainer(
     /* 调用插件的 buildStart hook */
     async buildStart() {
       await Promise.all(
-        plugins.map(plugin => {
+        plugins.map((plugin) => {
           if (plugin.buildStart) {
             return plugin.buildStart.call(
               new Context(plugin) as any,
-              container.options as NormalizedInputOptions
-            )
+              container.options as NormalizedInputOptions,
+            );
           }
-        })
-      )
+        }),
+      );
     },
 
     /* 调用插件的 resolveId hook */
     async resolveId(rawId, importer = join(root, 'index.html'), options) {
-      const ctx = new Context()
+      const ctx = new Context();
       for (const plugin of plugins) {
         const result = await plugin.resolveId.call(
           ctx as any,
           rawId,
           importer,
-          { ssr, scan }
-        )
-        if (!result) continue
+          { ssr, scan },
+        );
+        if (!result) continue;
       }
       // 返回 Partial<PartialResolvedId> 对象 / null
     },
 
     /* 调用插件的 load hook */
     async load(id, options) {
-      const ctx = new Context()
+      const ctx = new Context();
       for (const plugin of plugins) {
-        if (!plugin.load) continue
-        const result = await plugin.load.call(ctx as any, id, { ssr })
+        if (!plugin.load) continue;
+        const result = await plugin.load.call(ctx as any, id, { ssr });
         // return result || null
       }
     },
 
     /* 调用插件的 transform hook */
     async transform(code, id, options) {
-      const ctx = new TransformContext(id, code, inMap as SourceMap)
+      const ctx = new TransformContext(id, code, inMap as SourceMap);
       for (const plugin of plugins) {
         try {
-          result = await plugin.transform.call(ctx as any, code, id, { ssr })
+          result = await plugin.transform.call(ctx as any, code, id, { ssr });
         } catch (e) {
-          ctx.error(e)
+          ctx.error(e);
         }
       }
       return {
         code /* 转换后的代码 result.code */,
-        map: ctx._getCombinedSourcemap()
-      }
+        map: ctx._getCombinedSourcemap(),
+      };
     },
 
     /* buildEnd && closeBundle hook */
     async close() {
-      const ctx = new Context()
+      const ctx = new Context();
       await Promise.all(
-        plugins.map(p => p.buildEnd && p.buildEnd.call(ctx as any))
-      )
+        plugins.map((p) => p.buildEnd && p.buildEnd.call(ctx as any)),
+      );
       await Promise.all(
-        plugins.map(p => p.closeBundle && p.closeBundle.call(ctx as any))
-      )
-    }
-  }
+        plugins.map((p) => p.closeBundle && p.closeBundle.call(ctx as any)),
+      );
+    },
+  };
 
-  return container
+  return container;
 }
 ```
+
+:::
 
 ## 其他 Hook 函数
 
@@ -439,7 +455,7 @@ async function createPluginContainer(
 ```ts
 // tansformIndexHtml hook 在转换 index.html 时触发，在
 // createServer 函数中进行 hook 初始化
-server.transformIndexHtml = createDevHtmlTransformFn(server)
+server.transformIndexHtml = createDevHtmlTransformFn(server);
 ```
 
 ### `handleHotUpdate` Hook
@@ -447,16 +463,16 @@ server.transformIndexHtml = createDevHtmlTransformFn(server)
 ```ts
 // createServer 函数中，通过 chokidar.watch 返回的
 // watcher 监听文件变化：change, add, unlink
-watcher.on('change', async file => {
+watcher.on('change', async (file) => {
   // 格式化文件路径
-  file = normalizePath(file)
+  file = normalizePath(file);
   // 若是 package.json 文件变化，校验依赖是否变更
   // 删除 packageCache 中的缓存记录
 
   // 若是其他文件变更，更新 moduleGraph
   // 判断是否开启 hmr（默认开启）
-  await handleHMRUpdate(file, server) // 触发热更新
-})
+  await handleHMRUpdate(file, server); // 触发热更新
+});
 ```
 
 ## 插件的执行流程
