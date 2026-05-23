@@ -48,40 +48,48 @@ Fiber 可以理解为一种 `执行单元`，它本身也是一种 `数据结构
 
 2. 数据结构层面理解：
 
-   > 文件位置：[packages/react-reconciler/src/ReactFiber.js](https://github.com/facebook/react/blob/main/packages/react-reconciler/src/ReactFiber.new.js)
+   > 文件位置：[packages/react-reconciler/src/ReactFiber.js](https://github.com/facebook/react/blob/main/packages/react-reconciler/src/ReactFiber.js)
 
    一个 `fiber` 就是一个 `js对象`，每一个 React 元素就对应一个 Fiber 对象，它是基于链表实现的，主要利用其 `child`、`return`、`sibling` 属性来实现 React Fiber 机制（可控中断操作等）；fiber 对象的主要属性如下：
 
-   ```ts
-   type Fiber = {
-     // 标识 fiber 类型的标签 // 文件位置：packages/shared/ReactWorkTags.js
-     tag: WorkTag;
-     // 指向父节点
-     return: Fiber | null;
-     // 指向子节点
-     child: Fiber | null;
-     // 指向兄弟节点
-     sibling: Fiber | null;
-     // 在开始执行时设置 props 值
-     pendingProps: any;
-     // 在结束时设置的 props 值
-     memoizedProps: any;
-     // 当前 state
-     memoizedState: any;
-     // Effect 类型，详情查看以下 effectTag
-     effectTag: SideEffectTag;
-     // effect 节点指针，指向下一个 effect
-     nextEffect: Fiber | null;
-     // effect list 是单向链表，第一个 effect
-     firstEffect: Fiber | null;
-     // effect list 是单向链表，最后一个 effect
-     lastEffect: Fiber | null;
-     // work 的过期时间，可用于标识一个 work 优先级顺序
-     expirationTime: ExpirationTime;
-     // ... 还有一些其他属性
-   };
-   ```
+      ```ts
+      interface Fiber {
+        // 标识 fiber 类型的标签 // 文件位置：packages/shared/ReactWorkTags.js
+        tag: WorkTag
+        // 指向父节点
+        return: Fiber | null
+        // 指向子节点
+        child: Fiber | null
+        // 指向兄弟节点
+        sibling: Fiber | null
+        // 在开始执行时设置 props 值
+        pendingProps: any
+        // 在结束时设置的 props 值
+        memoizedProps: any
+        // 当前 state
+        memoizedState: any
+        // Effect 类型，详情查看以下 effectTag
+        effectTag: SideEffectTag
+        // effect 节点指针，指向下一个 effect
+        nextEffect: Fiber | null
+        // effect list 是单向链表，第一个 effect
+        firstEffect: Fiber | null
+        // effect list 是单向链表，最后一个 effect
+        lastEffect: Fiber | null
+        // work 的过期时间，可用于标识一个 work 优先级顺序
+        expirationTime: ExpirationTime
+        // ... 还有一些其他属性
+      }
+      ```
 
 ## Fiber 是如何工作的
 
-> TODO~
+> Fiber工作原理中最核心的点就是：可以 `中断` 和 `恢复`，这个特性增强了 `React` 的并发性和响应性
+
+Fiber工作原理中的几个关键点在于：`单元工作`、`链接属性`、`双缓存机制`、`State 和 Props`、`副作用的追踪`
+
+- 单元工作：每个 Fiber 节点代表一个单元，所有 Fiber 节点共同组成一个Fiber链表树（有链接属性，同时又有树的结构），这种结构让 React 可以细粒度控制节点的行为
+
+- 链接属性：`child`、`sibling` 和 `return` 字段构成了 Fiber 之间的链接关系，使 React 能够遍历组件树并知道从哪里开始、继续或停止工作
+
+- 双缓存机制：React在更新时，会根据现有的Fiber树（Current Tree）创建一个新的临时树（Work-in-progress (WIP) Tree），WIP-Tree包含了当前更新受影响的最高节点直至其所有子孙节点。Current Tree是当前显示在页面上的视图，WIP-Tree则是在后台进行更新，WIP-Tree更新完成后会复制其它节点，并最终替换掉Current Tree，成为新的Current Tree。因为React在更新时总是维护了两个Fiber树，所以可以随时进行比较、中断或恢复等操作，而且这种机制让React能够同时具备拥有优秀的渲染性能和UI的稳定性
