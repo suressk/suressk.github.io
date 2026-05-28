@@ -2,6 +2,12 @@
   "name": "K.island",
   "version": "1.0.0",
   "description": "K.'s static site",
+  "scripts": {
+    "dev": "vitepress dev docs --host",
+    "build": "vitepress build docs",
+    "serve": "vitepress serve docs",
+    "lint": "eslint --config eslint.config.mjs docs/**/*.{ts,vue,md} --fix"
+  },
   "author": {
     "name": "suressk",
     "email": "suresskun@outlook.com"
@@ -10,11 +16,6 @@
   "repository": "https://github.com/suressk/suressk.github.io",
   "bugs": {
     "url": "https://github.com/suressk/suressk.github.io/issues"
-  },
-  "scripts": {
-    "dev": "vitepress dev docs --host",
-    "build": "vitepress build docs",
-    "serve": "vitepress serve docs"
   },
   "devDependencies": {
     "@suressk/eslint-config": "^1.0.2",

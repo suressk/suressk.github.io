@@ -1,3 +1,50 @@
+<script setup>
+import { ref, useTemplateRef } from 'vue'
+
+const team = ref([
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
+  '10',
+  'J',
+  'Q',
+  'K',
+  'A',
+])
+
+const team1ActiveIndex = ref(0)
+const team2ActiveIndex = ref(0)
+const teamARef = useTemplateRef('teamA')
+const teamBRef = useTemplateRef('teamB')
+
+const restartGame = () => {
+  team1ActiveIndex.value = 0
+  team2ActiveIndex.value = 0
+  teamARef.value.scrollTo({ top: 0, behavior: 'smooth' })
+  teamBRef.value.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+const handleClick = (event, teamNumber) => {
+  const itemElement = event.target.closest('.team-item')
+  if (!itemElement || itemElement.classList.contains('active')) return
+
+  const index = Array.from(itemElement.parentNode.children).indexOf(
+    itemElement,
+  )
+  if (teamNumber === 1) {
+    team1ActiveIndex.value = index - 1
+  }
+  else {
+    team2ActiveIndex.value = index - 1
+  }
+}
+</script>
+
 <template>
   <div class="container">
     <div class="restart" @click="restartGame">重开</div>
@@ -25,52 +72,6 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { ref, useTemplateRef } from 'vue';
-
-const team = ref([
-  '2',
-  '3',
-  '4',
-  '5',
-  '6',
-  '7',
-  '8',
-  '9',
-  '10',
-  'J',
-  'Q',
-  'K',
-  'A',
-]);
-
-const team1ActiveIndex = ref(0);
-const team2ActiveIndex = ref(0);
-const teamARef = useTemplateRef('teamA');
-const teamBRef = useTemplateRef('teamB');
-
-const restartGame = () => {
-  team1ActiveIndex.value = 0;
-  team2ActiveIndex.value = 0;
-  teamARef.value.scrollTo({ top: 0, behavior: 'smooth' });
-  teamBRef.value.scrollTo({ top: 0, behavior: 'smooth' });
-};
-
-const handleClick = (event, teamNumber) => {
-  const itemElement = event.target.closest('.team-item');
-  if (!itemElement || itemElement.classList.contains('active')) return;
-
-  const index = Array.from(itemElement.parentNode.children).indexOf(
-    itemElement,
-  );
-  if (teamNumber === 1) {
-    team1ActiveIndex.value = index - 1;
-  } else {
-    team2ActiveIndex.value = index - 1;
-  }
-};
-</script>
 
 <style scoped>
 .container {

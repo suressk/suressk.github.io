@@ -4,12 +4,13 @@ const oneMinute = 60000
 
 /**
  * 计算剩余时间
- * @param timeTemp 
- * @return {Object} computeTimeReturn
- * @return {Number} `computeTimeReturn.days`
- * @return {Number} `computeTimeReturn.hours`
- * @return {Number} `computeTimeReturn.minutes`
- * @return {Number} `computeTimeReturn.seconds`
+ *
+ * @param timeTemp
+ * @return {object} computeTimeReturn
+ * @return {number} `computeTimeReturn.days`
+ * @return {number} `computeTimeReturn.hours`
+ * @return {number} `computeTimeReturn.minutes`
+ * @return {number} `computeTimeReturn.seconds`
  */
 export const computeTime = (timeTemp: number) => {
   const days = ~~(timeTemp / oneDay)
@@ -23,6 +24,6 @@ export const computeTime = (timeTemp: number) => {
     days,
     hours,
     minutes,
-    seconds
+    seconds,
   }
 }
