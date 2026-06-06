@@ -10,6 +10,7 @@ permissions:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -33,57 +34,10 @@ jobs:
       - name: Build 📦
         run: npm install && npm run build
 
-      - name: Deploy to gh-pages 🚀
-        env:
-          DEPLOY_BRANCH: gh-pages
-          BUILD_DIR: docs/.vitepress/dist
-        run: |
-          set -euo pipefail
-
-          REPO="https://x-access-token:${{ secrets.ACCESS_TOKEN }}@github.com/${{ github.repository }}.git"
-
-          # ---- 1. 配置 git 身份 ----
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          # ---- 2. 备份构建产物（后续 gh-pages clone 会覆盖工作区） ----
-          TMP_BUILD="$(mktemp -d)"
-          cp -a "$BUILD_DIR"/. "$TMP_BUILD"
-
-          # ---- 3. 拉取 gh-pages 分支（不存在则创建） ----
-          DEPLOY_DIR="$(mktemp -d)"
-          if git clone --depth 1 --branch "$DEPLOY_BRANCH" "$REPO" "$DEPLOY_DIR" 2>/dev/null; then
-            echo "✅ 已克隆现有 $DEPLOY_BRANCH 分支"
-          else
-            echo "🆕 $DEPLOY_BRANCH 分支不存在，将创建"
-            mkdir -p "$DEPLOY_DIR"
-            cd "$DEPLOY_DIR"
-            git init
-            git checkout --orphan "$DEPLOY_BRANCH"
-          fi
-
-          cd "$DEPLOY_DIR"
-
-          # ---- 4. 清空旧内容，保留 .git 和 CNAME（自定义域名） ----
-          find . -maxdepth 1 \
-            ! -name '.git' \
-            ! -name 'CNAME' \
-            ! -name '.' \
-            ! -name '..' \
-            -exec rm -rf {} +
-
-          # ---- 5. 把构建产物覆盖进来 ----
-          cp -a "$TMP_BUILD"/. .
-
-          # ---- 6. 提交 & 推送 ----
-          git add -A
-          if git diff --cached --quiet; then
-            echo "✅ 无变化，跳过提交"
-          else
-            git commit -m "deploy: ${{ github.sha }} [skip ci]"
-            git push origin "$DEPLOY_BRANCH"
-            echo "🚀 已部署到 $DEPLOY_BRANCH"
-          fi
-
-          # ---- 7. 清理临时目录 ----
-          rm -rf "$TMP_BUILD" "$DEPLOY_DIR"
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: docs/.vitepress/dist
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: docs/.vitepress/dist
