@@ -1,9 +1,9 @@
-import { generateNav, generateSidebar } from './router';
+import { generateNav, generateSidebar } from './router'
 
 export default {
   lang: 'en-US',
   title: 'K.island ✨',
-  description: "K.'s island",
+  description: 'K.\'s island',
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico', sizes: '64x64' }],
     [
@@ -47,4 +47,4 @@ export default {
     nav: generateNav(),
     sidebar: generateSidebar(),
   },
-};
+}

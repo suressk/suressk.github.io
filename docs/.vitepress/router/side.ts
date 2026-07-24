@@ -1,5 +1,6 @@
 /**
  * Knowledge sidebarList
+ *
  * @returns
  */
 const knowledgeSidebar = [
@@ -59,10 +60,11 @@ const knowledgeSidebar = [
       { text: '性能监控', link: '/knowledge/optimization/monitor' },
     ],
   },
-];
+]
 
 /**
  * Interview sidebarList
+ *
  * @returns
  */
 const interviewSidebar = [
@@ -76,10 +78,11 @@ const interviewSidebar = [
       { text: '面试题简记', link: '/interview/summary/strands' },
     ],
   },
-];
+]
 
 /**
  * Algorithm sidebarList
+ *
  * @returns
  */
 const algorithmSidebar = [
@@ -93,10 +96,11 @@ const algorithmSidebar = [
       { text: '堆 & 栈', link: '/algorithm/summary/stack' },
     ],
   },
-];
+]
 
 /**
  * Sidebar generator
+ *
  * @returns
  */
 const generateSidebar = () => ({
@@ -109,6 +113,6 @@ const generateSidebar = () => ({
       items: [{ text: 'Poker Game Marker', link: '/poker/game' }],
     },
   ],
-});
+})
 
-export default generateSidebar;
+export default generateSidebar
