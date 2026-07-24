@@ -1,4 +1,5 @@
 const navList = [
+  'mood',
   'knowledge',
   'interview',
   'algorithm',
@@ -9,7 +10,7 @@ const generateNav = () => {
     { text: 'Home', link: '/', activeMatch: '^/$|^/home/' },
   ]
 
-  for (const navItem of navList  ) {
+  for (const navItem of navList) {
     nav.push({
       text: navItem.charAt(0).toUpperCase() + navItem.slice(1),
       link: `/${navItem}/index`,
